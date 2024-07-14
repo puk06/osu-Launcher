@@ -1,22 +1,26 @@
-﻿using System;
+﻿using CefSharp;
 using CefSharp.WinForms;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Text;
-using System.Windows.Forms;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using System.Collections.Generic;
-using CefSharp;
+using System.Windows.Forms;
 
 namespace osu_launcher
 {
     public partial class Main : Form
     {
+        // Config Values
         private readonly JObject _configFiles;
+
+        // Form Font
         private readonly PrivateFontCollection _fontCollection = new PrivateFontCollection();
 
+        // Constructor
         public Main()
         {
             var settings = new CefSettings
@@ -94,6 +98,7 @@ namespace osu_launcher
             }
         }
 
+        // Set the font
         private void SetFont()
         {
             TopTab.Font = new System.Drawing.Font(_fontCollection.Families[1], 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -113,31 +118,29 @@ namespace osu_launcher
             SERVERS_COMBOBOX.Font = new System.Drawing.Font(_fontCollection.Families[0], 15.75F);
         }
 
-        private void LAUNCH_BUTTON_Click(object sender, System.EventArgs e)
+        // Launch osu!
+        private void LAUNCH_BUTTON_Click(object sender, EventArgs e)
         {
+            // Check if the values are valid
             string[] reasons = CheckValue();
             if (reasons.Length > 0)
             {
                 MessageBox.Show("osu!を起動できませんでした。理由は以下の通りです。\n" + string.Join("\n", reasons), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            // Get the values
             string server = SERVERS_COMBOBOX.Text;
             string songFolder = SONGSFOLDER_COMBOBOX.Text;
             string username = USERNAME_COMBOBOX.Text;
             string osuFolder = OSUFOLDER_TEXTBOX.Text;
 
+            // Add the values to the config file
             if (!ArrayContains(_configFiles["Servers"].ToObject<string[]>(), server))
             {
                 SERVERS_COMBOBOX.Items.Add(server);
                 _configFiles["Servers"].Last.AddAfterSelf(server);
             }
-
-            if (songFolder != "Songs" && !Directory.Exists(songFolder))
-            {
-                MessageBox.Show("Songsフォルダが見つかりませんでした。");
-                return;
-            }
-
 
             if (!ArrayContains(_configFiles["SongsFolder"].ToObject<string[]>(), songFolder))
             {
@@ -153,15 +156,21 @@ namespace osu_launcher
             }
             if (username != "") Clipboard.SetText(username);
 
-
             _configFiles["osuFolder"] = osuFolder;
+
+            // Change the config values
             ChangeConfigValue(osuFolder, songFolder, HEIGHT_TEXTBOX.Text, WIDTH_TEXTBOX.Text);
+
+            // Launch osu!
             Process.Start(Path.Combine(osuFolder, "osu!.exe"), server == "Bancho" ? "" : server);
+
+            // Save the config file
             StreamWriter streamWriter = new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
             streamWriter.WriteLine(_configFiles.ToString());
             streamWriter.Close();
         }
 
+        // Change the config values
         private void ChangeConfigValue(string osuFolder, string songsFolder, string height, string width)
         {
             string username = Environment.UserName;
@@ -179,6 +188,7 @@ namespace osu_launcher
             File.WriteAllLines(path, lines);
         }
 
+        // Delete the song folder
         private void SONGSFOLDER_DELETE_Click(object sender, EventArgs e)
         {
             if (SONGSFOLDER_COMBOBOX.Text == "Songs") return;
@@ -197,6 +207,7 @@ namespace osu_launcher
             }
         }
 
+        // Check if the values are valid
         private string[] CheckValue()
         {
             string[] reasons = { };
@@ -233,6 +244,7 @@ namespace osu_launcher
             return reasons;
         }
 
+        // Check if the array contains the value
         private static bool ArrayContains(IEnumerable<string> array, string value) => array.Any(item => item == value);
     }
 }
