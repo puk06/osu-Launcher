@@ -28,6 +28,19 @@ namespace osu_launcher
                 RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
             };
             Cef.Initialize(settings);
+
+            if (!File.Exists("./src/Fonts/Quicksand-Light.ttf") || !File.Exists("./src/Fonts/NotoSansJP-Light.ttf"))
+            {
+                MessageBox.Show("フォントファイルが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(1);
+            }
+
+            if (!File.Exists("./src/data.json"))
+            {
+                MessageBox.Show("設定ファイルが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(1);
+            }
+
             _fontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
             _fontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
             InitializeComponent();
@@ -56,7 +69,6 @@ namespace osu_launcher
                 SERVERS_COMBOBOX.SelectedIndex = 0;
                 _configFiles.Add("Servers", new JArray("Bancho", "mamesosu.net"));
             }
-
 
             if (_configFiles["SongsFolder"] != null)
             {
@@ -213,35 +225,41 @@ namespace osu_launcher
             string[] reasons = Array.Empty<string>();
             if (!Directory.Exists(SONGSFOLDER_COMBOBOX.Text) && SONGSFOLDER_COMBOBOX.Text != "Songs")
             {
-                reasons = reasons.Append("❌️ Songsフォルダが見つかりませんでした").ToArray();
+                AddValueToArray(ref reasons, "❌️ Songsフォルダが見つかりませんでした");
             }
 
             if (!Directory.Exists(OSUFOLDER_TEXTBOX.Text))
             {
-                reasons = reasons.Append("❌️ osu!フォルダが見つかりませんでした").ToArray();
+                AddValueToArray(ref reasons, "❌️ osu!フォルダが見つかりませんでした");
             }
 
             if (!File.Exists(Path.Combine(OSUFOLDER_TEXTBOX.Text, "osu!.exe")))
             {
-                reasons = reasons.Append("❌️ osu!フォルダからosu!.exeが見つかりませんでした").ToArray();
+                AddValueToArray(ref reasons, "❌️ osu!フォルダからosu!.exeが見つかりませんでした");
             }
 
             if (HEIGHT_TEXTBOX.Text != "" && !int.TryParse(HEIGHT_TEXTBOX.Text, out int _))
             {
-                reasons = reasons.Append("❌️ Heightに数字以外が入力されています").ToArray();
+                AddValueToArray(ref reasons, "❌️ Heightに数字以外が入力されています");
             }
 
             if (WIDTH_TEXTBOX.Text != "" && !int.TryParse(WIDTH_TEXTBOX.Text, out int _))
             {
-                reasons = reasons.Append("❌️ Widthに数字以外が入力されています").ToArray();
+                AddValueToArray(ref reasons, "❌️ Widthに数字以外が入力されています");
             }
 
             if (SERVERS_COMBOBOX.Text != "Bancho" && SERVERS_COMBOBOX.Text == "")
             {
-                reasons = reasons.Append("❌️ サーバーが選択されていません").ToArray();
+                AddValueToArray(ref reasons, "❌️ サーバーが選択されていません");
             }
 
             return reasons;
+        }
+
+        // Add the value to the array
+        private static void AddValueToArray(ref string[] array, string value)
+        {
+            array = array.Append(value).ToArray();
         }
 
         // Check if the array contains the value
