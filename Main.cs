@@ -162,7 +162,6 @@ namespace osu_launcher
             ChangeConfigValue(osuFolder, songFolder, HEIGHT_TEXTBOX.Text, WIDTH_TEXTBOX.Text);
 
             // Launch osu!
-            Console.WriteLine(server);
             Process.Start(Path.Combine(osuFolder, "osu!.exe"), server == "Bancho" ? "" : "-devserver " + server);
 
             // Save the config file
