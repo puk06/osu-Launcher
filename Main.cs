@@ -210,7 +210,7 @@ namespace osu_launcher
         // Check if the values are valid
         private string[] CheckValue()
         {
-            string[] reasons = { };
+            string[] reasons = Array.Empty<string>();
             if (!Directory.Exists(SONGSFOLDER_COMBOBOX.Text) && SONGSFOLDER_COMBOBOX.Text != "Songs")
             {
                 reasons = reasons.Append("❌️ Songsフォルダが見つかりませんでした").ToArray();
