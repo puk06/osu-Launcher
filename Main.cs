@@ -23,98 +23,111 @@ namespace osu_launcher
         // Constructor
         public Main()
         {
-            var settings = new CefSettings
+            try
             {
-                RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
-            };
-            Cef.Initialize(settings);
-
-            if (!File.Exists("./src/Fonts/Quicksand-Light.ttf") || !File.Exists("./src/Fonts/NotoSansJP-Light.ttf"))
-            {
-                MessageBox.Show("フォントファイルが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(1);
-            }
-
-            if (!File.Exists("./src/data.json"))
-            {
-                MessageBox.Show("設定ファイルが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(1);
-            }
-
-            // Add the font files
-            _fontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
-            _fontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
-
-            InitializeComponent();
-
-            // Set the font
-            SetFont();
-
-            // Set the web browser
-            var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
-            TopTab.Controls.Add(webBrowser);
-            webBrowser.Dock = DockStyle.Fill;
-
-            // Load the config file
-            StreamReader streamReader = new StreamReader("./src/data.json", Encoding.GetEncoding("Shift_JIS"));
-            string str = streamReader.ReadToEnd();
-            streamReader.Close();
-            _configFiles = JObject.Parse(str);
-
-            // Set the values
-            if (_configFiles["Servers"] != null)
-            {
-                foreach (var server in _configFiles["Servers"])
+                var settings = new CefSettings
                 {
-                    SERVERS_COMBOBOX.Items.Add(server);
-                }
-                if (SERVERS_COMBOBOX.Items.Count > 0) SERVERS_COMBOBOX.SelectedIndex = 0;
-            }
-            else
-            {
-                SERVERS_COMBOBOX.Items.Add("Bancho");
-                SERVERS_COMBOBOX.Items.Add("mamesosu.net");
-                SERVERS_COMBOBOX.SelectedIndex = 0;
-                _configFiles.Add("Servers", new JArray("Bancho", "mamesosu.net"));
-            }
+                    RootCachePath =
+                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                            "CefSharp\\Cache")
+                };
+                Cef.Initialize(settings);
 
-            if (_configFiles["SongsFolder"] != null)
-            {
-                foreach (var songFolder in _configFiles["SongsFolder"])
+                if (!File.Exists("./src/Fonts/Quicksand-Light.ttf") || !File.Exists("./src/Fonts/NotoSansJP-Light.ttf"))
                 {
-                    SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
+                    MessageBox.Show("フォントファイルが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(1);
                 }
-                if (SONGSFOLDER_COMBOBOX.Items.Count > 0) SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
-            }
-            else
-            {
-                SONGSFOLDER_COMBOBOX.Items.Add("Songs");
-                SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
-                _configFiles.Add("SongsFolder", new JArray("Songs"));
-            }
 
-            if (_configFiles["Username"] != null)
-            {
-                foreach (var username in _configFiles["Username"])
+                if (!File.Exists("./src/data.json"))
                 {
-                    USERNAME_COMBOBOX.Items.Add(username);
+                    MessageBox.Show("設定ファイルが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(1);
                 }
-                if (USERNAME_COMBOBOX.Items.Count > 0) USERNAME_COMBOBOX.SelectedIndex = 0;
-            }
 
-            if (_configFiles["osuFolder"] != null)
-            {
-                OSUFOLDER_TEXTBOX.Text = _configFiles["osuFolder"].ToString();
-            }
-            else
-            {
-                OSUFOLDER_TEXTBOX.Text = "";
-                _configFiles.Add("osuFolder", "");
-            }
+                // Add the font files
+                _fontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
+                _fontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
 
-            if (OSUFOLDER_TEXTBOX.Text == "")
+                InitializeComponent();
+
+                // Set the font
+                SetFont();
+
+                // Set the web browser
+                var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
+                TopTab.Controls.Add(webBrowser);
+                webBrowser.Dock = DockStyle.Fill;
+
+                // Load the config file
+                StreamReader streamReader = new StreamReader("./src/data.json", Encoding.GetEncoding("Shift_JIS"));
+                string str = streamReader.ReadToEnd();
+                streamReader.Close();
+                _configFiles = JObject.Parse(str);
+
+                // Set the values
+                if (_configFiles["Servers"] != null)
+                {
+                    foreach (var server in _configFiles["Servers"])
+                    {
+                        SERVERS_COMBOBOX.Items.Add(server);
+                    }
+
+                    if (SERVERS_COMBOBOX.Items.Count > 0) SERVERS_COMBOBOX.SelectedIndex = 0;
+                }
+                else
+                {
+                    SERVERS_COMBOBOX.Items.Add("Bancho");
+                    SERVERS_COMBOBOX.Items.Add("mamesosu.net");
+                    SERVERS_COMBOBOX.SelectedIndex = 0;
+                    _configFiles.Add("Servers", new JArray("Bancho", "mamesosu.net"));
+                }
+
+                if (_configFiles["SongsFolder"] != null)
+                {
+                    foreach (var songFolder in _configFiles["SongsFolder"])
+                    {
+                        SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
+                    }
+
+                    if (SONGSFOLDER_COMBOBOX.Items.Count > 0) SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
+                }
+                else
+                {
+                    SONGSFOLDER_COMBOBOX.Items.Add("Songs");
+                    SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
+                    _configFiles.Add("SongsFolder", new JArray("Songs"));
+                }
+
+                if (_configFiles["Username"] != null)
+                {
+                    foreach (var username in _configFiles["Username"])
+                    {
+                        USERNAME_COMBOBOX.Items.Add(username);
+                    }
+
+                    if (USERNAME_COMBOBOX.Items.Count > 0) USERNAME_COMBOBOX.SelectedIndex = 0;
+                }
+
+                if (_configFiles["osuFolder"] != null)
+                {
+                    OSUFOLDER_TEXTBOX.Text = _configFiles["osuFolder"].ToString();
+                }
+                else
+                {
+                    OSUFOLDER_TEXTBOX.Text = "";
+                    _configFiles.Add("osuFolder", "");
+                }
+
+                if (OSUFOLDER_TEXTBOX.Text == "")
+                {
+                    MessageBox.Show("osu!フォルダが設定されていません。Settingsタブから設定してください！！", "エラー", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("osu!フォルダが設定されていません。Settingsタブから設定してください！！", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("osu-Launcherを起動できませんでした。理由は以下の通りです。\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -141,53 +154,64 @@ namespace osu_launcher
         // Launch osu!
         private void LAUNCH_BUTTON_Click(object sender, EventArgs e)
         {
-            // Check if the values are valid
-            string[] reasons = CheckValue();
-            if (reasons.Length > 0)
+            try
             {
-                MessageBox.Show("osu!を起動できませんでした。理由は以下の通りです。\n" + string.Join("\n", reasons), "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                // Check if the values are valid
+                string[] reasons = CheckValue();
+                if (reasons.Length > 0)
+                {
+                    MessageBox.Show("osu!を起動できませんでした。理由は以下の通りです。\n" + string.Join("\n", reasons), "エラー",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Get the values
+                string server = SERVERS_COMBOBOX.Text;
+                string songFolder = SONGSFOLDER_COMBOBOX.Text;
+                string username = USERNAME_COMBOBOX.Text;
+                string osuFolder = OSUFOLDER_TEXTBOX.Text;
+
+                // Add the values to the config file
+                if (!ArrayContains(_configFiles["Servers"].ToObject<string[]>(), server))
+                {
+                    SERVERS_COMBOBOX.Items.Add(server);
+                    _configFiles["Servers"].Last.AddAfterSelf(server);
+                }
+
+                if (!ArrayContains(_configFiles["SongsFolder"].ToObject<string[]>(), songFolder))
+                {
+                    SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
+                    _configFiles["SongsFolder"].Last.AddAfterSelf(songFolder);
+                }
+
+                if (username != "" && (_configFiles["Username"] == null ||
+                                       !ArrayContains(_configFiles["Username"].ToObject<string[]>(), username)))
+                {
+                    if (_configFiles["Username"] == null) _configFiles.Add("Username", new JArray(username));
+                    else _configFiles["Username"].Last.AddAfterSelf(username);
+                    USERNAME_COMBOBOX.Items.Add(username);
+                }
+
+                if (username != "") Clipboard.SetText(username);
+
+                _configFiles["osuFolder"] = osuFolder;
+
+                // Change the config values
+                ChangeConfigValue(osuFolder, songFolder, HEIGHT_TEXTBOX.Text, WIDTH_TEXTBOX.Text);
+
+                // Launch osu!
+                Process.Start(Path.Combine(osuFolder, "osu!.exe"), server == "Bancho" ? "" : "-devserver " + server);
+
+                // Save the config file
+                StreamWriter streamWriter =
+                    new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
+                streamWriter.WriteLine(_configFiles.ToString());
+                streamWriter.Close();
             }
-
-            // Get the values
-            string server = SERVERS_COMBOBOX.Text;
-            string songFolder = SONGSFOLDER_COMBOBOX.Text;
-            string username = USERNAME_COMBOBOX.Text;
-            string osuFolder = OSUFOLDER_TEXTBOX.Text;
-
-            // Add the values to the config file
-            if (!ArrayContains(_configFiles["Servers"].ToObject<string[]>(), server))
+            catch (Exception ex)
             {
-                SERVERS_COMBOBOX.Items.Add(server);
-                _configFiles["Servers"].Last.AddAfterSelf(server);
+                MessageBox.Show("osu!を起動できませんでした。理由は以下の通りです。\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            if (!ArrayContains(_configFiles["SongsFolder"].ToObject<string[]>(), songFolder))
-            {
-                SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
-                _configFiles["SongsFolder"].Last.AddAfterSelf(songFolder);
-            }
-
-            if (username != "" && (_configFiles["Username"] == null || !ArrayContains(_configFiles["Username"].ToObject<string[]>(), username)))
-            {
-                if (_configFiles["Username"] == null) _configFiles.Add("Username", new JArray(username));
-                else _configFiles["Username"].Last.AddAfterSelf(username);
-                USERNAME_COMBOBOX.Items.Add(username);
-            }
-            if (username != "") Clipboard.SetText(username);
-
-            _configFiles["osuFolder"] = osuFolder;
-
-            // Change the config values
-            ChangeConfigValue(osuFolder, songFolder, HEIGHT_TEXTBOX.Text, WIDTH_TEXTBOX.Text);
-
-            // Launch osu!
-            Process.Start(Path.Combine(osuFolder, "osu!.exe"), server == "Bancho" ? "" : "-devserver " + server);
-
-            // Save the config file
-            StreamWriter streamWriter = new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
-            streamWriter.WriteLine(_configFiles.ToString());
-            streamWriter.Close();
         }
 
         // Change the config values
