@@ -41,19 +41,27 @@ namespace osu_launcher
                 Environment.Exit(1);
             }
 
+            // Add the font files
             _fontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
             _fontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
+
             InitializeComponent();
+
+            // Set the font
             SetFont();
+
+            // Set the web browser
             var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
             TopTab.Controls.Add(webBrowser);
             webBrowser.Dock = DockStyle.Fill;
 
+            // Load the config file
             StreamReader streamReader = new StreamReader("./src/data.json", Encoding.GetEncoding("Shift_JIS"));
             string str = streamReader.ReadToEnd();
             streamReader.Close();
             _configFiles = JObject.Parse(str);
 
+            // Set the values
             if (_configFiles["Servers"] != null)
             {
                 foreach (var server in _configFiles["Servers"])
