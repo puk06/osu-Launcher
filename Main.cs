@@ -17,11 +17,11 @@ namespace osu_launcher
         // Data Values
         private readonly JObject _data;
 
-        // Users
-        public IEnumerable<User> Users = Array.Empty<User>();
+        // Profiles
+        public IEnumerable<Profile> Profiles = Array.Empty<Profile>();
 
-        // Current User
-        public User CurrentUser;
+        // Current Profile
+        public Profile CurrentProfile;
 
         // Form Font
         public readonly PrivateFontCollection FontCollection = new PrivateFontCollection();
@@ -60,6 +60,8 @@ namespace osu_launcher
                 // Initialize the components
                 InitializeComponent();
 
+                METERSTYLE_COMBOBOX.SelectedIndex = 0;
+
                 // Set the font
                 SetFont();
 
@@ -87,16 +89,22 @@ namespace osu_launcher
                 }
                 if (SONGSFOLDER_COMBOBOX.Items.Count > 0) SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
 
-                foreach (var userdata in _data["Username"])
+                foreach (var userdata in _data["Profiles"])
                 {
-                    var user = new User
+                    var user = new Profile
                     {
+                        Name = userdata["Name"].ToString(),
                         Username = userdata["Username"].ToString(),
-                        Password = userdata["Password"].ToString()
+                        Password = userdata["Password"].ToString(),
+                        ScoreMeter = userdata["ScoreMeter"].ToObject<double?>(),
+                        MeterStyle = userdata["MeterStyle"].ToObject<int?>(),
+                        Width = userdata["Width"].ToObject<int?>(),
+                        Height = userdata["Height"].ToObject<int?>(),
+                        Fullscreen = userdata["Fullscreen"].ToObject<bool?>()
                     };
-                    AddValueToArray(ref Users, user);
+                    AddValueToArray(ref Profiles, user);
                 }
-                if (Users.Any()) USERNAME_BUTTON.Text = Users.First().Username;
+                if (Profiles.Any()) USERNAME_BUTTON.Text = Profiles.First().Name;
 
                 OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
                 if (OSUFOLDER_TEXTBOX.Text == "")
@@ -149,6 +157,8 @@ namespace osu_launcher
                 string songFolder = SONGSFOLDER_COMBOBOX.Text;
                 string osuFolder = OSUFOLDER_TEXTBOX.Text;
 
+                //currentUserからWidth, Height, Fullscreenを取得し、設定
+
                 // Add the values to the data file
                 if (!ArrayContains(_data["Servers"].ToObject<string[]>(), server))
                 {
@@ -162,13 +172,19 @@ namespace osu_launcher
                     (_data["SongsFolder"] as JArray).Add(songFolder);
                 }
 
-                _data["Username"] = new JArray();
-                foreach (var user in Users)
+                _data["Profiles"] = new JArray();
+                foreach (var profile in Profiles)
                 {
-                    (_data["Username"] as JArray).Add(new JObject
+                    (_data["Profiles"] as JArray).Add(new JObject
                     {
-                        { "Username", user.Username },
-                        { "Password", user.Password }
+                        { "Name", profile.Name },
+                        { "Username", profile.Username },
+                        { "Password", profile.Password },
+                        { "ScoreMeter", profile.ScoreMeter },
+                        { "MeterStyle", profile.MeterStyle },
+                        { "Width", profile.Width },
+                        { "Height", profile.Height },
+                        { "Fullscreen", profile.Fullscreen }
                     });
                 }
 
@@ -181,11 +197,33 @@ namespace osu_launcher
                     { "BeatmapDirectory", songFolder }
                 };
 
-                if (CurrentUser != null)
+                if (CurrentProfile != null)
                 {
-                    parameters.Add("Username", CurrentUser.Username);
-                    Clipboard.SetText(CurrentUser.Password);
+                    parameters.Add("Username", CurrentProfile.Username);
+                    Clipboard.SetText(CurrentProfile.Password);
                 }
+
+                if (METERSCALE_TEXTBOX.Text != "")
+                {
+                    parameters.Add("ScoreMeterScale", METERSCALE_TEXTBOX.Text);
+                }
+
+                if (METERSTYLE_COMBOBOX.SelectedIndex != 0)
+                {
+                    switch (METERSTYLE_COMBOBOX.SelectedIndex)
+                    {
+                        case 1:
+                            parameters.Add("ScoreMeter", "None");
+                            break;
+                        case 2:
+                            parameters.Add("ScoreMeter", "Error");
+                            break;
+                        case 3:
+                            parameters.Add("ScoreMeter", "Colour");
+                            break;
+                    }
+                }
+
 
                 if (FULLSCREEN_CHECKBOX.Checked)
                 {
@@ -219,7 +257,7 @@ namespace osu_launcher
         }
 
         // Change the config values
-        private void ChangeConfigValue(string osuFolder, Dictionary<string, string> param)
+        private static void ChangeConfigValue(string osuFolder, Dictionary<string, string> param)
         {
             string username = Environment.UserName;
             string path = Path.Combine(osuFolder, $"osu!.{username}.cfg");
@@ -275,14 +313,32 @@ namespace osu_launcher
                 AddValueToArray(ref reasons, "❌️ osu!.exe not found in osu! folder");
             }
 
-            if (HEIGHT_TEXTBOX.Text != "" && !int.TryParse(HEIGHT_TEXTBOX.Text, out int _))
+            if (WIDTH_TEXTBOX.Text != "")
             {
-                AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
+                var result = int.TryParse(WIDTH_TEXTBOX.Text, out int width);
+                if (!result)
+                {
+                    AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
+                }
+
+                if (width < 0)
+                {
+                    AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
+                }
             }
 
-            if (WIDTH_TEXTBOX.Text != "" && !int.TryParse(WIDTH_TEXTBOX.Text, out int _))
+            if (HEIGHT_TEXTBOX.Text != "")
             {
-                AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
+                var result = int.TryParse(HEIGHT_TEXTBOX.Text, out int height);
+                if (!result)
+                {
+                    AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
+                }
+
+                if (height < 0)
+                {
+                    AddValueToArray(ref reasons, "❌️ Height must be greater than 0");
+                }
             }
 
             if (SERVERS_COMBOBOX.Text != "Bancho" && SERVERS_COMBOBOX.Text == "")
@@ -294,7 +350,7 @@ namespace osu_launcher
         }
 
         // Add the value to the array
-        private static void AddValueToArray<T>(ref IEnumerable<T> array, T value)
+        public static void AddValueToArray<T>(ref IEnumerable<T> array, T value)
         {
             array = array.Append(value).ToArray();
         }
@@ -306,14 +362,19 @@ namespace osu_launcher
         private void USERNAME_BUTTON_Click(object sender, EventArgs e)
         {
             // Check if the form is already open
-            if (Application.OpenForms.OfType<UserForm>().Any()) return;
-            var userForm = new UserForm(Users, this);
-            userForm.Show();
+            if (Application.OpenForms.OfType<ProfileForm>().Any()) return;
+            var profileForm = new ProfileForm(Profiles, OSUFOLDER_TEXTBOX.Text, this);
+            profileForm.Show();
 
-            // if the form is closed, update the username
-            userForm.FormClosed += (senderi, ei) =>
+            // if the form is closed, update the profile
+            profileForm.FormClosed += (_object, _event) =>
             {
-                USERNAME_BUTTON.Text = CurrentUser?.Username ?? "No User";
+                USERNAME_BUTTON.Text = CurrentProfile?.Name ?? "No Profile";
+                HEIGHT_TEXTBOX.Text = CurrentProfile?.Height.ToString() ?? "";
+                WIDTH_TEXTBOX.Text = CurrentProfile?.Width.ToString() ?? "";
+                FULLSCREEN_CHECKBOX.Checked = CurrentProfile?.Fullscreen ?? false;
+                METERSCALE_TEXTBOX.Text = CurrentProfile?.ScoreMeter.ToString() ?? "";
+                METERSTYLE_COMBOBOX.SelectedIndex = CurrentProfile?.MeterStyle ?? 0;
             };
         }
     }
