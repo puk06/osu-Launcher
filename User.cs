@@ -13,7 +13,9 @@
         public int? VolumeMaster { get; set; } = null;
         public int? VolumeEffect { get; set; } = null;
         public int? VolumeMusic { get; set; } = null;
+        public bool ChangeVolume { get; set; } = false;
         public int? Offset { get; set; } = null;
         public string Skin { get; set; } = null;
+        public bool ChangeSkin { get; set; } = false;
     }
 }

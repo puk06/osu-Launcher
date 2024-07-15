@@ -203,6 +203,17 @@ namespace osu_launcher
                     Clipboard.SetText(CurrentProfile.Password);
                 }
 
+                if (FULLSCREEN_CHECKBOX.Checked)
+                {
+                    if (HEIGHT_TEXTBOX.Text != "") parameters.Add("HeightFullscreen", HEIGHT_TEXTBOX.Text);
+                    if (WIDTH_TEXTBOX.Text != "") parameters.Add("WidthFullscreen", WIDTH_TEXTBOX.Text);
+                }
+                else
+                {
+                    if (HEIGHT_TEXTBOX.Text != "") parameters.Add("Height", HEIGHT_TEXTBOX.Text);
+                    if (WIDTH_TEXTBOX.Text != "") parameters.Add("Width", WIDTH_TEXTBOX.Text);
+                }
+
                 if (METERSCALE_TEXTBOX.Text != "")
                 {
                     parameters.Add("ScoreMeterScale", METERSCALE_TEXTBOX.Text);
@@ -224,16 +235,21 @@ namespace osu_launcher
                     }
                 }
 
-
-                if (FULLSCREEN_CHECKBOX.Checked)
+                if (CHANGEAUDIO_CHECKBOX.Checked)
                 {
-                    if (HEIGHT_TEXTBOX.Text != "") parameters.Add("HeightFullscreen", HEIGHT_TEXTBOX.Text);
-                    if (WIDTH_TEXTBOX.Text != "") parameters.Add("WidthFullscreen", WIDTH_TEXTBOX.Text);
+                    parameters.Add("VolumeUniversal", MASTER_BAR.Value.ToString());
+                    parameters.Add("VolumeEffect", EFFECT_BAR.Value.ToString());
+                    parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
                 }
-                else
+
+                if (OFFSET_TEXTBOX.Text != "")
                 {
-                    if (HEIGHT_TEXTBOX.Text != "") parameters.Add("Height", HEIGHT_TEXTBOX.Text);
-                    if (WIDTH_TEXTBOX.Text != "") parameters.Add("Width", WIDTH_TEXTBOX.Text);
+                    parameters.Add("Offset", OFFSET_TEXTBOX.Text);
+                }
+
+                if (CHANGESKIN_CHECKBOX.Checked)
+                {
+                    parameters.Add("Skin", SKIN_COMBOBOX.Text);
                 }
 
                 // Write the config values
@@ -375,7 +391,57 @@ namespace osu_launcher
                 FULLSCREEN_CHECKBOX.Checked = CurrentProfile?.Fullscreen ?? false;
                 METERSCALE_TEXTBOX.Text = CurrentProfile?.ScoreMeter.ToString() ?? "";
                 METERSTYLE_COMBOBOX.SelectedIndex = CurrentProfile?.MeterStyle ?? 0;
+                CHANGEAUDIO_CHECKBOX.Checked = CurrentProfile?.ChangeVolume ?? false;
+                MASTER_BAR.Value = CurrentProfile?.VolumeMaster ?? 0;
+                EFFECT_BAR.Value = CurrentProfile?.VolumeEffect ?? 0;
+                AUDIO_BAR.Value = CurrentProfile?.VolumeMusic ?? 0;
+                OFFSET_TEXTBOX.Text = CurrentProfile?.Offset.ToString() ?? "";
+                CHANGESKIN_CHECKBOX.Checked = CurrentProfile?.ChangeSkin ?? false;
+                if (CHANGESKIN_CHECKBOX.Checked) SKIN_COMBOBOX.Text = CurrentProfile?.Skin ?? "";
             };
+        }
+
+        private void MASTER_BAR_Scroll(object sender, EventArgs e)
+        {
+            MASTERVALUE_LABEL.Text = MASTER_BAR.Value + "%";
+        }
+
+        private void EFFECT_BAR_Scroll(object sender, EventArgs e)
+        {
+            EFFECTVALUE_LABEL.Text = EFFECT_BAR.Value + "%";
+        }
+
+        private void AUDIO_BAR_Scroll(object sender, EventArgs e)
+        {
+            AUDIOVALUE_LABEL.Text = AUDIO_BAR.Value + "%";
+        }
+
+        private void CHANGESKIN_CHECKBOX_CheckedChanged(object sender, EventArgs e)
+        {
+            string skinsPath = Path.Combine(OSUFOLDER_TEXTBOX.Text, "Skins");
+            if (Directory.Exists(skinsPath))
+            {
+                SKIN_COMBOBOX.Items.Clear();
+                var folders = Directory.GetDirectories(skinsPath);
+                foreach (var folder in folders)
+                {
+                    SKIN_COMBOBOX.Items.Add(Path.GetFileName(folder));
+                }
+                if (SKIN_COMBOBOX.Items.Count > 0) SKIN_COMBOBOX.SelectedIndex = 0;
+            }
+            else
+            {
+                MessageBox.Show("The skins folder was not found. The skin selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SKIN_COMBOBOX.Enabled = false;
+            }
+            SKIN_COMBOBOX.Enabled = CHANGESKIN_CHECKBOX.Checked;
+        }
+
+        private void CHANGEAUDIO_CHECKBOX_CheckedChanged(object sender, EventArgs e)
+        {
+            MASTER_BAR.Enabled = CHANGEAUDIO_CHECKBOX.Checked;
+            EFFECT_BAR.Enabled = CHANGEAUDIO_CHECKBOX.Checked;
+            AUDIO_BAR.Enabled = CHANGEAUDIO_CHECKBOX.Checked;
         }
     }
 }

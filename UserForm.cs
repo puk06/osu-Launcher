@@ -30,13 +30,14 @@ namespace osu_launcher
                 GenerateButton(enumerable.ElementAt(i));
             }
 
-            if (Directory.Exists($"{osuFolder}/Skins"))
+            string skinsPath = Path.Combine(osuFolder, "Skins");
+            if (Directory.Exists(skinsPath))
             {
-                var skins = Directory.GetFiles($"{osuFolder}/Skins");
-                foreach (var skin in skins)
+                SKIN_COMBOBOX.Items.Clear();
+                var folders = Directory.GetDirectories(skinsPath);
+                foreach (var folder in folders)
                 {
-                    var skinName = Path.GetFileName(skin);
-                    SKIN_COMBOBOX.Items.Add(skinName);
+                    SKIN_COMBOBOX.Items.Add(Path.GetFileName(folder));
                 }
                 if (SKIN_COMBOBOX.Items.Count > 0) SKIN_COMBOBOX.SelectedIndex = 0;
             }
@@ -129,9 +130,14 @@ namespace osu_launcher
 
                 if (CHANGEAUDIO_CHECKBOX.Checked)
                 {
+                    profile.ChangeVolume = true;
                     profile.VolumeMaster = MASTER_BAR.Value;
                     profile.VolumeEffect = EFFECT_BAR.Value;
                     profile.VolumeMusic = MUSIC_BAR.Value;
+                }
+                else
+                {
+                    profile.ChangeVolume = false;
                 }
 
                 if (OFFSET_TEXTBOX.Text != "")
@@ -141,7 +147,12 @@ namespace osu_launcher
 
                 if (CHANGESKIN_CHECKBOX.Checked)
                 {
+                    profile.ChangeSkin = true;
                     profile.Skin = SKIN_COMBOBOX.SelectedItem.ToString();
+                }
+                else
+                {
+                    profile.ChangeSkin = false;
                 }
 
                 _mainForm.Profiles = _mainForm.Profiles.Append(profile);
@@ -154,21 +165,7 @@ namespace osu_launcher
                 {
                     GenerateButton(p);
                 }
-                NAME_TEXTBOX.Text = "";
-                USERNAME_TEXTBOX.Text = "";
-                PASSWORD_TEXTBOX.Text = "";
-                CONFIRM_TEXTBOX.Text = "";
-                SCOREMETER_TEXTBOX.Text = "";
-                METERSTYLE_COMBOBOX.SelectedIndex = 0;
-                WIDTH_TEXTBOX.Text = "";
-                HEIGHT_TEXTBOX.Text = "";
-                MASTER_BAR.Value = 100;
-                EFFECT_BAR.Value = 100;
-                MUSIC_BAR.Value = 100;
-                CHANGEAUDIO_CHECKBOX.Checked = false;
-                OFFSET_TEXTBOX.Text = "";
-                if (SKIN_COMBOBOX.Items.Count > 0) SKIN_COMBOBOX.SelectedIndex = 0;
-                CHANGESKIN_CHECKBOX.Checked = false;
+                ResetValue();
             }
             else if (PASSWORD_LABEL.Text != CONFIRM_LABEL.Text)
             {
@@ -179,6 +176,11 @@ namespace osu_launcher
         // This is the event handler for the RESET_BUTTON
         private void RESET_BUTTON_Click(object sender, EventArgs e)
         {
+            ResetValue();
+        }
+
+        private void ResetValue()
+        {
             NAME_TEXTBOX.Text = "";
             USERNAME_TEXTBOX.Text = "";
             PASSWORD_TEXTBOX.Text = "";
@@ -188,6 +190,13 @@ namespace osu_launcher
             WIDTH_TEXTBOX.Text = "";
             HEIGHT_TEXTBOX.Text = "";
             FULLSCREEN_CHECKBOX.Checked = false;
+            MASTER_BAR.Value = 100;
+            EFFECT_BAR.Value = 100;
+            MUSIC_BAR.Value = 100;
+            CHANGEAUDIO_CHECKBOX.Checked = false;
+            OFFSET_TEXTBOX.Text = "";
+            if (SKIN_COMBOBOX.Items.Count > 0) SKIN_COMBOBOX.SelectedIndex = 0;
+            CHANGESKIN_CHECKBOX.Checked = false;
         }
 
         private IEnumerable<string> CheckValue()

@@ -34,6 +34,7 @@
             this.SELECTUSER_LABEL = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.ResisterTab = new System.Windows.Forms.TabPage();
+            this.CHANGESKIN_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.SKIN_COMBOBOX = new System.Windows.Forms.ComboBox();
             this.SKIN_LABE = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -76,7 +77,6 @@
             this.USERNAME_LABEL = new System.Windows.Forms.Label();
             this.NEWUSER_LABEL = new System.Windows.Forms.Label();
             this.USERFORM_LABEL = new System.Windows.Forms.Label();
-            this.CHANGESKIN_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.MainTab.SuspendLayout();
             this.UsersTab.SuspendLayout();
             this.ResisterTab.SuspendLayout();
@@ -115,9 +115,9 @@
             this.SELECTUSER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
             this.SELECTUSER_LABEL.Location = new System.Drawing.Point(7, 0);
             this.SELECTUSER_LABEL.Name = "SELECTUSER_LABEL";
-            this.SELECTUSER_LABEL.Size = new System.Drawing.Size(126, 33);
+            this.SELECTUSER_LABEL.Size = new System.Drawing.Size(143, 33);
             this.SELECTUSER_LABEL.TabIndex = 31;
-            this.SELECTUSER_LABEL.Text = "Select User";
+            this.SELECTUSER_LABEL.Text = "Select Profile";
             // 
             // label3
             // 
@@ -180,6 +180,18 @@
             this.ResisterTab.TabIndex = 1;
             this.ResisterTab.Text = "Create Profile";
             // 
+            // CHANGESKIN_CHECKBOX
+            // 
+            this.CHANGESKIN_CHECKBOX.AutoSize = true;
+            this.CHANGESKIN_CHECKBOX.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.CHANGESKIN_CHECKBOX.Location = new System.Drawing.Point(15, 739);
+            this.CHANGESKIN_CHECKBOX.Name = "CHANGESKIN_CHECKBOX";
+            this.CHANGESKIN_CHECKBOX.Size = new System.Drawing.Size(120, 28);
+            this.CHANGESKIN_CHECKBOX.TabIndex = 71;
+            this.CHANGESKIN_CHECKBOX.Text = "Change Skin";
+            this.CHANGESKIN_CHECKBOX.UseVisualStyleBackColor = true;
+            this.CHANGESKIN_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGESKIN_CHECKBOX_CheckedChanged);
+            // 
             // SKIN_COMBOBOX
             // 
             this.SKIN_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -196,9 +208,9 @@
             this.SKIN_LABE.Font = new System.Drawing.Font("Quicksand Light", 16F);
             this.SKIN_LABE.Location = new System.Drawing.Point(9, 668);
             this.SKIN_LABE.Name = "SKIN_LABE";
-            this.SKIN_LABE.Size = new System.Drawing.Size(63, 33);
+            this.SKIN_LABE.Size = new System.Drawing.Size(57, 33);
             this.SKIN_LABE.TabIndex = 68;
-            this.SKIN_LABE.Text = "SKIN";
+            this.SKIN_LABE.Text = "Skin";
             // 
             // label4
             // 
@@ -233,9 +245,9 @@
             this.OFFSET_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
             this.OFFSET_LABEL.Location = new System.Drawing.Point(9, 597);
             this.OFFSET_LABEL.Name = "OFFSET_LABEL";
-            this.OFFSET_LABEL.Size = new System.Drawing.Size(93, 33);
+            this.OFFSET_LABEL.Size = new System.Drawing.Size(76, 33);
             this.OFFSET_LABEL.TabIndex = 62;
-            this.OFFSET_LABEL.Text = "OFFSET";
+            this.OFFSET_LABEL.Text = "Offset";
             // 
             // label11
             // 
@@ -591,18 +603,6 @@
             this.USERFORM_LABEL.Size = new System.Drawing.Size(239, 31);
             this.USERFORM_LABEL.TabIndex = 1;
             this.USERFORM_LABEL.Text = "Select or Create Profile";
-            // 
-            // CHANGESKIN_CHECKBOX
-            // 
-            this.CHANGESKIN_CHECKBOX.AutoSize = true;
-            this.CHANGESKIN_CHECKBOX.Font = new System.Drawing.Font("Quicksand Light", 12F);
-            this.CHANGESKIN_CHECKBOX.Location = new System.Drawing.Point(15, 739);
-            this.CHANGESKIN_CHECKBOX.Name = "CHANGESKIN_CHECKBOX";
-            this.CHANGESKIN_CHECKBOX.Size = new System.Drawing.Size(120, 28);
-            this.CHANGESKIN_CHECKBOX.TabIndex = 71;
-            this.CHANGESKIN_CHECKBOX.Text = "Change Skin";
-            this.CHANGESKIN_CHECKBOX.UseVisualStyleBackColor = true;
-            this.CHANGESKIN_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGESKIN_CHECKBOX_CheckedChanged);
             // 
             // ProfileForm
             // 
