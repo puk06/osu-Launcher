@@ -119,7 +119,8 @@ namespace osu_launcher
                         };
                         AddValueToArray(ref Users, user);
                     }
-                    USERNAME_BUTTON.Text = Users.First().Username;
+
+                    if (Users.Any()) USERNAME_BUTTON.Text = Users.First().Username;
                 }
                 else
                 {
@@ -144,7 +145,7 @@ namespace osu_launcher
             }
             catch (Exception ex)
             {
-                MessageBox.Show("osu-Launcher could not be launched. The reasons are as follows.\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("osu-Launcher could not be launched. The reasons are as follows.\n" + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -213,7 +214,31 @@ namespace osu_launcher
                 _data["osuFolder"] = osuFolder;
 
                 // Change the config values
-                ChangeConfigValue(osuFolder, songFolder, HEIGHT_TEXTBOX.Text, WIDTH_TEXTBOX.Text);
+                var parameters = new Dictionary<string, string>
+                {
+                    {"CredentialEndpoint", server == "Bancho" ? "" : server},
+                    { "BeatmapDirectory", songFolder }
+                };
+
+                if (CurrentUser != null)
+                {
+                    parameters.Add("Username", CurrentUser.Username);
+                    Clipboard.SetText(CurrentUser.Password);
+                }
+
+                if (FULLSCREEN_CHECKBOX.Checked)
+                {
+                    if (HEIGHT_TEXTBOX.Text != "") parameters.Add("HeightFullscreen", HEIGHT_TEXTBOX.Text);
+                    if (WIDTH_TEXTBOX.Text != "") parameters.Add("WidthFullscreen", WIDTH_TEXTBOX.Text);
+                }
+                else
+                {
+                    if (HEIGHT_TEXTBOX.Text != "") parameters.Add("Height", HEIGHT_TEXTBOX.Text);
+                    if (WIDTH_TEXTBOX.Text != "") parameters.Add("Width", WIDTH_TEXTBOX.Text);
+                }
+
+                // Write the config values
+                ChangeConfigValue(osuFolder, parameters);
 
                 // Launch osu!
                 Process.Start(Path.Combine(osuFolder, "osu!.exe"), server == "Bancho" ? "" : "-devserver " + server);
@@ -233,19 +258,20 @@ namespace osu_launcher
         }
 
         // Change the config values
-        private void ChangeConfigValue(string osuFolder, string songsFolder, string height, string width)
+        private void ChangeConfigValue(string osuFolder, Dictionary<string, string> param)
         {
             string username = Environment.UserName;
             string path = Path.Combine(osuFolder, $"osu!.{username}.cfg");
-
             string[] lines = File.ReadAllLines(path);
             for (int i = 0; i < lines.Length; i++)
             {
-                if (lines[i].Contains("BeatmapDirectory = ")) lines[i] = $"BeatmapDirectory = {songsFolder}";
-                if (height != "" && FULLSCREEN_CHECKBOX.Checked && lines[i].Contains("HeightFullscreen = ")) lines[i] = "HeightFullscreen = " + height;
-                if (width != "" && FULLSCREEN_CHECKBOX.Checked && lines[i].Contains("WidthFullscreen = ")) lines[i] = "WidthFullscreen = " + width;
-                if (height != "" && !FULLSCREEN_CHECKBOX.Checked && lines[i].Contains("Height = ")) lines[i] = "Height = " + height;
-                if (width != "" && !FULLSCREEN_CHECKBOX.Checked && lines[i].Contains("Width = ")) lines[i] = "Width = " + width;
+                string key = lines[i].Split('=')[0].Trim();
+                for (int j = 0; j < param.Count; j++)
+                {
+                    if (key != param.ElementAt(j).Key) continue;
+                    lines[i] = $"{param.ElementAt(j).Key} = {param.ElementAt(j).Value}";
+                    break;
+                }
             }
             File.WriteAllLines(path, lines);
         }
@@ -326,10 +352,7 @@ namespace osu_launcher
             // if the form is closed, update the username
             userForm.FormClosed += (senderi, ei) =>
             {
-                if (CurrentUser != null)
-                {
-                    USERNAME_BUTTON.Text = CurrentUser.Username;
-                }
+                USERNAME_BUTTON.Text = CurrentUser?.Username ?? "No User";
             };
         }
     }
