@@ -17,9 +17,10 @@ namespace osu_launcher
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Main());
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The Program could not be launched. The reasons are as follows.\n" + ex, "Error",
+                                       MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

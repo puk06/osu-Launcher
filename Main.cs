@@ -14,17 +14,24 @@ namespace osu_launcher
 {
     public partial class Main : Form
     {
-        // Config Values
-        private readonly JObject _configFiles;
+        // Data Values
+        private readonly JObject _data;
+
+        // Users
+        public IEnumerable<User> Users = new User[] { };
+
+        // Current User
+        public User CurrentUser;
 
         // Form Font
-        private readonly PrivateFontCollection _fontCollection = new PrivateFontCollection();
+        public readonly PrivateFontCollection FontCollection = new PrivateFontCollection();
 
         // Constructor
         public Main()
         {
             try
             {
+                // Initialize CefSharp
                 var settings = new CefSettings
                 {
                     RootCachePath =
@@ -33,22 +40,24 @@ namespace osu_launcher
                 };
                 Cef.Initialize(settings);
 
+                // Check if the files exist
                 if (!File.Exists("./src/Fonts/Quicksand-Light.ttf") || !File.Exists("./src/Fonts/NotoSansJP-Light.ttf"))
                 {
-                    MessageBox.Show("フォントファイルが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The font file was not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Environment.Exit(1);
                 }
 
                 if (!File.Exists("./src/data.json"))
                 {
-                    MessageBox.Show("設定ファイルが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The data file was not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Environment.Exit(1);
                 }
 
                 // Add the font files
-                _fontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
-                _fontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
+                FontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
+                FontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
 
+                // Initialize the components
                 InitializeComponent();
 
                 // Set the font
@@ -63,12 +72,12 @@ namespace osu_launcher
                 StreamReader streamReader = new StreamReader("./src/data.json", Encoding.GetEncoding("Shift_JIS"));
                 string str = streamReader.ReadToEnd();
                 streamReader.Close();
-                _configFiles = JObject.Parse(str);
+                _data = JObject.Parse(str);
 
                 // Set the values
-                if (_configFiles["Servers"] != null)
+                if (_data["Servers"] != null)
                 {
-                    foreach (var server in _configFiles["Servers"])
+                    foreach (var server in _data["Servers"])
                     {
                         SERVERS_COMBOBOX.Items.Add(server);
                     }
@@ -80,12 +89,12 @@ namespace osu_launcher
                     SERVERS_COMBOBOX.Items.Add("Bancho");
                     SERVERS_COMBOBOX.Items.Add("mamesosu.net");
                     SERVERS_COMBOBOX.SelectedIndex = 0;
-                    _configFiles.Add("Servers", new JArray("Bancho", "mamesosu.net"));
+                    _data.Add("Servers", new JArray("Bancho", "mamesosu.net"));
                 }
 
-                if (_configFiles["SongsFolder"] != null)
+                if (_data["SongsFolder"] != null)
                 {
-                    foreach (var songFolder in _configFiles["SongsFolder"])
+                    foreach (var songFolder in _data["SongsFolder"])
                     {
                         SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
                     }
@@ -96,59 +105,67 @@ namespace osu_launcher
                 {
                     SONGSFOLDER_COMBOBOX.Items.Add("Songs");
                     SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
-                    _configFiles.Add("SongsFolder", new JArray("Songs"));
+                    _data.Add("SongsFolder", new JArray("Songs"));
                 }
 
-                if (_configFiles["Username"] != null)
+                if (_data["Username"] != null)
                 {
-                    foreach (var username in _configFiles["Username"])
+                    foreach (var userdata in _data["Username"])
                     {
-                        USERNAME_COMBOBOX.Items.Add(username);
+                        var user = new User
+                        {
+                            Username = userdata["Username"].ToString(),
+                            Password = userdata["Password"].ToString()
+                        };
+                        AddValueToArray(ref Users, user);
                     }
-
-                    if (USERNAME_COMBOBOX.Items.Count > 0) USERNAME_COMBOBOX.SelectedIndex = 0;
+                    USERNAME_BUTTON.Text = Users.First().Username;
+                }
+                else
+                {
+                    _data.Add("Username", new JArray());
                 }
 
-                if (_configFiles["osuFolder"] != null)
+                if (_data["osuFolder"] != null)
                 {
-                    OSUFOLDER_TEXTBOX.Text = _configFiles["osuFolder"].ToString();
+                    OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
                 }
                 else
                 {
                     OSUFOLDER_TEXTBOX.Text = "";
-                    _configFiles.Add("osuFolder", "");
+                    _data.Add("osuFolder", "");
                 }
 
                 if (OSUFOLDER_TEXTBOX.Text == "")
                 {
-                    MessageBox.Show("osu!フォルダが設定されていません。Settingsタブから設定してください！！", "エラー", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    MessageBox.Show("The osu! folder is not set. Please set it from the Settings tab!!", "Error", MessageBoxButtons.OK,
+                                               MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("osu-Launcherを起動できませんでした。理由は以下の通りです。\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("osu-Launcher could not be launched. The reasons are as follows.\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         // Set the font
         private void SetFont()
         {
-            TopTab.Font = new System.Drawing.Font(_fontCollection.Families[1], 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            OSUFOLDER_LABEL.Font = new System.Drawing.Font(_fontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            SERVER_LABEL.Font = new System.Drawing.Font(_fontCollection.Families[1], 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            SONGSFOLDER_DELETE.Font = new System.Drawing.Font(_fontCollection.Families[1], 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            USERNAME_LABEL.Font = new System.Drawing.Font(_fontCollection.Families[1], 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            RESOLUTION_LABEL.Font = new System.Drawing.Font(_fontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            SONGSFOLDER_LABEL.Font = new System.Drawing.Font(_fontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            LAUNCH_BUTTON.Font = new System.Drawing.Font(_fontCollection.Families[1], 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            MainTab.Font = new System.Drawing.Font(_fontCollection.Families[1], 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            USERNAME_COMBOBOX.Font = new System.Drawing.Font(_fontCollection.Families[0], 15.75F);
-            SONGSFOLDER_COMBOBOX.Font = new System.Drawing.Font(_fontCollection.Families[0], 15.75F);
-            OSUFOLDER_TEXTBOX.Font = new System.Drawing.Font(_fontCollection.Families[0], 15.75F);
-            WIDTH_TEXTBOX.Font = new System.Drawing.Font(_fontCollection.Families[0], 14F);
-            HEIGHT_TEXTBOX.Font = new System.Drawing.Font(_fontCollection.Families[0], 14F);
-            SERVERS_COMBOBOX.Font = new System.Drawing.Font(_fontCollection.Families[0], 15.75F);
+            TopTab.Font = new System.Drawing.Font(FontCollection.Families[1], 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            OSUFOLDER_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            SERVER_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            SONGSFOLDER_DELETE.Font = new System.Drawing.Font(FontCollection.Families[1], 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            USERNAME_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            RESOLUTION_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            SONGSFOLDER_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LAUNCH_BUTTON.Font = new System.Drawing.Font(FontCollection.Families[1], 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            MainTab.Font = new System.Drawing.Font(FontCollection.Families[1], 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            USERNAME_BUTTON.Font = new System.Drawing.Font(FontCollection.Families[0], 15.75F);
+            SONGSFOLDER_COMBOBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 15.75F);
+            OSUFOLDER_TEXTBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 15.75F);
+            WIDTH_TEXTBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 14F);
+            HEIGHT_TEXTBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 14F);
+            SERVERS_COMBOBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 15.75F);
         }
 
         // Launch osu!
@@ -157,44 +174,43 @@ namespace osu_launcher
             try
             {
                 // Check if the values are valid
-                string[] reasons = CheckValue();
-                if (reasons.Length > 0)
+                var reasons = CheckValue();
+                if (reasons.Any())
                 {
-                    MessageBox.Show("osu!を起動できませんでした。理由は以下の通りです。\n" + string.Join("\n", reasons), "エラー",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + string.Join("\n", reasons), "Error",
+                                               MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 // Get the values
                 string server = SERVERS_COMBOBOX.Text;
                 string songFolder = SONGSFOLDER_COMBOBOX.Text;
-                string username = USERNAME_COMBOBOX.Text;
                 string osuFolder = OSUFOLDER_TEXTBOX.Text;
 
-                // Add the values to the config file
-                if (!ArrayContains(_configFiles["Servers"].ToObject<string[]>(), server))
+                // Add the values to the data file
+                if (!ArrayContains(_data["Servers"].ToObject<string[]>(), server))
                 {
                     SERVERS_COMBOBOX.Items.Add(server);
-                    _configFiles["Servers"].Last.AddAfterSelf(server);
+                    (_data["Servers"] as JArray).Add(server);
                 }
 
-                if (!ArrayContains(_configFiles["SongsFolder"].ToObject<string[]>(), songFolder))
+                if (!ArrayContains(_data["SongsFolder"].ToObject<string[]>(), songFolder))
                 {
                     SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
-                    _configFiles["SongsFolder"].Last.AddAfterSelf(songFolder);
+                    (_data["SongsFolder"] as JArray).Add(songFolder);
                 }
 
-                if (username != "" && (_configFiles["Username"] == null ||
-                                       !ArrayContains(_configFiles["Username"].ToObject<string[]>(), username)))
+                _data["Username"] = new JArray();
+                foreach (var user in Users)
                 {
-                    if (_configFiles["Username"] == null) _configFiles.Add("Username", new JArray(username));
-                    else _configFiles["Username"].Last.AddAfterSelf(username);
-                    USERNAME_COMBOBOX.Items.Add(username);
+                    (_data["Username"] as JArray).Add(new JObject
+                    {
+                        { "Username", user.Username },
+                        { "Password", user.Password }
+                    });
                 }
 
-                if (username != "") Clipboard.SetText(username);
-
-                _configFiles["osuFolder"] = osuFolder;
+                _data["osuFolder"] = osuFolder;
 
                 // Change the config values
                 ChangeConfigValue(osuFolder, songFolder, HEIGHT_TEXTBOX.Text, WIDTH_TEXTBOX.Text);
@@ -205,12 +221,14 @@ namespace osu_launcher
                 // Save the config file
                 StreamWriter streamWriter =
                     new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
-                streamWriter.WriteLine(_configFiles.ToString());
+                streamWriter.WriteLine(_data.ToString());
                 streamWriter.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("osu!を起動できませんでした。理由は以下の通りです。\n" + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine(ex.Message);
+                MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + ex, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -236,13 +254,13 @@ namespace osu_launcher
         private void SONGSFOLDER_DELETE_Click(object sender, EventArgs e)
         {
             if (SONGSFOLDER_COMBOBOX.Text == "Songs") return;
-            if (ArrayContains(_configFiles["SongsFolder"].ToObject<string[]>(), SONGSFOLDER_COMBOBOX.Text))
+            if (ArrayContains(_data["SongsFolder"].ToObject<string[]>(), SONGSFOLDER_COMBOBOX.Text))
             {
-                _configFiles["SongsFolder"] = new JArray(_configFiles["SongsFolder"].Where(item => item.ToString() != SONGSFOLDER_COMBOBOX.Text));
+                _data["SongsFolder"] = new JArray(_data["SongsFolder"].Where(item => item.ToString() != SONGSFOLDER_COMBOBOX.Text));
                 SONGSFOLDER_COMBOBOX.Items.Remove(SONGSFOLDER_COMBOBOX.Text);
                 SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
                 StreamWriter streamWriter = new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
-                streamWriter.WriteLine(_configFiles.ToString());
+                streamWriter.WriteLine(_data.ToString());
                 streamWriter.Close();
             }
             else
@@ -252,49 +270,73 @@ namespace osu_launcher
         }
 
         // Check if the values are valid
-        private string[] CheckValue()
+        private IEnumerable<string> CheckValue()
         {
-            string[] reasons = Array.Empty<string>();
+            IEnumerable<string> reasons = new string[] { };
             if (!Directory.Exists(SONGSFOLDER_COMBOBOX.Text) && SONGSFOLDER_COMBOBOX.Text != "Songs")
             {
-                AddValueToArray(ref reasons, "❌️ Songsフォルダが見つかりませんでした");
+                AddValueToArray(ref reasons, "❌️ Songs folder not found");
             }
 
             if (!Directory.Exists(OSUFOLDER_TEXTBOX.Text))
             {
-                AddValueToArray(ref reasons, "❌️ osu!フォルダが見つかりませんでした");
+                AddValueToArray(ref reasons, "❌️ osu! folder not found");
             }
 
             if (!File.Exists(Path.Combine(OSUFOLDER_TEXTBOX.Text, "osu!.exe")))
             {
-                AddValueToArray(ref reasons, "❌️ osu!フォルダからosu!.exeが見つかりませんでした");
+                AddValueToArray(ref reasons, "❌️ osu!.exe not found in osu! folder");
             }
 
             if (HEIGHT_TEXTBOX.Text != "" && !int.TryParse(HEIGHT_TEXTBOX.Text, out int _))
             {
-                AddValueToArray(ref reasons, "❌️ Heightに数字以外が入力されています");
+                AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
             }
 
             if (WIDTH_TEXTBOX.Text != "" && !int.TryParse(WIDTH_TEXTBOX.Text, out int _))
             {
-                AddValueToArray(ref reasons, "❌️ Widthに数字以外が入力されています");
+                AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
             }
 
             if (SERVERS_COMBOBOX.Text != "Bancho" && SERVERS_COMBOBOX.Text == "")
             {
-                AddValueToArray(ref reasons, "❌️ サーバーが選択されていません");
+                AddValueToArray(ref reasons, "❌️ Server not selected");
             }
 
             return reasons;
         }
 
         // Add the value to the array
-        private static void AddValueToArray(ref string[] array, string value)
+        private static void AddValueToArray<T>(ref IEnumerable<T> array, T value)
         {
             array = array.Append(value).ToArray();
         }
 
         // Check if the array contains the value
         private static bool ArrayContains(IEnumerable<string> array, string value) => array.Any(item => item == value);
+
+        // Open User Manager
+        private void USERNAME_BUTTON_Click(object sender, EventArgs e)
+        {
+            // Check if the form is already open
+            if (Application.OpenForms.OfType<UserForm>().Any()) return;
+            var userForm = new UserForm(Users, this);
+            userForm.Show();
+
+            // if the form is closed, update the username
+            userForm.FormClosed += (senderi, ei) =>
+            {
+                if (CurrentUser != null)
+                {
+                    USERNAME_BUTTON.Text = CurrentUser.Username;
+                }
+            };
+        }
+    }
+
+    public class User
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }
