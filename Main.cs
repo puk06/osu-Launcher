@@ -75,72 +75,33 @@ namespace osu_launcher
                 _data = JObject.Parse(str);
 
                 // Set the values
-                if (_data["Servers"] != null)
+                foreach (var server in _data["Servers"])
                 {
-                    foreach (var server in _data["Servers"])
+                    SERVERS_COMBOBOX.Items.Add(server);
+                }
+                if (SERVERS_COMBOBOX.Items.Count > 0) SERVERS_COMBOBOX.SelectedIndex = 0;
+
+                foreach (var songFolder in _data["SongsFolder"])
+                {
+                    SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
+                }
+                if (SONGSFOLDER_COMBOBOX.Items.Count > 0) SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
+
+                foreach (var userdata in _data["Username"])
+                {
+                    var user = new User
                     {
-                        SERVERS_COMBOBOX.Items.Add(server);
-                    }
+                        Username = userdata["Username"].ToString(),
+                        Password = userdata["Password"].ToString()
+                    };
+                    AddValueToArray(ref Users, user);
+                }
+                if (Users.Any()) USERNAME_BUTTON.Text = Users.First().Username;
 
-                    if (SERVERS_COMBOBOX.Items.Count > 0) SERVERS_COMBOBOX.SelectedIndex = 0;
-                }
-                else
-                {
-                    SERVERS_COMBOBOX.Items.Add("Bancho");
-                    SERVERS_COMBOBOX.Items.Add("mamesosu.net");
-                    SERVERS_COMBOBOX.SelectedIndex = 0;
-                    _data.Add("Servers", new JArray("Bancho", "mamesosu.net"));
-                }
-
-                if (_data["SongsFolder"] != null)
-                {
-                    foreach (var songFolder in _data["SongsFolder"])
-                    {
-                        SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
-                    }
-
-                    if (SONGSFOLDER_COMBOBOX.Items.Count > 0) SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
-                }
-                else
-                {
-                    SONGSFOLDER_COMBOBOX.Items.Add("Songs");
-                    SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
-                    _data.Add("SongsFolder", new JArray("Songs"));
-                }
-
-                if (_data["Username"] != null)
-                {
-                    foreach (var userdata in _data["Username"])
-                    {
-                        var user = new User
-                        {
-                            Username = userdata["Username"].ToString(),
-                            Password = userdata["Password"].ToString()
-                        };
-                        AddValueToArray(ref Users, user);
-                    }
-
-                    if (Users.Any()) USERNAME_BUTTON.Text = Users.First().Username;
-                }
-                else
-                {
-                    _data.Add("Username", new JArray());
-                }
-
-                if (_data["osuFolder"] != null)
-                {
-                    OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
-                }
-                else
-                {
-                    OSUFOLDER_TEXTBOX.Text = "";
-                    _data.Add("osuFolder", "");
-                }
-
+                OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
                 if (OSUFOLDER_TEXTBOX.Text == "")
                 {
-                    MessageBox.Show("The osu! folder is not set. Please set it from the Settings tab!!", "Error", MessageBoxButtons.OK,
-                                               MessageBoxIcon.Error);
+                    MessageBox.Show("The osu! folder is not set. Please set it from the Settings tab!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
