@@ -18,7 +18,7 @@ namespace osu_launcher
         private readonly JObject _data;
 
         // Users
-        public IEnumerable<User> Users = new User[] { };
+        public IEnumerable<User> Users = Array.Empty<User>();
 
         // Current User
         public User CurrentUser;
@@ -272,7 +272,7 @@ namespace osu_launcher
         // Check if the values are valid
         private IEnumerable<string> CheckValue()
         {
-            IEnumerable<string> reasons = new string[] { };
+            IEnumerable<string> reasons = Array.Empty<string>();
             if (!Directory.Exists(SONGSFOLDER_COMBOBOX.Text) && SONGSFOLDER_COMBOBOX.Text != "Songs")
             {
                 AddValueToArray(ref reasons, "❌️ Songs folder not found");
@@ -332,11 +332,5 @@ namespace osu_launcher
                 }
             };
         }
-    }
-
-    public class User
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
     }
 }

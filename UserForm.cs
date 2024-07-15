@@ -17,7 +17,7 @@ namespace osu_launcher
             InitializeComponent();
             _mainForm = mainForm;
             var enumerable = users as User[] ?? users.ToArray();
-            for (int i = 0; i < enumerable.Count(); i++)
+            for (int i = 0; i < enumerable.Length; i++)
             {
                 User user = enumerable.ElementAt(i);
                 Button button = new Button
