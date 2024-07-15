@@ -263,9 +263,9 @@
             this.OFFSETMASTER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
             this.OFFSETMASTER_LABEL.Location = new System.Drawing.Point(10, 638);
             this.OFFSETMASTER_LABEL.Name = "OFFSETMASTER_LABEL";
-            this.OFFSETMASTER_LABEL.Size = new System.Drawing.Size(72, 24);
+            this.OFFSETMASTER_LABEL.Size = new System.Drawing.Size(60, 24);
             this.OFFSETMASTER_LABEL.TabIndex = 60;
-            this.OFFSETMASTER_LABEL.Text = "MASTER";
+            this.OFFSETMASTER_LABEL.Text = "Master";
             // 
             // MUSIC_BAR
             // 
@@ -286,9 +286,9 @@
             this.MUSIC_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
             this.MUSIC_LABEL.Location = new System.Drawing.Point(9, 540);
             this.MUSIC_LABEL.Name = "MUSIC_LABEL";
-            this.MUSIC_LABEL.Size = new System.Drawing.Size(58, 24);
+            this.MUSIC_LABEL.Size = new System.Drawing.Size(50, 24);
             this.MUSIC_LABEL.TabIndex = 58;
-            this.MUSIC_LABEL.Text = "MUSIC";
+            this.MUSIC_LABEL.Text = "Music";
             // 
             // EFFECT_BAR
             // 
@@ -309,9 +309,9 @@
             this.EFFECT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
             this.EFFECT_LABEL.Location = new System.Drawing.Point(9, 509);
             this.EFFECT_LABEL.Name = "EFFECT_LABEL";
-            this.EFFECT_LABEL.Size = new System.Drawing.Size(67, 24);
+            this.EFFECT_LABEL.Size = new System.Drawing.Size(52, 24);
             this.EFFECT_LABEL.TabIndex = 56;
-            this.EFFECT_LABEL.Text = "EFFECT";
+            this.EFFECT_LABEL.Text = "Effect";
             // 
             // MASTER_BAR
             // 
@@ -350,9 +350,9 @@
             this.MASTER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
             this.MASTER_LABEL.Location = new System.Drawing.Point(9, 478);
             this.MASTER_LABEL.Name = "MASTER_LABEL";
-            this.MASTER_LABEL.Size = new System.Drawing.Size(72, 24);
+            this.MASTER_LABEL.Size = new System.Drawing.Size(60, 24);
             this.MASTER_LABEL.TabIndex = 49;
-            this.MASTER_LABEL.Text = "MASTER";
+            this.MASTER_LABEL.Text = "Master";
             // 
             // FULLSCREEN_CHECKBOX
             // 

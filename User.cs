@@ -9,7 +9,7 @@
         public int? MeterStyle { get; set; } = null;
         public int? Width { get; set; } = null;
         public int? Height { get; set; } = null;
-        public bool? Fullscreen { get; set; } = null;
+        public bool Fullscreen { get; set; } = false;
         public int? VolumeMaster { get; set; } = null;
         public int? VolumeEffect { get; set; } = null;
         public int? VolumeMusic { get; set; } = null;

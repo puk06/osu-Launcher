@@ -100,7 +100,14 @@ namespace osu_launcher
                         MeterStyle = userdata["MeterStyle"].ToObject<int?>(),
                         Width = userdata["Width"].ToObject<int?>(),
                         Height = userdata["Height"].ToObject<int?>(),
-                        Fullscreen = userdata["Fullscreen"].ToObject<bool?>()
+                        Fullscreen = userdata["Fullscreen"].ToObject<bool>(),
+                        VolumeMaster = userdata["VolumeMaster"].ToObject<int?>(),
+                        VolumeEffect = userdata["VolumeEffect"].ToObject<int?>(),
+                        VolumeMusic = userdata["VolumeMusic"].ToObject<int?>(),
+                        ChangeVolume = userdata["ChangeVolume"].ToObject<bool>(),
+                        Offset = userdata["Offset"].ToObject<int?>(),
+                        Skin = userdata["Skin"].ToString(),
+                        ChangeSkin = userdata["ChangeSkin"].ToObject<bool>()
                     };
                     AddValueToArray(ref Profiles, user);
                 }
