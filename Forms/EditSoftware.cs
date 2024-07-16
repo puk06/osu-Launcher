@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using osu_launcher.Classes;
 
-namespace osu_launcher
+namespace osu_launcher.Forms
 {
-    public partial class AddSoftware : Form
+    public partial class EditSoftware : Form
     {
         // This is the main form
         private readonly Main _mainForm;
 
-        public AddSoftware(Main mainForm)
+        // Edit the software
+        private readonly Software _software;
+
+        public EditSoftware(Main mainForm, Software software)
         {
             InitializeComponent();
             _mainForm = mainForm;
+            _software = software;
+            NAME_TEXTBOX.Text = software.Name;
+            AUTHOR_TEXTBOX.Text = software.Author;
+            DESCRIPTION_TEXTBOX.Text = software.Description;
+            PATH_TEXTBOX.Text = software.Path;
         }
 
         // Check if the values are valid
@@ -49,7 +58,7 @@ namespace osu_launcher
             return reasons;
         }
 
-        private void CREATE_BUTTON_Click(object sender, EventArgs e)
+        private void EDIT_BUTTON_Click(object sender, EventArgs e)
         {
             var reasons = CheckValue();
             if (reasons.Any())
@@ -59,18 +68,25 @@ namespace osu_launcher
                     return;
             }
 
-            // Save the software
+            // Check if the software already exists
+            if (_mainForm.Softwares.Any(s => s.Name == NAME_TEXTBOX.Text))
+            {
+                MessageBox.Show("The software name alread exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Overwrite the software
             var software = new Software
             {
                 Name = NAME_TEXTBOX.Text,
                 Author = AUTHOR_TEXTBOX.Text,
                 Description = DESCRIPTION_TEXTBOX.Text,
-                Path = PATH_TEXTBOX.Text,
-                Checked = false
+                Path = PATH_TEXTBOX.Text
             };
 
+            _mainForm.Softwares = _mainForm.Softwares.Where(s => s.Name != _software.Name).ToArray();
             _mainForm.Softwares = _mainForm.Softwares.Append(software);
-            MessageBox.Show("New software created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Software edited successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Close();
         }
 

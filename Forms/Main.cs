@@ -1,8 +1,4 @@
-﻿using CefSharp;
-using CefSharp.DevTools.Profiler;
-using CefSharp.WinForms;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Text;
@@ -10,8 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CefSharp;
+using CefSharp.WinForms;
+using Newtonsoft.Json.Linq;
+using osu_launcher.Classes;
+using Profile = osu_launcher.Classes.Profile;
 
-namespace osu_launcher
+namespace osu_launcher.Forms
 {
     public partial class Main : Form
     {
@@ -436,6 +437,7 @@ namespace osu_launcher
         {
             try
             {
+                Softwares = Softwares.OrderBy(s => s.Name).ToArray();
                 var enumerable = Softwares as Software[] ?? Softwares.ToArray();
                 for (int i = 0; i < enumerable.Length; i++)
                 {
@@ -511,6 +513,20 @@ namespace osu_launcher
                 Font = new System.Drawing.Font(FontCollection.Families[1], 15)
             };
 
+            softwareNameLabel.ContextMenuStrip = new ContextMenuStrip();
+            softwareNameLabel.ContextMenuStrip.Items.Add("Edit").Click += (_object, _event) =>
+            {
+                if (Application.OpenForms.OfType<AddSoftware>().Any()) return;
+                var editSoftwareForm = new EditSoftware(this, software);
+                editSoftwareForm.Show();
+                editSoftwareForm.FormClosed += (__object, __event) =>
+                {
+                    SoftwareTab.Controls.Clear();
+                    LoadSoftwares();
+                };
+            };
+
+            // Get the width of the label
             int labelWidth = TextRenderer.MeasureText(softwareNameLabel.Text, softwareNameLabel.Font).Width;
             int label2Right = softwareNameLabel.Location.X + labelWidth - 3;
 

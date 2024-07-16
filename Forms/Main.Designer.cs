@@ -1,8 +1,6 @@
-﻿using CefSharp.WinForms;
-using System.Drawing.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
-namespace osu_launcher
+namespace osu_launcher.Forms
 {
     partial class Main
     {
@@ -32,8 +30,8 @@ namespace osu_launcher
         /// </summary>
         private void InitializeComponent()
         {
-            var guiFont = FontCollection.Families[1];
-            var textFont = FontCollection.Families[0];
+            var guiFont = "Quicksand Light";
+            var textFont = "Noto Sans JP";
 
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.LAUNCH_BUTTON = new System.Windows.Forms.Button();

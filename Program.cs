@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using osu_launcher.Forms;
 
 namespace osu_launcher
 {

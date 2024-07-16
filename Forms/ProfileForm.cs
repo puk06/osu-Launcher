@@ -4,8 +4,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using osu_launcher.Classes;
 
-namespace osu_launcher
+namespace osu_launcher.Forms
 {
     public partial class ProfileForm : Form
     {

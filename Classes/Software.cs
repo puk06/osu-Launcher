@@ -1,4 +1,4 @@
-﻿namespace osu_launcher
+﻿namespace osu_launcher.Classes
 {
     public class Software
     {

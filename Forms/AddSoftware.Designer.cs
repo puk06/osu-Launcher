@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace osu_launcher
+namespace osu_launcher.Forms
 {
     partial class AddSoftware
     {
