@@ -34,6 +34,7 @@ namespace osu_launcher.Forms
 
             if (PROFILEEDIT_COMBOBOX.Items.Count > 0)
             {
+                ResetValueEdit();
                 ChangeEditFormStatus(true);
                 PROFILEEDIT_COMBOBOX.SelectedIndex = 0;
             }
@@ -47,17 +48,21 @@ namespace osu_launcher.Forms
             if (Directory.Exists(skinsPath))
             {
                 SKIN_COMBOBOX.Items.Clear();
+                SKINEDIT_COMBOBOX.Items.Clear();
                 var folders = Directory.GetDirectories(skinsPath);
                 foreach (var folder in folders)
                 {
                     SKIN_COMBOBOX.Items.Add(Path.GetFileName(folder));
+                    SKINEDIT_COMBOBOX.Items.Add(Path.GetFileName(folder));
                 }
                 if (SKIN_COMBOBOX.Items.Count > 0) SKIN_COMBOBOX.SelectedIndex = 0;
+                if (SKINEDIT_COMBOBOX.Items.Count > 0) SKINEDIT_COMBOBOX.SelectedIndex = 0;
             }
             else
             {
                 MessageBox.Show("The skins folder was not found. The skin selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SKIN_COMBOBOX.Enabled = false;
+                SKINEDIT_COMBOBOX.Enabled = false;
             }
         }
 
@@ -72,12 +77,8 @@ namespace osu_launcher.Forms
             WIDTHEDIT_TEXTBOX.Enabled = value;
             HEIGHTEDIT_TEXTBOX.Enabled = value;
             FULLSCREENEDIT_CHECKBOX.Enabled = value;
-            MASTEREDIT_BAR.Enabled = value;
-            EFFECTEDIT_BAR.Enabled = value;
-            MUSICEDIT_BAR.Enabled = value;
             CHANGEAUDIOEDIT_CHECKBOX.Enabled = value;
             OFFSETEDIT_TEXTBOX.Enabled = value;
-            SKINEDIT_COMBOBOX.Enabled = value;
             CHANGESKINEDIT_CHECKBOX.Enabled = value;
         }
 
@@ -113,6 +114,7 @@ namespace osu_launcher.Forms
 
                 if (PROFILEEDIT_COMBOBOX.Items.Count > 0)
                 {
+                    ResetValueEdit();
                     ChangeEditFormStatus(true);
                     PROFILEEDIT_COMBOBOX.SelectedIndex = 0;
                 }
@@ -123,6 +125,7 @@ namespace osu_launcher.Forms
                 }
 
                 _mainForm.CurrentProfile = null;
+                _mainForm.SaveConfigData();
             };
             UsersTab.Controls.Add(button);
         }
@@ -358,6 +361,7 @@ namespace osu_launcher.Forms
 
             if (PROFILEEDIT_COMBOBOX.Items.Count > 0)
             {
+                ResetValueEdit();
                 ChangeEditFormStatus(true);
                 PROFILEEDIT_COMBOBOX.SelectedIndex = 0;
             }
@@ -618,8 +622,11 @@ namespace osu_launcher.Forms
             MUSICEDIT_BAR.Value = profile.VolumeMusic ?? 100;
             CHANGEAUDIOEDIT_CHECKBOX.Checked = profile.ChangeVolume;
             OFFSETEDIT_TEXTBOX.Text = profile.Offset.ToString();
-            SKINEDIT_COMBOBOX.SelectedIndex = SKINEDIT_COMBOBOX.Items.IndexOf(profile.Skin);
-            CHANGESKINEDIT_CHECKBOX.Checked = profile.ChangeSkin;
+            if (SKINEDIT_COMBOBOX.Items.Count > 0)
+            {
+                SKINEDIT_COMBOBOX.SelectedIndex = SKINEDIT_COMBOBOX.Items.IndexOf(profile.Skin);
+                CHANGESKINEDIT_CHECKBOX.Checked = profile.ChangeSkin;
+            }
         }
     }
 }
