@@ -78,6 +78,51 @@ namespace osu_launcher.Forms
             this.USERNAME_TEXTBOX = new System.Windows.Forms.TextBox();
             this.USERNAME_LABEL = new System.Windows.Forms.Label();
             this.NEWUSER_LABEL = new System.Windows.Forms.Label();
+            this.EditTab = new System.Windows.Forms.TabPage();
+            this.PROFILEEDIT_LABEL = new System.Windows.Forms.Label();
+            this.PROFILEEDIT_COMBOBOX = new System.Windows.Forms.ComboBox();
+            this.CHANGESKINEDIT_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.SKINEDIT_COMBOBOX = new System.Windows.Forms.ComboBox();
+            this.SKINEDIT_LABEL = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.CHANGEAUDIOEDIT_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.OFFSETEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.OFFSETEDIT_LABEL = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.OFFSETMASTEREDIT_LABEL = new System.Windows.Forms.Label();
+            this.MUSICEDIT_BAR = new System.Windows.Forms.TrackBar();
+            this.MUSICEDIT_LABEL = new System.Windows.Forms.Label();
+            this.EFFECTEDIT_BAR = new System.Windows.Forms.TrackBar();
+            this.EFFECTEDIT_LABEL = new System.Windows.Forms.Label();
+            this.MASTEREDIT_BAR = new System.Windows.Forms.TrackBar();
+            this.AUDIOEDIT_LABEL = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.MASTEREDIT_LABEL = new System.Windows.Forms.Label();
+            this.FULLSCREENEDIT_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.METERSTYLEEDIT_COMBOBOX = new System.Windows.Forms.ComboBox();
+            this.METERSTYLEEDIT_LABEL = new System.Windows.Forms.Label();
+            this.HEIGHTEDIT_LABEL = new System.Windows.Forms.Label();
+            this.HEIGHTEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.WIDTHEDIT_LABEL = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.SCOREMETEREDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.SCOREMETEREDIT_LABEL = new System.Windows.Forms.Label();
+            this.WIDTHEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.NAMEEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.NAMEEDIT_LABEL = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.EDITRESET_BUTTON = new System.Windows.Forms.Button();
+            this.EDIT_BUTTON = new System.Windows.Forms.Button();
+            this.CONFIRMEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.CONFIRMEDIT_LABEL = new System.Windows.Forms.Label();
+            this.PASSWORDEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.PASSWORDEDIT_LABEL = new System.Windows.Forms.Label();
+            this.USERNAMEEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.USERNAMEEDIT_LABEL = new System.Windows.Forms.Label();
+            this.EDITPROFILE_LABEL = new System.Windows.Forms.Label();
             this.USERFORM_LABEL = new System.Windows.Forms.Label();
             this.MainTab.SuspendLayout();
             this.UsersTab.SuspendLayout();
@@ -85,12 +130,17 @@ namespace osu_launcher.Forms
             ((System.ComponentModel.ISupportInitialize)(this.MUSIC_BAR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EFFECT_BAR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MASTER_BAR)).BeginInit();
+            this.EditTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MUSICEDIT_BAR)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EFFECTEDIT_BAR)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MASTEREDIT_BAR)).BeginInit();
             this.SuspendLayout();
             // 
             // MainTab
             // 
             this.MainTab.Controls.Add(this.UsersTab);
             this.MainTab.Controls.Add(this.ResisterTab);
+            this.MainTab.Controls.Add(this.EditTab);
             this.MainTab.Font = new System.Drawing.Font("Quicksand Light", 9F);
             this.MainTab.Location = new System.Drawing.Point(12, 54);
             this.MainTab.Name = "MainTab";
@@ -596,6 +646,493 @@ namespace osu_launcher.Forms
             this.NEWUSER_LABEL.TabIndex = 0;
             this.NEWUSER_LABEL.Text = "New Profile";
             // 
+            // EditTab
+            // 
+            this.EditTab.AutoScroll = true;
+            this.EditTab.Controls.Add(this.PROFILEEDIT_LABEL);
+            this.EditTab.Controls.Add(this.PROFILEEDIT_COMBOBOX);
+            this.EditTab.Controls.Add(this.CHANGESKINEDIT_CHECKBOX);
+            this.EditTab.Controls.Add(this.SKINEDIT_COMBOBOX);
+            this.EditTab.Controls.Add(this.SKINEDIT_LABEL);
+            this.EditTab.Controls.Add(this.label8);
+            this.EditTab.Controls.Add(this.CHANGEAUDIOEDIT_CHECKBOX);
+            this.EditTab.Controls.Add(this.OFFSETEDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.OFFSETEDIT_LABEL);
+            this.EditTab.Controls.Add(this.label12);
+            this.EditTab.Controls.Add(this.OFFSETMASTEREDIT_LABEL);
+            this.EditTab.Controls.Add(this.MUSICEDIT_BAR);
+            this.EditTab.Controls.Add(this.MUSICEDIT_LABEL);
+            this.EditTab.Controls.Add(this.EFFECTEDIT_BAR);
+            this.EditTab.Controls.Add(this.EFFECTEDIT_LABEL);
+            this.EditTab.Controls.Add(this.MASTEREDIT_BAR);
+            this.EditTab.Controls.Add(this.AUDIOEDIT_LABEL);
+            this.EditTab.Controls.Add(this.label17);
+            this.EditTab.Controls.Add(this.MASTEREDIT_LABEL);
+            this.EditTab.Controls.Add(this.FULLSCREENEDIT_CHECKBOX);
+            this.EditTab.Controls.Add(this.METERSTYLEEDIT_COMBOBOX);
+            this.EditTab.Controls.Add(this.METERSTYLEEDIT_LABEL);
+            this.EditTab.Controls.Add(this.HEIGHTEDIT_LABEL);
+            this.EditTab.Controls.Add(this.HEIGHTEDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.label21);
+            this.EditTab.Controls.Add(this.label22);
+            this.EditTab.Controls.Add(this.WIDTHEDIT_LABEL);
+            this.EditTab.Controls.Add(this.label24);
+            this.EditTab.Controls.Add(this.label25);
+            this.EditTab.Controls.Add(this.SCOREMETEREDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.SCOREMETEREDIT_LABEL);
+            this.EditTab.Controls.Add(this.WIDTHEDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.NAMEEDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.NAMEEDIT_LABEL);
+            this.EditTab.Controls.Add(this.label28);
+            this.EditTab.Controls.Add(this.EDITRESET_BUTTON);
+            this.EditTab.Controls.Add(this.EDIT_BUTTON);
+            this.EditTab.Controls.Add(this.CONFIRMEDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.CONFIRMEDIT_LABEL);
+            this.EditTab.Controls.Add(this.PASSWORDEDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.PASSWORDEDIT_LABEL);
+            this.EditTab.Controls.Add(this.USERNAMEEDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.USERNAMEEDIT_LABEL);
+            this.EditTab.Controls.Add(this.EDITPROFILE_LABEL);
+            this.EditTab.Location = new System.Drawing.Point(4, 27);
+            this.EditTab.Name = "EditTab";
+            this.EditTab.Size = new System.Drawing.Size(283, 353);
+            this.EditTab.TabIndex = 2;
+            this.EditTab.Text = "Edit Profile";
+            // 
+            // PROFILEEDIT_LABEL
+            // 
+            this.PROFILEEDIT_LABEL.AutoSize = true;
+            this.PROFILEEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 13F);
+            this.PROFILEEDIT_LABEL.Location = new System.Drawing.Point(16, 12);
+            this.PROFILEEDIT_LABEL.Name = "PROFILEEDIT_LABEL";
+            this.PROFILEEDIT_LABEL.Size = new System.Drawing.Size(65, 26);
+            this.PROFILEEDIT_LABEL.TabIndex = 115;
+            this.PROFILEEDIT_LABEL.Text = "Profile";
+            // 
+            // PROFILEEDIT_COMBOBOX
+            // 
+            this.PROFILEEDIT_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PROFILEEDIT_COMBOBOX.FormattingEnabled = true;
+            this.PROFILEEDIT_COMBOBOX.Location = new System.Drawing.Point(100, 15);
+            this.PROFILEEDIT_COMBOBOX.Name = "PROFILEEDIT_COMBOBOX";
+            this.PROFILEEDIT_COMBOBOX.Size = new System.Drawing.Size(158, 26);
+            this.PROFILEEDIT_COMBOBOX.TabIndex = 114;
+            this.PROFILEEDIT_COMBOBOX.SelectedIndexChanged += new System.EventHandler(this.PROFILEEDIT_COMBOBOX_SelectedIndexChanged);
+            // 
+            // CHANGESKINEDIT_CHECKBOX
+            // 
+            this.CHANGESKINEDIT_CHECKBOX.AutoSize = true;
+            this.CHANGESKINEDIT_CHECKBOX.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.CHANGESKINEDIT_CHECKBOX.Location = new System.Drawing.Point(15, 786);
+            this.CHANGESKINEDIT_CHECKBOX.Name = "CHANGESKINEDIT_CHECKBOX";
+            this.CHANGESKINEDIT_CHECKBOX.Size = new System.Drawing.Size(120, 28);
+            this.CHANGESKINEDIT_CHECKBOX.TabIndex = 113;
+            this.CHANGESKINEDIT_CHECKBOX.Text = "Change Skin";
+            this.CHANGESKINEDIT_CHECKBOX.UseVisualStyleBackColor = true;
+            this.CHANGESKINEDIT_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGESKINEDIT_CHECKBOX_CheckedChanged);
+            // 
+            // SKINEDIT_COMBOBOX
+            // 
+            this.SKINEDIT_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SKINEDIT_COMBOBOX.Enabled = false;
+            this.SKINEDIT_COMBOBOX.FormattingEnabled = true;
+            this.SKINEDIT_COMBOBOX.Location = new System.Drawing.Point(15, 754);
+            this.SKINEDIT_COMBOBOX.Name = "SKINEDIT_COMBOBOX";
+            this.SKINEDIT_COMBOBOX.Size = new System.Drawing.Size(242, 26);
+            this.SKINEDIT_COMBOBOX.TabIndex = 112;
+            // 
+            // SKINEDIT_LABEL
+            // 
+            this.SKINEDIT_LABEL.AutoSize = true;
+            this.SKINEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.SKINEDIT_LABEL.Location = new System.Drawing.Point(9, 715);
+            this.SKINEDIT_LABEL.Name = "SKINEDIT_LABEL";
+            this.SKINEDIT_LABEL.Size = new System.Drawing.Size(57, 33);
+            this.SKINEDIT_LABEL.TabIndex = 111;
+            this.SKINEDIT_LABEL.Text = "Skin";
+            // 
+            // label8
+            // 
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label8.Location = new System.Drawing.Point(8, 748);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(250, 1);
+            this.label8.TabIndex = 110;
+            // 
+            // CHANGEAUDIOEDIT_CHECKBOX
+            // 
+            this.CHANGEAUDIOEDIT_CHECKBOX.AutoSize = true;
+            this.CHANGEAUDIOEDIT_CHECKBOX.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.CHANGEAUDIOEDIT_CHECKBOX.Location = new System.Drawing.Point(15, 615);
+            this.CHANGEAUDIOEDIT_CHECKBOX.Name = "CHANGEAUDIOEDIT_CHECKBOX";
+            this.CHANGEAUDIOEDIT_CHECKBOX.Size = new System.Drawing.Size(133, 28);
+            this.CHANGEAUDIOEDIT_CHECKBOX.TabIndex = 109;
+            this.CHANGEAUDIOEDIT_CHECKBOX.Text = "Change Audio";
+            this.CHANGEAUDIOEDIT_CHECKBOX.UseVisualStyleBackColor = true;
+            this.CHANGEAUDIOEDIT_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGEAUDIOEDIT_CHECKBOX_CheckedChanged);
+            // 
+            // OFFSETEDIT_TEXTBOX
+            // 
+            this.OFFSETEDIT_TEXTBOX.Location = new System.Drawing.Point(100, 687);
+            this.OFFSETEDIT_TEXTBOX.Name = "OFFSETEDIT_TEXTBOX";
+            this.OFFSETEDIT_TEXTBOX.Size = new System.Drawing.Size(158, 22);
+            this.OFFSETEDIT_TEXTBOX.TabIndex = 108;
+            // 
+            // OFFSETEDIT_LABEL
+            // 
+            this.OFFSETEDIT_LABEL.AutoSize = true;
+            this.OFFSETEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.OFFSETEDIT_LABEL.Location = new System.Drawing.Point(9, 644);
+            this.OFFSETEDIT_LABEL.Name = "OFFSETEDIT_LABEL";
+            this.OFFSETEDIT_LABEL.Size = new System.Drawing.Size(76, 33);
+            this.OFFSETEDIT_LABEL.TabIndex = 107;
+            this.OFFSETEDIT_LABEL.Text = "Offset";
+            // 
+            // label12
+            // 
+            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label12.Location = new System.Drawing.Point(8, 677);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(250, 1);
+            this.label12.TabIndex = 106;
+            // 
+            // OFFSETMASTEREDIT_LABEL
+            // 
+            this.OFFSETMASTEREDIT_LABEL.AutoSize = true;
+            this.OFFSETMASTEREDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.OFFSETMASTEREDIT_LABEL.Location = new System.Drawing.Point(10, 685);
+            this.OFFSETMASTEREDIT_LABEL.Name = "OFFSETMASTEREDIT_LABEL";
+            this.OFFSETMASTEREDIT_LABEL.Size = new System.Drawing.Size(60, 24);
+            this.OFFSETMASTEREDIT_LABEL.TabIndex = 105;
+            this.OFFSETMASTEREDIT_LABEL.Text = "Master";
+            // 
+            // MUSICEDIT_BAR
+            // 
+            this.MUSICEDIT_BAR.BackColor = System.Drawing.SystemColors.Control;
+            this.MUSICEDIT_BAR.Enabled = false;
+            this.MUSICEDIT_BAR.LargeChange = 1;
+            this.MUSICEDIT_BAR.Location = new System.Drawing.Point(100, 587);
+            this.MUSICEDIT_BAR.Maximum = 100;
+            this.MUSICEDIT_BAR.Name = "MUSICEDIT_BAR";
+            this.MUSICEDIT_BAR.Size = new System.Drawing.Size(157, 45);
+            this.MUSICEDIT_BAR.TabIndex = 104;
+            this.MUSICEDIT_BAR.TickFrequency = 50;
+            this.MUSICEDIT_BAR.Scroll += new System.EventHandler(this.MUSICEDIT_BAR_Scroll);
+            // 
+            // MUSICEDIT_LABEL
+            // 
+            this.MUSICEDIT_LABEL.AutoSize = true;
+            this.MUSICEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.MUSICEDIT_LABEL.Location = new System.Drawing.Point(9, 587);
+            this.MUSICEDIT_LABEL.Name = "MUSICEDIT_LABEL";
+            this.MUSICEDIT_LABEL.Size = new System.Drawing.Size(50, 24);
+            this.MUSICEDIT_LABEL.TabIndex = 103;
+            this.MUSICEDIT_LABEL.Text = "Music";
+            // 
+            // EFFECTEDIT_BAR
+            // 
+            this.EFFECTEDIT_BAR.BackColor = System.Drawing.SystemColors.Control;
+            this.EFFECTEDIT_BAR.Enabled = false;
+            this.EFFECTEDIT_BAR.LargeChange = 1;
+            this.EFFECTEDIT_BAR.Location = new System.Drawing.Point(100, 556);
+            this.EFFECTEDIT_BAR.Maximum = 100;
+            this.EFFECTEDIT_BAR.Name = "EFFECTEDIT_BAR";
+            this.EFFECTEDIT_BAR.Size = new System.Drawing.Size(157, 45);
+            this.EFFECTEDIT_BAR.TabIndex = 102;
+            this.EFFECTEDIT_BAR.TickFrequency = 50;
+            this.EFFECTEDIT_BAR.Scroll += new System.EventHandler(this.EFFECTEDIT_BAR_Scroll);
+            // 
+            // EFFECTEDIT_LABEL
+            // 
+            this.EFFECTEDIT_LABEL.AutoSize = true;
+            this.EFFECTEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.EFFECTEDIT_LABEL.Location = new System.Drawing.Point(9, 556);
+            this.EFFECTEDIT_LABEL.Name = "EFFECTEDIT_LABEL";
+            this.EFFECTEDIT_LABEL.Size = new System.Drawing.Size(52, 24);
+            this.EFFECTEDIT_LABEL.TabIndex = 101;
+            this.EFFECTEDIT_LABEL.Text = "Effect";
+            // 
+            // MASTEREDIT_BAR
+            // 
+            this.MASTEREDIT_BAR.BackColor = System.Drawing.SystemColors.Control;
+            this.MASTEREDIT_BAR.Enabled = false;
+            this.MASTEREDIT_BAR.LargeChange = 1;
+            this.MASTEREDIT_BAR.Location = new System.Drawing.Point(100, 525);
+            this.MASTEREDIT_BAR.Maximum = 100;
+            this.MASTEREDIT_BAR.Name = "MASTEREDIT_BAR";
+            this.MASTEREDIT_BAR.Size = new System.Drawing.Size(157, 45);
+            this.MASTEREDIT_BAR.TabIndex = 100;
+            this.MASTEREDIT_BAR.TickFrequency = 50;
+            this.MASTEREDIT_BAR.Scroll += new System.EventHandler(this.MASTEREDIT_BAR_Scroll);
+            // 
+            // AUDIOEDIT_LABEL
+            // 
+            this.AUDIOEDIT_LABEL.AutoSize = true;
+            this.AUDIOEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.AUDIOEDIT_LABEL.Location = new System.Drawing.Point(8, 484);
+            this.AUDIOEDIT_LABEL.Name = "AUDIOEDIT_LABEL";
+            this.AUDIOEDIT_LABEL.Size = new System.Drawing.Size(72, 33);
+            this.AUDIOEDIT_LABEL.TabIndex = 99;
+            this.AUDIOEDIT_LABEL.Text = "Audio";
+            // 
+            // label17
+            // 
+            this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label17.Location = new System.Drawing.Point(7, 517);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(250, 1);
+            this.label17.TabIndex = 98;
+            // 
+            // MASTEREDIT_LABEL
+            // 
+            this.MASTEREDIT_LABEL.AutoSize = true;
+            this.MASTEREDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.MASTEREDIT_LABEL.Location = new System.Drawing.Point(9, 525);
+            this.MASTEREDIT_LABEL.Name = "MASTEREDIT_LABEL";
+            this.MASTEREDIT_LABEL.Size = new System.Drawing.Size(60, 24);
+            this.MASTEREDIT_LABEL.TabIndex = 97;
+            this.MASTEREDIT_LABEL.Text = "Master";
+            // 
+            // FULLSCREENEDIT_CHECKBOX
+            // 
+            this.FULLSCREENEDIT_CHECKBOX.AutoSize = true;
+            this.FULLSCREENEDIT_CHECKBOX.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.FULLSCREENEDIT_CHECKBOX.Location = new System.Drawing.Point(12, 455);
+            this.FULLSCREENEDIT_CHECKBOX.Name = "FULLSCREENEDIT_CHECKBOX";
+            this.FULLSCREENEDIT_CHECKBOX.Size = new System.Drawing.Size(101, 28);
+            this.FULLSCREENEDIT_CHECKBOX.TabIndex = 96;
+            this.FULLSCREENEDIT_CHECKBOX.Text = "Fullscreen";
+            this.FULLSCREENEDIT_CHECKBOX.UseVisualStyleBackColor = true;
+            // 
+            // METERSTYLEEDIT_COMBOBOX
+            // 
+            this.METERSTYLEEDIT_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.METERSTYLEEDIT_COMBOBOX.Font = new System.Drawing.Font("Quicksand Light", 9F);
+            this.METERSTYLEEDIT_COMBOBOX.FormattingEnabled = true;
+            this.METERSTYLEEDIT_COMBOBOX.Items.AddRange(new object[] {
+            "Default",
+            "None",
+            "Hit error",
+            "Colour"});
+            this.METERSTYLEEDIT_COMBOBOX.Location = new System.Drawing.Point(104, 316);
+            this.METERSTYLEEDIT_COMBOBOX.Name = "METERSTYLEEDIT_COMBOBOX";
+            this.METERSTYLEEDIT_COMBOBOX.Size = new System.Drawing.Size(159, 26);
+            this.METERSTYLEEDIT_COMBOBOX.TabIndex = 95;
+            // 
+            // METERSTYLEEDIT_LABEL
+            // 
+            this.METERSTYLEEDIT_LABEL.AutoSize = true;
+            this.METERSTYLEEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.METERSTYLEEDIT_LABEL.Location = new System.Drawing.Point(11, 314);
+            this.METERSTYLEEDIT_LABEL.Name = "METERSTYLEEDIT_LABEL";
+            this.METERSTYLEEDIT_LABEL.Size = new System.Drawing.Size(87, 24);
+            this.METERSTYLEEDIT_LABEL.TabIndex = 94;
+            this.METERSTYLEEDIT_LABEL.Text = "MeterStyle";
+            // 
+            // HEIGHTEDIT_LABEL
+            // 
+            this.HEIGHTEDIT_LABEL.AutoSize = true;
+            this.HEIGHTEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.HEIGHTEDIT_LABEL.Location = new System.Drawing.Point(10, 426);
+            this.HEIGHTEDIT_LABEL.Name = "HEIGHTEDIT_LABEL";
+            this.HEIGHTEDIT_LABEL.Size = new System.Drawing.Size(58, 24);
+            this.HEIGHTEDIT_LABEL.TabIndex = 93;
+            this.HEIGHTEDIT_LABEL.Text = "Height";
+            // 
+            // HEIGHTEDIT_TEXTBOX
+            // 
+            this.HEIGHTEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP", 9F);
+            this.HEIGHTEDIT_TEXTBOX.Location = new System.Drawing.Point(100, 428);
+            this.HEIGHTEDIT_TEXTBOX.Name = "HEIGHTEDIT_TEXTBOX";
+            this.HEIGHTEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
+            this.HEIGHTEDIT_TEXTBOX.TabIndex = 92;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.label21.Location = new System.Drawing.Point(9, 348);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(120, 33);
+            this.label21.TabIndex = 91;
+            this.label21.Text = "Resolution";
+            // 
+            // label22
+            // 
+            this.label22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label22.Location = new System.Drawing.Point(8, 381);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(250, 1);
+            this.label22.TabIndex = 90;
+            // 
+            // WIDTHEDIT_LABEL
+            // 
+            this.WIDTHEDIT_LABEL.AutoSize = true;
+            this.WIDTHEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.WIDTHEDIT_LABEL.Location = new System.Drawing.Point(10, 389);
+            this.WIDTHEDIT_LABEL.Name = "WIDTHEDIT_LABEL";
+            this.WIDTHEDIT_LABEL.Size = new System.Drawing.Size(53, 24);
+            this.WIDTHEDIT_LABEL.TabIndex = 89;
+            this.WIDTHEDIT_LABEL.Text = "Width";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.label24.Location = new System.Drawing.Point(9, 231);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(83, 33);
+            this.label24.TabIndex = 88;
+            this.label24.Text = "Option";
+            // 
+            // label25
+            // 
+            this.label25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label25.Location = new System.Drawing.Point(14, 269);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(250, 1);
+            this.label25.TabIndex = 87;
+            // 
+            // SCOREMETEREDIT_TEXTBOX
+            // 
+            this.SCOREMETEREDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP", 9F);
+            this.SCOREMETEREDIT_TEXTBOX.Location = new System.Drawing.Point(104, 279);
+            this.SCOREMETEREDIT_TEXTBOX.Name = "SCOREMETEREDIT_TEXTBOX";
+            this.SCOREMETEREDIT_TEXTBOX.Size = new System.Drawing.Size(159, 25);
+            this.SCOREMETEREDIT_TEXTBOX.TabIndex = 86;
+            // 
+            // SCOREMETEREDIT_LABEL
+            // 
+            this.SCOREMETEREDIT_LABEL.AutoSize = true;
+            this.SCOREMETEREDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.SCOREMETEREDIT_LABEL.Location = new System.Drawing.Point(10, 277);
+            this.SCOREMETEREDIT_LABEL.Name = "SCOREMETEREDIT_LABEL";
+            this.SCOREMETEREDIT_LABEL.Size = new System.Drawing.Size(94, 24);
+            this.SCOREMETEREDIT_LABEL.TabIndex = 85;
+            this.SCOREMETEREDIT_LABEL.Text = "ScoreMeter";
+            // 
+            // WIDTHEDIT_TEXTBOX
+            // 
+            this.WIDTHEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP", 9F);
+            this.WIDTHEDIT_TEXTBOX.Location = new System.Drawing.Point(100, 391);
+            this.WIDTHEDIT_TEXTBOX.Name = "WIDTHEDIT_TEXTBOX";
+            this.WIDTHEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
+            this.WIDTHEDIT_TEXTBOX.TabIndex = 84;
+            // 
+            // NAMEEDIT_TEXTBOX
+            // 
+            this.NAMEEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP", 9F);
+            this.NAMEEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 92);
+            this.NAMEEDIT_TEXTBOX.Name = "NAMEEDIT_TEXTBOX";
+            this.NAMEEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
+            this.NAMEEDIT_TEXTBOX.TabIndex = 83;
+            // 
+            // NAMEEDIT_LABEL
+            // 
+            this.NAMEEDIT_LABEL.AutoSize = true;
+            this.NAMEEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.NAMEEDIT_LABEL.Location = new System.Drawing.Point(11, 90);
+            this.NAMEEDIT_LABEL.Name = "NAMEEDIT_LABEL";
+            this.NAMEEDIT_LABEL.Size = new System.Drawing.Size(56, 24);
+            this.NAMEEDIT_LABEL.TabIndex = 82;
+            this.NAMEEDIT_LABEL.Text = "Name";
+            // 
+            // label28
+            // 
+            this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label28.Location = new System.Drawing.Point(14, 80);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(250, 1);
+            this.label28.TabIndex = 81;
+            // 
+            // EDITRESET_BUTTON
+            // 
+            this.EDITRESET_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
+            this.EDITRESET_BUTTON.Location = new System.Drawing.Point(155, 836);
+            this.EDITRESET_BUTTON.Name = "EDITRESET_BUTTON";
+            this.EDITRESET_BUTTON.Size = new System.Drawing.Size(102, 34);
+            this.EDITRESET_BUTTON.TabIndex = 80;
+            this.EDITRESET_BUTTON.Text = "Reset";
+            this.EDITRESET_BUTTON.UseVisualStyleBackColor = true;
+            this.EDITRESET_BUTTON.Click += new System.EventHandler(this.EDITRESET_BUTTON_Click);
+            // 
+            // EDIT_BUTTON
+            // 
+            this.EDIT_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
+            this.EDIT_BUTTON.Location = new System.Drawing.Point(12, 836);
+            this.EDIT_BUTTON.Name = "EDIT_BUTTON";
+            this.EDIT_BUTTON.Size = new System.Drawing.Size(105, 34);
+            this.EDIT_BUTTON.TabIndex = 79;
+            this.EDIT_BUTTON.Text = "Edit";
+            this.EDIT_BUTTON.UseVisualStyleBackColor = true;
+            this.EDIT_BUTTON.Click += new System.EventHandler(this.EDIT_BUTTON_Click);
+            // 
+            // CONFIRMEDIT_TEXTBOX
+            // 
+            this.CONFIRMEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP", 9F);
+            this.CONFIRMEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 203);
+            this.CONFIRMEDIT_TEXTBOX.Name = "CONFIRMEDIT_TEXTBOX";
+            this.CONFIRMEDIT_TEXTBOX.PasswordChar = '*';
+            this.CONFIRMEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
+            this.CONFIRMEDIT_TEXTBOX.TabIndex = 78;
+            // 
+            // CONFIRMEDIT_LABEL
+            // 
+            this.CONFIRMEDIT_LABEL.AutoSize = true;
+            this.CONFIRMEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.CONFIRMEDIT_LABEL.Location = new System.Drawing.Point(11, 201);
+            this.CONFIRMEDIT_LABEL.Name = "CONFIRMEDIT_LABEL";
+            this.CONFIRMEDIT_LABEL.Size = new System.Drawing.Size(70, 24);
+            this.CONFIRMEDIT_LABEL.TabIndex = 77;
+            this.CONFIRMEDIT_LABEL.Text = "Confirm";
+            // 
+            // PASSWORDEDIT_TEXTBOX
+            // 
+            this.PASSWORDEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP", 9F);
+            this.PASSWORDEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 166);
+            this.PASSWORDEDIT_TEXTBOX.Name = "PASSWORDEDIT_TEXTBOX";
+            this.PASSWORDEDIT_TEXTBOX.PasswordChar = '*';
+            this.PASSWORDEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
+            this.PASSWORDEDIT_TEXTBOX.TabIndex = 76;
+            // 
+            // PASSWORDEDIT_LABEL
+            // 
+            this.PASSWORDEDIT_LABEL.AutoSize = true;
+            this.PASSWORDEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.PASSWORDEDIT_LABEL.Location = new System.Drawing.Point(11, 164);
+            this.PASSWORDEDIT_LABEL.Name = "PASSWORDEDIT_LABEL";
+            this.PASSWORDEDIT_LABEL.Size = new System.Drawing.Size(82, 24);
+            this.PASSWORDEDIT_LABEL.TabIndex = 75;
+            this.PASSWORDEDIT_LABEL.Text = "Password";
+            // 
+            // USERNAMEEDIT_TEXTBOX
+            // 
+            this.USERNAMEEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP", 9F);
+            this.USERNAMEEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 129);
+            this.USERNAMEEDIT_TEXTBOX.Name = "USERNAMEEDIT_TEXTBOX";
+            this.USERNAMEEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
+            this.USERNAMEEDIT_TEXTBOX.TabIndex = 74;
+            // 
+            // USERNAMEEDIT_LABEL
+            // 
+            this.USERNAMEEDIT_LABEL.AutoSize = true;
+            this.USERNAMEEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.USERNAMEEDIT_LABEL.Location = new System.Drawing.Point(11, 127);
+            this.USERNAMEEDIT_LABEL.Name = "USERNAMEEDIT_LABEL";
+            this.USERNAMEEDIT_LABEL.Size = new System.Drawing.Size(86, 24);
+            this.USERNAMEEDIT_LABEL.TabIndex = 73;
+            this.USERNAMEEDIT_LABEL.Text = "Username";
+            // 
+            // EDITPROFILE_LABEL
+            // 
+            this.EDITPROFILE_LABEL.AutoSize = true;
+            this.EDITPROFILE_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.EDITPROFILE_LABEL.Location = new System.Drawing.Point(7, 47);
+            this.EDITPROFILE_LABEL.Name = "EDITPROFILE_LABEL";
+            this.EDITPROFILE_LABEL.Size = new System.Drawing.Size(121, 33);
+            this.EDITPROFILE_LABEL.TabIndex = 72;
+            this.EDITPROFILE_LABEL.Text = "Edit Profile";
+            // 
             // USERFORM_LABEL
             // 
             this.USERFORM_LABEL.AutoSize = true;
@@ -627,6 +1164,11 @@ namespace osu_launcher.Forms
             ((System.ComponentModel.ISupportInitialize)(this.MUSIC_BAR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EFFECT_BAR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MASTER_BAR)).EndInit();
+            this.EditTab.ResumeLayout(false);
+            this.EditTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MUSICEDIT_BAR)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EFFECTEDIT_BAR)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MASTEREDIT_BAR)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -682,5 +1224,50 @@ namespace osu_launcher.Forms
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox SKIN_COMBOBOX;
         private System.Windows.Forms.CheckBox CHANGESKIN_CHECKBOX;
+        private TabPage EditTab;
+        private Label PROFILEEDIT_LABEL;
+        private ComboBox PROFILEEDIT_COMBOBOX;
+        private CheckBox CHANGESKINEDIT_CHECKBOX;
+        private ComboBox SKINEDIT_COMBOBOX;
+        private Label SKINEDIT_LABEL;
+        private Label label8;
+        private CheckBox CHANGEAUDIOEDIT_CHECKBOX;
+        private TextBox OFFSETEDIT_TEXTBOX;
+        private Label OFFSETEDIT_LABEL;
+        private Label label12;
+        private Label OFFSETMASTEREDIT_LABEL;
+        private TrackBar MUSICEDIT_BAR;
+        private Label MUSICEDIT_LABEL;
+        private TrackBar EFFECTEDIT_BAR;
+        private Label EFFECTEDIT_LABEL;
+        private TrackBar MASTEREDIT_BAR;
+        private Label AUDIOEDIT_LABEL;
+        private Label label17;
+        private Label MASTEREDIT_LABEL;
+        private CheckBox FULLSCREENEDIT_CHECKBOX;
+        private ComboBox METERSTYLEEDIT_COMBOBOX;
+        private Label METERSTYLEEDIT_LABEL;
+        private Label HEIGHTEDIT_LABEL;
+        private TextBox HEIGHTEDIT_TEXTBOX;
+        private Label label21;
+        private Label label22;
+        private Label WIDTHEDIT_LABEL;
+        private Label label24;
+        private Label label25;
+        private TextBox SCOREMETEREDIT_TEXTBOX;
+        private Label SCOREMETEREDIT_LABEL;
+        private TextBox WIDTHEDIT_TEXTBOX;
+        private TextBox NAMEEDIT_TEXTBOX;
+        private Label NAMEEDIT_LABEL;
+        private Label label28;
+        private Button EDITRESET_BUTTON;
+        private Button EDIT_BUTTON;
+        private TextBox CONFIRMEDIT_TEXTBOX;
+        private Label CONFIRMEDIT_LABEL;
+        private TextBox PASSWORDEDIT_TEXTBOX;
+        private Label PASSWORDEDIT_LABEL;
+        private TextBox USERNAMEEDIT_TEXTBOX;
+        private Label USERNAMEEDIT_LABEL;
+        private Label EDITPROFILE_LABEL;
     }
 }

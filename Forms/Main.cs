@@ -205,7 +205,7 @@ namespace osu_launcher.Forms
         }
 
         // Save the config data
-        private void SaveConfigData()
+        public void SaveConfigData()
         {
             string server = SERVERS_COMBOBOX.Text;
             string songFolder = SONGSFOLDER_COMBOBOX.Text;

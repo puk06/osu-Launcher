@@ -29,6 +29,7 @@ namespace osu_launcher.Forms
             for (int i = 0; i < enumerable.Length; i++)
             {
                 GenerateButton(enumerable.ElementAt(i));
+                PROFILEEDIT_COMBOBOX.Items.Add(enumerable.ElementAt(i).Name);
             }
 
             string skinsPath = Path.Combine(osuFolder, "Skins");
@@ -49,6 +50,7 @@ namespace osu_launcher.Forms
             }
         }
 
+        // Generate a button for each profile
         private void GenerateButton(Profile profile)
         {
             Button button = new Button
@@ -114,9 +116,49 @@ namespace osu_launcher.Forms
             _mainForm.Profiles = _mainForm.Profiles.Append(profile);
             MessageBox.Show("New profile created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _mainForm.CurrentProfile = profile;
-
+            _mainForm.SaveConfigData();
             UpdateProfileButtons();
             ResetValue();
+        }
+
+        // This is the event handler for the EDIT_BUTTON
+        private void EDIT_BUTTON_Click(object sender, EventArgs e)
+        {
+            var reasons = CheckValueEdit();
+            if (reasons.Any())
+            {
+                ShowErrorMessage("The profile could not be saved. The reasons are as follows.\n" + string.Join("\n", reasons));
+                return;
+            }
+
+            if (IsAnyFieldEmpty())
+            {
+                ShowErrorMessage("Please fill in all fields");
+                return;
+            }
+
+            if (ArePasswordsMismatch())
+            {
+                ShowErrorMessage("Passwords do not match. Try Again");
+                return;
+            }
+
+            if (IsProfileNameDuplicate())
+            {
+                ShowErrorMessage("The profile name already exists");
+                NAMEEDIT_TEXTBOX.Text = "";
+                return;
+            }
+
+            var profile = EditProfile();
+
+            _mainForm.Profiles = _mainForm.Profiles.Where(p => p.Name != PROFILEEDIT_COMBOBOX.SelectedItem.ToString());
+            _mainForm.Profiles = _mainForm.Profiles.Append(profile);
+            MessageBox.Show("Profile edited successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _mainForm.CurrentProfile = profile;
+            _mainForm.SaveConfigData();
+            UpdateProfileButtons();
+            ResetValueEdit();
         }
 
         // Show error messages
@@ -162,6 +204,22 @@ namespace osu_launcher.Forms
             return profile;
         }
 
+        // Edit a profile based on form input
+        private Profile EditProfile()
+        {
+            var profile = new Profile
+            {
+                Name = NAMEEDIT_TEXTBOX.Text,
+                Username = USERNAMEEDIT_TEXTBOX.Text,
+                Password = Convert.ToBase64String(PasswordProtector.EncryptPassword(PASSWORDEDIT_TEXTBOX.Text))
+            };
+
+            // Add optional parameters
+            AddOptionalParametersEdit(profile);
+
+            return profile;
+        }
+
         // Add optional parameters to the profile
         private void AddOptionalParameters(Profile profile)
         {
@@ -202,6 +260,46 @@ namespace osu_launcher.Forms
             }
         }
 
+        // Add optional parameters to the profile for editing
+        private void AddOptionalParametersEdit(Profile profile)
+        {
+            if (!string.IsNullOrEmpty(SCOREMETEREDIT_TEXTBOX.Text))
+            {
+                profile.ScoreMeter = Math.Round(Convert.ToDouble(SCOREMETEREDIT_TEXTBOX.Text), 2);
+            }
+
+            if (METERSTYLEEDIT_COMBOBOX.SelectedIndex != 0)
+            {
+                profile.MeterStyle = METERSTYLEEDIT_COMBOBOX.SelectedIndex;
+            }
+
+            if (!string.IsNullOrEmpty(HEIGHTEDIT_TEXTBOX.Text) || !string.IsNullOrEmpty(WIDTHEDIT_TEXTBOX.Text))
+            {
+                profile.Width = Convert.ToInt32(WIDTHEDIT_TEXTBOX.Text);
+                profile.Height = Convert.ToInt32(HEIGHTEDIT_TEXTBOX.Text);
+                profile.Fullscreen = FULLSCREENEDIT_CHECKBOX.Checked;
+            }
+
+            if (CHANGEAUDIOEDIT_CHECKBOX.Checked)
+            {
+                profile.ChangeVolume = true;
+                profile.VolumeMaster = MASTEREDIT_BAR.Value;
+                profile.VolumeEffect = EFFECTEDIT_BAR.Value;
+                profile.VolumeMusic = MUSICEDIT_BAR.Value;
+            }
+
+            if (!string.IsNullOrEmpty(OFFSETEDIT_TEXTBOX.Text))
+            {
+                profile.Offset = Convert.ToInt32(OFFSETEDIT_TEXTBOX.Text);
+            }
+
+            if (CHANGESKINEDIT_CHECKBOX.Checked)
+            {
+                profile.ChangeSkin = true;
+                profile.Skin = SKINEDIT_COMBOBOX.SelectedItem.ToString();
+            }
+        }
+
         // Update the profile buttons on the Users tab
         private void UpdateProfileButtons()
         {
@@ -218,6 +316,13 @@ namespace osu_launcher.Forms
             ResetValue();
         }
 
+        // This is the event handler for the EDITRESET_BUTTON
+        private void EDITRESET_BUTTON_Click(object sender, EventArgs e)
+        {
+            ResetValueEdit();
+        }
+
+        // Reset the values of the form
         private void ResetValue()
         {
             NAME_TEXTBOX.Text = "";
@@ -238,6 +343,27 @@ namespace osu_launcher.Forms
             CHANGESKIN_CHECKBOX.Checked = false;
         }
 
+        private void ResetValueEdit()
+        {
+            NAMEEDIT_TEXTBOX.Text = "";
+            USERNAMEEDIT_TEXTBOX.Text = "";
+            PASSWORDEDIT_TEXTBOX.Text = "";
+            CONFIRMEDIT_TEXTBOX.Text = "";
+            SCOREMETEREDIT_TEXTBOX.Text = "";
+            METERSTYLEEDIT_COMBOBOX.SelectedIndex = 0;
+            WIDTHEDIT_TEXTBOX.Text = "";
+            HEIGHTEDIT_TEXTBOX.Text = "";
+            FULLSCREENEDIT_CHECKBOX.Checked = false;
+            MASTEREDIT_BAR.Value = 100;
+            EFFECTEDIT_BAR.Value = 100;
+            MUSICEDIT_BAR.Value = 100;
+            CHANGEAUDIOEDIT_CHECKBOX.Checked = false;
+            OFFSETEDIT_TEXTBOX.Text = "";
+            if (SKINEDIT_COMBOBOX.Items.Count > 0) SKINEDIT_COMBOBOX.SelectedIndex = 0;
+            CHANGESKINEDIT_CHECKBOX.Checked = false;
+        }
+
+        // Check if the values are valid
         private IEnumerable<string> CheckValue()
         {
             IEnumerable<string> reasons = Array.Empty<string>();
@@ -294,21 +420,100 @@ namespace osu_launcher.Forms
             return reasons;
         }
 
+        private IEnumerable<string> CheckValueEdit()
+        {
+            IEnumerable<string> reasons = Array.Empty<string>();
+            if (SCOREMETEREDIT_TEXTBOX.Text != "")
+            {
+                var result = double.TryParse(SCOREMETEREDIT_TEXTBOX.Text, out double scoreMeter);
+                if (!result)
+                {
+                    Main.AddValueToArray(ref reasons, "❌️ Score meter must be a number");
+                }
+                else if (scoreMeter < 0)
+                {
+                    Main.AddValueToArray(ref reasons, "❌️ Score meter must be between 0 and 1");
+                }
+            }
+
+            if (WIDTHEDIT_TEXTBOX.Text != "")
+            {
+                var result = int.TryParse(WIDTHEDIT_TEXTBOX.Text, out int width);
+                if (!result)
+                {
+                    Main.AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
+                }
+
+                if (width < 0)
+                {
+                    Main.AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
+                }
+            }
+
+            if (HEIGHTEDIT_TEXTBOX.Text != "")
+            {
+                var result = int.TryParse(HEIGHTEDIT_TEXTBOX.Text, out int height);
+                if (!result)
+                {
+                    Main.AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
+                }
+
+                if (height < 0)
+                {
+                    Main.AddValueToArray(ref reasons, "❌️ Height must be greater than 0");
+                }
+            }
+
+            if (OFFSETEDIT_TEXTBOX.Text != "")
+            {
+                var result = int.TryParse(OFFSETEDIT_TEXTBOX.Text, out int offset);
+                if (!result)
+                {
+                    Main.AddValueToArray(ref reasons, "❌️ Offset contains non-numeric characters");
+                }
+            }
+
+            return reasons;
+
+        }
+
+        // This is the event handler for the MASTER_BAR
         private void MASTER_BAR_Scroll(object sender, EventArgs e)
         {
             _toolTip.SetToolTip(MASTER_BAR, $"{MASTER_BAR.Value}%");
         }
 
+        // This is the event handler for the EFFECT_BAR
         private void EFFECT_BAR_Scroll(object sender, EventArgs e)
         {
             _toolTip.SetToolTip(EFFECT_BAR, $"{EFFECT_BAR.Value}%");
         }
 
+        // This is the event handler for the MUSIC_BAR
         private void MUSIC_BAR_Scroll(object sender, EventArgs e)
         {
             _toolTip.SetToolTip(MUSIC_BAR, $"{MUSIC_BAR.Value}%");
         }
 
+        // This is the event handler for the MASTEREDIT_BAR
+        private void MASTEREDIT_BAR_Scroll(object sender, EventArgs e)
+        {
+            _toolTip.SetToolTip(MASTEREDIT_BAR, $"{MASTEREDIT_BAR.Value}%");
+        }
+
+        // This is the event handler for the EFFECTEDIT_BAR
+        private void EFFECTEDIT_BAR_Scroll(object sender, EventArgs e)
+        {
+            _toolTip.SetToolTip(EFFECTEDIT_BAR, $"{EFFECTEDIT_BAR.Value}%");
+        }
+
+        // This is the event handler for the MUSICEDIT_BAR
+        private void MUSICEDIT_BAR_Scroll(object sender, EventArgs e)
+        {
+            _toolTip.SetToolTip(MUSICEDIT_BAR, $"{MUSICEDIT_BAR.Value}%");
+        }
+
+        // This is the event handler for the CHANGEAUDIO_CHECKBOX
         private void CHANGEAUDIO_CHECKBOX_CheckedChanged(object sender, EventArgs e)
         {
             MASTER_BAR.Enabled = CHANGEAUDIO_CHECKBOX.Checked;
@@ -316,9 +521,47 @@ namespace osu_launcher.Forms
             MUSIC_BAR.Enabled = CHANGEAUDIO_CHECKBOX.Checked;
         }
 
+        // This is the event handler for the CHANGESKIN_CHECKBOX
+        private void CHANGEAUDIOEDIT_CHECKBOX_CheckedChanged(object sender, EventArgs e)
+        {
+            MASTEREDIT_BAR.Enabled = CHANGEAUDIOEDIT_CHECKBOX.Checked;
+            EFFECTEDIT_BAR.Enabled = CHANGEAUDIOEDIT_CHECKBOX.Checked;
+            MUSICEDIT_BAR.Enabled = CHANGEAUDIOEDIT_CHECKBOX.Checked;
+        }
+
+        // This is the event handler for the CHANGESKIN_CHECKBOX
         private void CHANGESKIN_CHECKBOX_CheckedChanged(object sender, EventArgs e)
         {
             SKIN_COMBOBOX.Enabled = CHANGESKIN_CHECKBOX.Checked;
+        }
+
+        // This is the event handler for the CHANGESKINEDIT_CHECKBOX
+        private void CHANGESKINEDIT_CHECKBOX_CheckedChanged(object sender, EventArgs e)
+        {
+            SKINEDIT_COMBOBOX.Enabled = CHANGESKINEDIT_CHECKBOX.Checked;
+        }
+
+        // This is the event handler for the PROFILEEDIT_COMBOBOX
+        private void PROFILEEDIT_COMBOBOX_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var profile = _mainForm.Profiles.FirstOrDefault(p => p.Name == PROFILEEDIT_COMBOBOX.SelectedItem.ToString());
+            if (profile == null) return;
+            NAMEEDIT_TEXTBOX.Text = profile.Name;
+            USERNAMEEDIT_TEXTBOX.Text = profile.Username;
+            PASSWORDEDIT_TEXTBOX.Text = profile.Password;
+            CONFIRMEDIT_TEXTBOX.Text = profile.Password;
+            SCOREMETEREDIT_TEXTBOX.Text = profile.ScoreMeter.ToString();
+            METERSTYLEEDIT_COMBOBOX.SelectedIndex = profile.MeterStyle ?? 0;
+            WIDTHEDIT_TEXTBOX.Text = profile.Width.ToString();
+            HEIGHTEDIT_TEXTBOX.Text = profile.Height.ToString();
+            FULLSCREENEDIT_CHECKBOX.Checked = profile.Fullscreen;
+            MASTEREDIT_BAR.Value = profile.VolumeMaster ?? 100;
+            EFFECTEDIT_BAR.Value = profile.VolumeEffect ?? 100;
+            MUSICEDIT_BAR.Value = profile.VolumeMusic ?? 100;
+            CHANGEAUDIOEDIT_CHECKBOX.Checked = profile.ChangeVolume;
+            OFFSETEDIT_TEXTBOX.Text = profile.Offset.ToString();
+            SKINEDIT_COMBOBOX.SelectedIndex = SKINEDIT_COMBOBOX.Items.IndexOf(profile.Skin);
+            CHANGESKINEDIT_CHECKBOX.Checked = profile.ChangeSkin;
         }
     }
 }
