@@ -143,7 +143,7 @@ namespace osu_launcher.Forms
         // Check if the profile name already exists
         private bool IsProfileNameDuplicate()
         {
-            return _mainForm.Profiles.Any(userdata => userdata.Name == USERNAME_TEXTBOX.Text);
+            return _mainForm.Profiles.Any(userdata => userdata.Name == NAME_TEXTBOX.Text);
         }
 
         // Create a new profile based on form input
