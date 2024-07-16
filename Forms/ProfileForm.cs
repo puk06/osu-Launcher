@@ -474,6 +474,7 @@ namespace osu_launcher.Forms
                     Main.AddValueToArray(ref reasons, "❌️ Offset contains non-numeric characters");
                 }
             }
+
             return reasons;
         }
 
@@ -531,7 +532,6 @@ namespace osu_launcher.Forms
             }
 
             return reasons;
-
         }
 
         // This is the event handler for the MASTER_BAR
