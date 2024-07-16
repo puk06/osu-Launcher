@@ -161,6 +161,7 @@ namespace osu_launcher.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.ClientSize = new System.Drawing.Size(676, 294);
             this.Controls.Add(this.OPEN_BUTTON);
             this.Controls.Add(this.label1);

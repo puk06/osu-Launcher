@@ -160,6 +160,7 @@ namespace osu_launcher.Forms
             // EditSoftware
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 31F);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(676, 294);
             this.Controls.Add(this.OPEN_BUTTON);

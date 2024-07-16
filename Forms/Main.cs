@@ -196,12 +196,6 @@ namespace osu_launcher.Forms
 
                 // Launch the software
                 LaunchSoftwares();
-
-                // Save the config file
-                StreamWriter streamWriter =
-                    new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
-                streamWriter.WriteLine(_data.ToString());
-                streamWriter.Close();
             }
             catch (Exception ex)
             {
@@ -266,6 +260,11 @@ namespace osu_launcher.Forms
             }
 
             _data["osuFolder"] = osuFolder;
+
+            StreamWriter streamWriter =
+                new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
+            streamWriter.WriteLine(_data.ToString());
+            streamWriter.Close();
         }
 
         // Add the parameters
@@ -415,6 +414,7 @@ namespace osu_launcher.Forms
                     StreamWriter streamWriter = new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
                     streamWriter.WriteLine(_data.ToString());
                     streamWriter.Close();
+                    SaveConfigData();
                 }
                 else
                 {
@@ -516,6 +516,7 @@ namespace osu_launcher.Forms
                     {
                         SoftwareTab.Controls.Clear();
                         LoadSoftwares();
+                        SaveConfigData();
                     };
                 };
 
@@ -572,6 +573,7 @@ namespace osu_launcher.Forms
                 {
                     SoftwareTab.Controls.Clear();
                     LoadSoftwares();
+                    SaveConfigData();
                 };
             };
 
@@ -582,6 +584,7 @@ namespace osu_launcher.Forms
                 Softwares = Softwares.Where(s => s.Name != software.Name).ToArray();
                 SoftwareTab.Controls.Clear();
                 LoadSoftwares();
+                SaveConfigData();
             };
 
             // Get the width of the label
@@ -635,7 +638,11 @@ namespace osu_launcher.Forms
             profileForm.Show();
 
             // if the form is closed, update the profile
-            profileForm.FormClosed += (_object, _event) => RefreshProfile();
+            profileForm.FormClosed += (_object, _event) =>
+            {
+                RefreshProfile();
+                SaveConfigData();
+            };
         }
 
         private void RefreshProfile()
