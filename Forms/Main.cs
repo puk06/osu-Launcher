@@ -170,6 +170,13 @@ namespace osu_launcher.Forms
                 // Write the config values
                 ChangeConfigValue(osuFolder, parameters);
 
+                // Copy the password
+                if (CurrentProfile != null)
+                {
+                    string decryptedPassword = PasswordProtector.DecryptPassword(Convert.FromBase64String(CurrentProfile.Password));
+                    Clipboard.SetText(decryptedPassword);
+                }
+
                 // Launch osu!
                 ProcessStartInfo startInfo = new ProcessStartInfo
                 {
@@ -268,8 +275,6 @@ namespace osu_launcher.Forms
             if (CurrentProfile != null)
             {
                 parameters.Add("Username", CurrentProfile.Username);
-                string decryptedPassword = PasswordProtector.DecryptPassword(Convert.FromBase64String(CurrentProfile.Password));
-                Clipboard.SetText(decryptedPassword);
             }
 
             if (FULLSCREEN_CHECKBOX.Checked)
@@ -512,6 +517,7 @@ namespace osu_launcher.Forms
             }
         }
 
+        // Generate the software tab
         private void GenerateSoftwaresTab(Software software)
         {
             int baseLocation = 69 * (SoftwareTab.Controls.OfType<CheckBox>().Count() + 1);
@@ -610,22 +616,24 @@ namespace osu_launcher.Forms
             profileForm.Show();
 
             // if the form is closed, update the profile
-            profileForm.FormClosed += (_object, _event) =>
-            {
-                USERNAME_BUTTON.Text = CurrentProfile?.Name ?? "No Profile";
-                HEIGHT_TEXTBOX.Text = CurrentProfile?.Height.ToString() ?? "";
-                WIDTH_TEXTBOX.Text = CurrentProfile?.Width.ToString() ?? "";
-                FULLSCREEN_CHECKBOX.Checked = CurrentProfile?.Fullscreen ?? false;
-                METERSCALE_TEXTBOX.Text = CurrentProfile?.ScoreMeter.ToString() ?? "";
-                METERSTYLE_COMBOBOX.SelectedIndex = CurrentProfile?.MeterStyle ?? 0;
-                CHANGEAUDIO_CHECKBOX.Checked = CurrentProfile?.ChangeVolume ?? false;
-                MASTER_BAR.Value = CurrentProfile?.VolumeMaster ?? 0;
-                EFFECT_BAR.Value = CurrentProfile?.VolumeEffect ?? 0;
-                AUDIO_BAR.Value = CurrentProfile?.VolumeMusic ?? 0;
-                OFFSET_TEXTBOX.Text = CurrentProfile?.Offset.ToString() ?? "";
-                CHANGESKIN_CHECKBOX.Checked = CurrentProfile?.ChangeSkin ?? false;
-                if (CHANGESKIN_CHECKBOX.Checked) SKIN_COMBOBOX.Text = CurrentProfile?.Skin ?? "";
-            };
+            profileForm.FormClosed += (_object, _event) => RefreshProfile();
+        }
+
+        private void RefreshProfile()
+        {
+            USERNAME_BUTTON.Text = CurrentProfile?.Name ?? "No Profile";
+            HEIGHT_TEXTBOX.Text = CurrentProfile?.Height.ToString() ?? "";
+            WIDTH_TEXTBOX.Text = CurrentProfile?.Width.ToString() ?? "";
+            FULLSCREEN_CHECKBOX.Checked = CurrentProfile?.Fullscreen ?? false;
+            METERSCALE_TEXTBOX.Text = CurrentProfile?.ScoreMeter.ToString() ?? "";
+            METERSTYLE_COMBOBOX.SelectedIndex = CurrentProfile?.MeterStyle ?? 0;
+            CHANGEAUDIO_CHECKBOX.Checked = CurrentProfile?.ChangeVolume ?? false;
+            MASTER_BAR.Value = CurrentProfile?.VolumeMaster ?? 0;
+            EFFECT_BAR.Value = CurrentProfile?.VolumeEffect ?? 0;
+            AUDIO_BAR.Value = CurrentProfile?.VolumeMusic ?? 0;
+            OFFSET_TEXTBOX.Text = CurrentProfile?.Offset.ToString() ?? "";
+            CHANGESKIN_CHECKBOX.Checked = CurrentProfile?.ChangeSkin ?? false;
+            if (CHANGESKIN_CHECKBOX.Checked) SKIN_COMBOBOX.Text = CurrentProfile?.Skin ?? "";
         }
 
         // Change the audio values
