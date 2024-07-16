@@ -120,7 +120,7 @@ namespace osu_launcher.Forms
         }
 
         // Show error messages
-        private void ShowErrorMessage(string message)
+        private static void ShowErrorMessage(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

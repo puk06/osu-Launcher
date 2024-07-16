@@ -519,8 +519,6 @@ namespace osu_launcher.Forms
                     };
                 };
 
-
-
                 SoftwareTab.Controls.Add(addSoftwareButton);
             }
             catch (Exception ex)
@@ -575,6 +573,15 @@ namespace osu_launcher.Forms
                     SoftwareTab.Controls.Clear();
                     LoadSoftwares();
                 };
+            };
+
+            softwareNameLabel.ContextMenuStrip.Items.Add("Delete").Click += (_object, _event) =>
+            {
+                var result = MessageBox.Show("Are you sure you want to delete the selected software?", "Delete Software", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result != DialogResult.Yes) return;
+                Softwares = Softwares.Where(s => s.Name != software.Name).ToArray();
+                SoftwareTab.Controls.Clear();
+                LoadSoftwares();
             };
 
             // Get the width of the label
