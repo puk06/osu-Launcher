@@ -40,6 +40,22 @@ namespace osu_launcher
             this.MainTab = new System.Windows.Forms.TabControl();
             this.TopTab = new System.Windows.Forms.TabPage();
             this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.CHANGEAUDIO_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.OSUFOLDER_FOLDEROPEN_BUTTON = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.SKIN_COMBOBOX = new System.Windows.Forms.ComboBox();
+            this.CHANGESKIN_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.OFFSETMASTER_LABEL = new System.Windows.Forms.Label();
+            this.OFFSET_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.OFFSET_LABEL = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.AUDIOVALUE_LABEL = new System.Windows.Forms.Label();
+            this.EFFECTVALUE_LABEL = new System.Windows.Forms.Label();
+            this.MASTERVALUE_LABEL = new System.Windows.Forms.Label();
+            this.AUDIO_BAR = new System.Windows.Forms.TrackBar();
+            this.AUDIOBAR_LABEL = new System.Windows.Forms.Label();
             this.EFFECT_BAR = new System.Windows.Forms.TrackBar();
             this.EFFECTBAR_LABEL = new System.Windows.Forms.Label();
             this.MASTER_BAR = new System.Windows.Forms.TrackBar();
@@ -72,27 +88,12 @@ namespace osu_launcher
             this.SERVER_LABEL = new System.Windows.Forms.Label();
             this.USERNAME_LABEL = new System.Windows.Forms.Label();
             this.USERNAME_BUTTON = new System.Windows.Forms.Button();
-            this.AUDIO_BAR = new System.Windows.Forms.TrackBar();
-            this.AUDIOBAR_LABEL = new System.Windows.Forms.Label();
-            this.MASTERVALUE_LABEL = new System.Windows.Forms.Label();
-            this.EFFECTVALUE_LABEL = new System.Windows.Forms.Label();
-            this.AUDIOVALUE_LABEL = new System.Windows.Forms.Label();
-            this.OFFSETMASTER_LABEL = new System.Windows.Forms.Label();
-            this.OFFSET_TEXTBOX = new System.Windows.Forms.TextBox();
-            this.OFFSET_LABEL = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.CHANGESKIN_CHECKBOX = new System.Windows.Forms.CheckBox();
-            this.SKIN_COMBOBOX = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.OSUFOLDER_FOLDEROPEN_BUTTON = new System.Windows.Forms.Button();
-            this.CHANGEAUDIO_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.SoftwareTab = new System.Windows.Forms.TabPage();
             this.MainTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AUDIO_BAR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EFFECT_BAR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MASTER_BAR)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AUDIO_BAR)).BeginInit();
             this.SuspendLayout();
             // 
             // LAUNCH_BUTTON
@@ -109,6 +110,7 @@ namespace osu_launcher
             // MainTab
             // 
             this.MainTab.Controls.Add(this.TopTab);
+            this.MainTab.Controls.Add(this.SoftwareTab);
             this.MainTab.Controls.Add(this.SettingsTab);
             this.MainTab.Font = new System.Drawing.Font(guiFont, 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainTab.Location = new System.Drawing.Point(12, 12);
@@ -181,6 +183,162 @@ namespace osu_launcher
             this.SettingsTab.Size = new System.Drawing.Size(808, 353);
             this.SettingsTab.TabIndex = 1;
             this.SettingsTab.Text = "Settings";
+            // 
+            // CHANGEAUDIO_CHECKBOX
+            // 
+            this.CHANGEAUDIO_CHECKBOX.AutoSize = true;
+            this.CHANGEAUDIO_CHECKBOX.Location = new System.Drawing.Point(34, 588);
+            this.CHANGEAUDIO_CHECKBOX.Name = "CHANGEAUDIO_CHECKBOX";
+            this.CHANGEAUDIO_CHECKBOX.Size = new System.Drawing.Size(176, 37);
+            this.CHANGEAUDIO_CHECKBOX.TabIndex = 75;
+            this.CHANGEAUDIO_CHECKBOX.Text = "Change Audio";
+            this.CHANGEAUDIO_CHECKBOX.UseVisualStyleBackColor = true;
+            this.CHANGEAUDIO_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGEAUDIO_CHECKBOX_CheckedChanged);
+            // 
+            // OSUFOLDER_FOLDEROPEN_BUTTON
+            // 
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.Font = new System.Drawing.Font(guiFont, 11F);
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.Location = new System.Drawing.Point(696, 57);
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.Name = "OSUFOLDER_FOLDEROPEN_BUTTON";
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.Size = new System.Drawing.Size(75, 32);
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.TabIndex = 74;
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.Text = "open";
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label3.Location = new System.Drawing.Point(31, 845);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(750, 1);
+            this.label3.TabIndex = 73;
+            // 
+            // SKIN_COMBOBOX
+            // 
+            this.SKIN_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SKIN_COMBOBOX.Enabled = false;
+            this.SKIN_COMBOBOX.Font = new System.Drawing.Font(guiFont, 14F);
+            this.SKIN_COMBOBOX.FormattingEnabled = true;
+            this.SKIN_COMBOBOX.Location = new System.Drawing.Point(34, 781);
+            this.SKIN_COMBOBOX.Name = "SKIN_COMBOBOX";
+            this.SKIN_COMBOBOX.Size = new System.Drawing.Size(416, 36);
+            this.SKIN_COMBOBOX.TabIndex = 72;
+            // 
+            // CHANGESKIN_CHECKBOX
+            // 
+            this.CHANGESKIN_CHECKBOX.AutoSize = true;
+            this.CHANGESKIN_CHECKBOX.Location = new System.Drawing.Point(473, 779);
+            this.CHANGESKIN_CHECKBOX.Name = "CHANGESKIN_CHECKBOX";
+            this.CHANGESKIN_CHECKBOX.Size = new System.Drawing.Size(161, 37);
+            this.CHANGESKIN_CHECKBOX.TabIndex = 71;
+            this.CHANGESKIN_CHECKBOX.Text = "Change Skin";
+            this.CHANGESKIN_CHECKBOX.UseVisualStyleBackColor = true;
+            this.CHANGESKIN_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGESKIN_CHECKBOX_CheckedChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font(guiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(23, 725);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(60, 35);
+            this.label5.TabIndex = 69;
+            this.label5.Text = "Skin";
+            // 
+            // label10
+            // 
+            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label10.Location = new System.Drawing.Point(29, 763);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(750, 1);
+            this.label10.TabIndex = 68;
+            // 
+            // OFFSETMASTER_LABEL
+            // 
+            this.OFFSETMASTER_LABEL.AutoSize = true;
+            this.OFFSETMASTER_LABEL.Location = new System.Drawing.Point(30, 681);
+            this.OFFSETMASTER_LABEL.Name = "OFFSETMASTER_LABEL";
+            this.OFFSETMASTER_LABEL.Size = new System.Drawing.Size(99, 33);
+            this.OFFSETMASTER_LABEL.TabIndex = 67;
+            this.OFFSETMASTER_LABEL.Text = "MASTER";
+            // 
+            // OFFSET_TEXTBOX
+            // 
+            this.OFFSET_TEXTBOX.Font = new System.Drawing.Font(textFont, 14F);
+            this.OFFSET_TEXTBOX.Location = new System.Drawing.Point(135, 680);
+            this.OFFSET_TEXTBOX.Name = "OFFSET_TEXTBOX";
+            this.OFFSET_TEXTBOX.Size = new System.Drawing.Size(115, 35);
+            this.OFFSET_TEXTBOX.TabIndex = 66;
+            // 
+            // OFFSET_LABEL
+            // 
+            this.OFFSET_LABEL.AutoSize = true;
+            this.OFFSET_LABEL.Font = new System.Drawing.Font(guiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OFFSET_LABEL.Location = new System.Drawing.Point(23, 629);
+            this.OFFSET_LABEL.Name = "OFFSET_LABEL";
+            this.OFFSET_LABEL.Size = new System.Drawing.Size(81, 35);
+            this.OFFSET_LABEL.TabIndex = 65;
+            this.OFFSET_LABEL.Text = "Offset";
+            // 
+            // label7
+            // 
+            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label7.Location = new System.Drawing.Point(29, 667);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(750, 1);
+            this.label7.TabIndex = 64;
+            // 
+            // AUDIOVALUE_LABEL
+            // 
+            this.AUDIOVALUE_LABEL.AutoSize = true;
+            this.AUDIOVALUE_LABEL.Font = new System.Drawing.Font(guiFont, 13F);
+            this.AUDIOVALUE_LABEL.Location = new System.Drawing.Point(457, 557);
+            this.AUDIOVALUE_LABEL.Name = "AUDIOVALUE_LABEL";
+            this.AUDIOVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
+            this.AUDIOVALUE_LABEL.TabIndex = 63;
+            this.AUDIOVALUE_LABEL.Text = "0%";
+            // 
+            // EFFECTVALUE_LABEL
+            // 
+            this.EFFECTVALUE_LABEL.AutoSize = true;
+            this.EFFECTVALUE_LABEL.Font = new System.Drawing.Font(guiFont, 13F);
+            this.EFFECTVALUE_LABEL.Location = new System.Drawing.Point(456, 528);
+            this.EFFECTVALUE_LABEL.Name = "EFFECTVALUE_LABEL";
+            this.EFFECTVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
+            this.EFFECTVALUE_LABEL.TabIndex = 62;
+            this.EFFECTVALUE_LABEL.Text = "0%";
+            // 
+            // MASTERVALUE_LABEL
+            // 
+            this.MASTERVALUE_LABEL.AutoSize = true;
+            this.MASTERVALUE_LABEL.Font = new System.Drawing.Font(guiFont, 13F);
+            this.MASTERVALUE_LABEL.Location = new System.Drawing.Point(456, 498);
+            this.MASTERVALUE_LABEL.Name = "MASTERVALUE_LABEL";
+            this.MASTERVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
+            this.MASTERVALUE_LABEL.TabIndex = 61;
+            this.MASTERVALUE_LABEL.Text = "0%";
+            // 
+            // AUDIO_BAR
+            // 
+            this.AUDIO_BAR.BackColor = System.Drawing.SystemColors.Control;
+            this.AUDIO_BAR.Enabled = false;
+            this.AUDIO_BAR.LargeChange = 1;
+            this.AUDIO_BAR.Location = new System.Drawing.Point(117, 563);
+            this.AUDIO_BAR.Maximum = 100;
+            this.AUDIO_BAR.Name = "AUDIO_BAR";
+            this.AUDIO_BAR.Size = new System.Drawing.Size(333, 45);
+            this.AUDIO_BAR.TabIndex = 60;
+            this.AUDIO_BAR.TickFrequency = 25;
+            this.AUDIO_BAR.Scroll += new System.EventHandler(this.AUDIO_BAR_Scroll);
+            // 
+            // AUDIOBAR_LABEL
+            // 
+            this.AUDIOBAR_LABEL.AutoSize = true;
+            this.AUDIOBAR_LABEL.Location = new System.Drawing.Point(28, 552);
+            this.AUDIOBAR_LABEL.Name = "AUDIOBAR_LABEL";
+            this.AUDIOBAR_LABEL.Size = new System.Drawing.Size(72, 33);
+            this.AUDIOBAR_LABEL.TabIndex = 59;
+            this.AUDIOBAR_LABEL.Text = "Audio";
             // 
             // EFFECT_BAR
             // 
@@ -489,161 +647,15 @@ namespace osu_launcher
             this.USERNAME_BUTTON.UseVisualStyleBackColor = true;
             this.USERNAME_BUTTON.Click += new System.EventHandler(this.USERNAME_BUTTON_Click);
             // 
-            // AUDIO_BAR
+            // SoftwareTab
             // 
-            this.AUDIO_BAR.BackColor = System.Drawing.SystemColors.Control;
-            this.AUDIO_BAR.Enabled = false;
-            this.AUDIO_BAR.LargeChange = 1;
-            this.AUDIO_BAR.Location = new System.Drawing.Point(117, 563);
-            this.AUDIO_BAR.Maximum = 100;
-            this.AUDIO_BAR.Name = "AUDIO_BAR";
-            this.AUDIO_BAR.Size = new System.Drawing.Size(333, 45);
-            this.AUDIO_BAR.TabIndex = 60;
-            this.AUDIO_BAR.TickFrequency = 25;
-            this.AUDIO_BAR.Scroll += new System.EventHandler(this.AUDIO_BAR_Scroll);
-            // 
-            // AUDIOBAR_LABEL
-            // 
-            this.AUDIOBAR_LABEL.AutoSize = true;
-            this.AUDIOBAR_LABEL.Location = new System.Drawing.Point(28, 552);
-            this.AUDIOBAR_LABEL.Name = "AUDIOBAR_LABEL";
-            this.AUDIOBAR_LABEL.Size = new System.Drawing.Size(72, 33);
-            this.AUDIOBAR_LABEL.TabIndex = 59;
-            this.AUDIOBAR_LABEL.Text = "Audio";
-            // 
-            // MASTERVALUE_LABEL
-            // 
-            this.MASTERVALUE_LABEL.AutoSize = true;
-            this.MASTERVALUE_LABEL.Font = new System.Drawing.Font(guiFont, 13F);
-            this.MASTERVALUE_LABEL.Location = new System.Drawing.Point(456, 498);
-            this.MASTERVALUE_LABEL.Name = "MASTERVALUE_LABEL";
-            this.MASTERVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
-            this.MASTERVALUE_LABEL.TabIndex = 61;
-            this.MASTERVALUE_LABEL.Text = "0%";
-            // 
-            // EFFECTVALUE_LABEL
-            // 
-            this.EFFECTVALUE_LABEL.AutoSize = true;
-            this.EFFECTVALUE_LABEL.Font = new System.Drawing.Font(guiFont, 13F);
-            this.EFFECTVALUE_LABEL.Location = new System.Drawing.Point(456, 528);
-            this.EFFECTVALUE_LABEL.Name = "EFFECTVALUE_LABEL";
-            this.EFFECTVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
-            this.EFFECTVALUE_LABEL.TabIndex = 62;
-            this.EFFECTVALUE_LABEL.Text = "0%";
-            // 
-            // AUDIOVALUE_LABEL
-            // 
-            this.AUDIOVALUE_LABEL.AutoSize = true;
-            this.AUDIOVALUE_LABEL.Font = new System.Drawing.Font(guiFont, 13F);
-            this.AUDIOVALUE_LABEL.Location = new System.Drawing.Point(457, 557);
-            this.AUDIOVALUE_LABEL.Name = "AUDIOVALUE_LABEL";
-            this.AUDIOVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
-            this.AUDIOVALUE_LABEL.TabIndex = 63;
-            this.AUDIOVALUE_LABEL.Text = "0%";
-            // 
-            // OFFSETMASTER_LABEL
-            // 
-            this.OFFSETMASTER_LABEL.AutoSize = true;
-            this.OFFSETMASTER_LABEL.Location = new System.Drawing.Point(30, 681);
-            this.OFFSETMASTER_LABEL.Name = "OFFSETMASTER_LABEL";
-            this.OFFSETMASTER_LABEL.Size = new System.Drawing.Size(99, 33);
-            this.OFFSETMASTER_LABEL.TabIndex = 67;
-            this.OFFSETMASTER_LABEL.Text = "MASTER";
-            // 
-            // OFFSET_TEXTBOX
-            // 
-            this.OFFSET_TEXTBOX.Font = new System.Drawing.Font(textFont, 14F);
-            this.OFFSET_TEXTBOX.Location = new System.Drawing.Point(135, 680);
-            this.OFFSET_TEXTBOX.Name = "OFFSET_TEXTBOX";
-            this.OFFSET_TEXTBOX.Size = new System.Drawing.Size(115, 35);
-            this.OFFSET_TEXTBOX.TabIndex = 66;
-            // 
-            // OFFSET_LABEL
-            // 
-            this.OFFSET_LABEL.AutoSize = true;
-            this.OFFSET_LABEL.Font = new System.Drawing.Font(guiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OFFSET_LABEL.Location = new System.Drawing.Point(23, 629);
-            this.OFFSET_LABEL.Name = "OFFSET_LABEL";
-            this.OFFSET_LABEL.Size = new System.Drawing.Size(81, 35);
-            this.OFFSET_LABEL.TabIndex = 65;
-            this.OFFSET_LABEL.Text = "Offset";
-            // 
-            // label7
-            // 
-            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Location = new System.Drawing.Point(29, 667);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(750, 1);
-            this.label7.TabIndex = 64;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font(guiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(23, 725);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 35);
-            this.label5.TabIndex = 69;
-            this.label5.Text = "Skin";
-            // 
-            // label10
-            // 
-            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label10.Location = new System.Drawing.Point(29, 763);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(750, 1);
-            this.label10.TabIndex = 68;
-            // 
-            // CHANGESKIN_CHECKBOX
-            // 
-            this.CHANGESKIN_CHECKBOX.AutoSize = true;
-            this.CHANGESKIN_CHECKBOX.Location = new System.Drawing.Point(473, 779);
-            this.CHANGESKIN_CHECKBOX.Name = "CHANGESKIN_CHECKBOX";
-            this.CHANGESKIN_CHECKBOX.Size = new System.Drawing.Size(161, 37);
-            this.CHANGESKIN_CHECKBOX.TabIndex = 71;
-            this.CHANGESKIN_CHECKBOX.Text = "Change Skin";
-            this.CHANGESKIN_CHECKBOX.UseVisualStyleBackColor = true;
-            this.CHANGESKIN_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGESKIN_CHECKBOX_CheckedChanged);
-            // 
-            // SKIN_COMBOBOX
-            // 
-            this.SKIN_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.SKIN_COMBOBOX.Enabled = false;
-            this.SKIN_COMBOBOX.Font = new System.Drawing.Font(guiFont, 14F);
-            this.SKIN_COMBOBOX.FormattingEnabled = true;
-            this.SKIN_COMBOBOX.Location = new System.Drawing.Point(34, 781);
-            this.SKIN_COMBOBOX.Name = "SKIN_COMBOBOX";
-            this.SKIN_COMBOBOX.Size = new System.Drawing.Size(416, 36);
-            this.SKIN_COMBOBOX.TabIndex = 72;
-            // 
-            // label3
-            // 
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(31, 845);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(750, 1);
-            this.label3.TabIndex = 73;
-            // 
-            // OSUFOLDER_FOLDEROPEN_BUTTON
-            // 
-            this.OSUFOLDER_FOLDEROPEN_BUTTON.Font = new System.Drawing.Font(guiFont, 11F);
-            this.OSUFOLDER_FOLDEROPEN_BUTTON.Location = new System.Drawing.Point(696, 57);
-            this.OSUFOLDER_FOLDEROPEN_BUTTON.Name = "OSUFOLDER_FOLDEROPEN_BUTTON";
-            this.OSUFOLDER_FOLDEROPEN_BUTTON.Size = new System.Drawing.Size(75, 32);
-            this.OSUFOLDER_FOLDEROPEN_BUTTON.TabIndex = 74;
-            this.OSUFOLDER_FOLDEROPEN_BUTTON.Text = "open";
-            this.OSUFOLDER_FOLDEROPEN_BUTTON.UseVisualStyleBackColor = true;
-            // 
-            // CHANGEAUDIO_CHECKBOX
-            // 
-            this.CHANGEAUDIO_CHECKBOX.AutoSize = true;
-            this.CHANGEAUDIO_CHECKBOX.Location = new System.Drawing.Point(34, 588);
-            this.CHANGEAUDIO_CHECKBOX.Name = "CHANGEAUDIO_CHECKBOX";
-            this.CHANGEAUDIO_CHECKBOX.Size = new System.Drawing.Size(176, 37);
-            this.CHANGEAUDIO_CHECKBOX.TabIndex = 75;
-            this.CHANGEAUDIO_CHECKBOX.Text = "Change Audio";
-            this.CHANGEAUDIO_CHECKBOX.UseVisualStyleBackColor = true;
-            this.CHANGEAUDIO_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGEAUDIO_CHECKBOX_CheckedChanged);
+            this.SoftwareTab.AutoScroll = true;
+            this.SoftwareTab.Location = new System.Drawing.Point(4, 40);
+            this.SoftwareTab.Name = "SoftwareTab";
+            this.SoftwareTab.Size = new System.Drawing.Size(808, 353);
+            this.SoftwareTab.TabIndex = 2;
+            this.SoftwareTab.Text = "Softwares";
+            this.SoftwareTab.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -665,11 +677,12 @@ namespace osu_launcher
             this.MainTab.ResumeLayout(false);
             this.SettingsTab.ResumeLayout(false);
             this.SettingsTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AUDIO_BAR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EFFECT_BAR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MASTER_BAR)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AUDIO_BAR)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.TabPage TopTab;
@@ -727,6 +740,7 @@ namespace osu_launcher
         private Label label3;
         private Button OSUFOLDER_FOLDEROPEN_BUTTON;
         private CheckBox CHANGEAUDIO_CHECKBOX;
+        private TabPage SoftwareTab;
     }
 }
 

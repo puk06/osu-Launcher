@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using CefSharp.DevTools.Profiler;
 using CefSharp.WinForms;
 using Newtonsoft.Json.Linq;
 using System;
@@ -19,6 +20,9 @@ namespace osu_launcher
 
         // Profiles
         public IEnumerable<Profile> Profiles = Array.Empty<Profile>();
+
+        // Softwares
+        public IEnumerable<Software> Softwares = Array.Empty<Software>();
 
         // Current Profile
         public Profile CurrentProfile;
@@ -116,6 +120,21 @@ namespace osu_launcher
                 {
                     MessageBox.Show("The osu! folder is not set. Please set it from the Settings tab!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
+                // Load the software
+                foreach (var software in _data["Softwares"])
+                {
+                    var soft = new Software
+                    {
+                        Name = software["Name"].ToString(),
+                        Author = software["Author"].ToString(),
+                        Description = software["Description"].ToString(),
+                        Path = software["Path"].ToString(),
+                        Checked = software["Checked"].ToObject<bool>(),
+                    };
+                    AddValueToArray(ref Softwares, soft);
+                }
+                LoadSoftwares();
             }
             catch (Exception ex)
             {
@@ -178,6 +197,19 @@ namespace osu_launcher
                     });
                 }
 
+                _data["Softwares"] = new JArray();
+                foreach (var software in Softwares)
+                {
+                    (_data["Softwares"] as JArray).Add(new JObject
+                    {
+                        { "Name", software.Name },
+                        { "Author", software.Author },
+                        { "Description", software.Description },
+                        { "Path", software.Path },
+                        { "Checked", software.Checked }
+                    });
+                }
+
                 _data["osuFolder"] = osuFolder;
 
                 // Change the config values
@@ -190,7 +222,8 @@ namespace osu_launcher
                 if (CurrentProfile != null)
                 {
                     parameters.Add("Username", CurrentProfile.Username);
-                    Clipboard.SetText(CurrentProfile.Password);
+                    string decryptedPassword = PasswordProtector.DecryptPassword(Convert.FromBase64String(CurrentProfile.Password));
+                    Clipboard.SetText(decryptedPassword);
                 }
 
                 if (FULLSCREEN_CHECKBOX.Checked)
@@ -246,7 +279,31 @@ namespace osu_launcher
                 ChangeConfigValue(osuFolder, parameters);
 
                 // Launch osu!
-                Process.Start(Path.Combine(osuFolder, "osu!.exe"), server == "Bancho" ? "" : "-devserver " + server);
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = Path.Combine(osuFolder, "osu!.exe"),
+                    WorkingDirectory = osuFolder,
+                    Arguments = server == "Bancho" ? "" : "-devserver " + server
+                };
+                Process.Start(startInfo);
+
+                // software tabからソフトウェアを起動
+                foreach (var checkBox in SoftwareTab.Controls.OfType<CheckBox>())
+                {
+                    if (!checkBox.Checked) continue;
+                    foreach (var software in _data["Softwares"])
+                    {
+                        if (software["Name"].ToString() != checkBox.Name) continue;
+                        string softwarePath = Path.Combine(osuFolder, software["Path"].ToString());
+                        if (!File.Exists(softwarePath)) return;
+                        ProcessStartInfo softwareStartInfo = new ProcessStartInfo
+                        {
+                            FileName = softwarePath,
+                            WorkingDirectory = Path.GetDirectoryName(softwarePath)
+                        };
+                        Process.Start(softwareStartInfo);
+                    }
+                }
 
                 // Save the config file
                 StreamWriter streamWriter =
@@ -288,12 +345,10 @@ namespace osu_launcher
             }
         }
 
-        // Delete the song folder
-        private void SONGSFOLDER_DELETE_Click(object sender, EventArgs e)
+        // Add the value to the array
+        public static void AddValueToArray<T>(ref IEnumerable<T> array, T value)
         {
-            if (SONGSFOLDER_COMBOBOX.Text == "Songs") return;
-            var result = MessageBox.Show("Are you sure you want to delete the selected song folder?", "Delete Song Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes) DeleteSongFolder();
+            array = array.Append(value).ToArray();
         }
 
         // Delete the song folder
@@ -376,14 +431,127 @@ namespace osu_launcher
             return reasons;
         }
 
-        // Add the value to the array
-        public static void AddValueToArray<T>(ref IEnumerable<T> array, T value)
+        // Load the software
+        private void LoadSoftwares()
         {
-            array = array.Append(value).ToArray();
+            try
+            {
+                var enumerable = Softwares as Software[] ?? Softwares.ToArray();
+                for (int i = 0; i < enumerable.Length; i++)
+                {
+                    GenerateSoftwaresTab(enumerable[i]);
+                }
+
+                int baseLocation = 69 * (SoftwareTab.Controls.OfType<CheckBox>().Count() + 1);
+                var addSoftwareButton = new Button
+                {
+                    Text = "Add Software",
+                    AutoSize = true,
+                    Location = new System.Drawing.Point(20, baseLocation - 60),
+                    Name = "AddSoftwareButton",
+                    Size = new System.Drawing.Size(75, 23),
+                    TabIndex = 0,
+                    UseVisualStyleBackColor = true,
+                    Font = new System.Drawing.Font(FontCollection.Families[1], 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)))
+                };
+
+                addSoftwareButton.Click += (sender, e) =>
+                {
+                    if (Application.OpenForms.OfType<AddSoftware>().Any()) return;
+                    var addSoftwareForm = new AddSoftware(this);
+                    addSoftwareForm.Show();
+                    addSoftwareForm.FormClosed += (_object, _event) =>
+                    {
+                        SoftwareTab.Controls.Clear();
+                        LoadSoftwares();
+                    };
+                };
+
+
+
+                SoftwareTab.Controls.Add(addSoftwareButton);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The software could not be loaded. The reasons are as follows.\n" + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GenerateSoftwaresTab(Software software)
+        {
+            int baseLocation = 69 * (SoftwareTab.Controls.OfType<CheckBox>().Count() + 1);
+            var checkBox = new CheckBox
+            {
+                Text = "",
+                AutoSize = true,
+                Location = new System.Drawing.Point(20, baseLocation - 44),
+                Name = software.Name,
+                Size = new System.Drawing.Size(15, 14),
+                TabIndex = 0,
+                UseVisualStyleBackColor = true
+            };
+
+            checkBox.CheckedChanged += (sender, e) =>
+            {
+                foreach (var soft in Softwares)
+                {
+                    if (soft.Name != checkBox.Name) continue;
+                    soft.Checked = checkBox.Checked;
+                    break;
+                }
+            };
+
+            var softwareNameLabel = new Label
+            {
+                AutoSize = true,
+                Location = new System.Drawing.Point(41, baseLocation - 66),
+                Name = "label" + software.Name,
+                TabIndex = 1,
+                Text = software.Name,
+                Font = new System.Drawing.Font(FontCollection.Families[1], 15)
+
+            };
+
+            int labelWidth = TextRenderer.MeasureText(softwareNameLabel.Text, softwareNameLabel.Font).Width;
+            int label2Right = softwareNameLabel.Location.X + labelWidth - 3;
+
+            var authorLabel = new Label
+            {
+                AutoSize = true,
+                Location = new System.Drawing.Point(label2Right, baseLocation - 60),
+                Name = "label2" + software.Name,
+                TabIndex = 1,
+                Text = "by " + software.Author,
+                Font = new System.Drawing.Font(FontCollection.Families[1], 11)
+            };
+
+            var descriptionLabel = new Label
+            {
+                AutoSize = true,
+                Location = new System.Drawing.Point(41, baseLocation - 39),
+                Name = "label3" + software.Name,
+                TabIndex = 1,
+                Text = "Description: " + software.Description,
+                Font = new System.Drawing.Font(FontCollection.Families[1], 12)
+            };
+
+            SoftwareTab.Controls.Add(checkBox);
+            if (software.Checked) checkBox.Checked = true;
+            SoftwareTab.Controls.Add(softwareNameLabel);
+            SoftwareTab.Controls.Add(authorLabel);
+            SoftwareTab.Controls.Add(descriptionLabel);
         }
 
         // Check if the array contains the value
         private static bool ArrayContains(IEnumerable<string> array, string value) => array.Any(item => item == value);
+
+        // Delete the song folder
+        private void SONGSFOLDER_DELETE_Click(object sender, EventArgs e)
+        {
+            if (SONGSFOLDER_COMBOBOX.Text == "Songs") return;
+            var result = MessageBox.Show("Are you sure you want to delete the selected song folder?", "Delete Song Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes) DeleteSongFolder();
+        }
 
         // Open User Manager
         private void USERNAME_BUTTON_Click(object sender, EventArgs e)

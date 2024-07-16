@@ -108,7 +108,7 @@ namespace osu_launcher
                 {
                     Name = NAME_TEXTBOX.Text,
                     Username = USERNAME_TEXTBOX.Text,
-                    Password = PASSWORD_TEXTBOX.Text
+                    Password = Convert.ToBase64String(PasswordProtector.EncryptPassword(PASSWORD_TEXTBOX.Text))
                 };
 
                 if (SCOREMETER_TEXTBOX.Text != "")
@@ -156,7 +156,7 @@ namespace osu_launcher
                 }
 
                 _mainForm.Profiles = _mainForm.Profiles.Append(profile);
-                MessageBox.Show("User created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("New profile created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 _mainForm.CurrentProfile = profile;
 
                 // Generate the buttons for the profiles

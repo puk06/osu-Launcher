@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Text;
+using System.Windows.Forms;
 
 namespace osu_launcher
 {
@@ -612,6 +613,8 @@ namespace osu_launcher
             // ProfileForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(315, 450);
             this.Controls.Add(this.USERFORM_LABEL);
