@@ -440,14 +440,25 @@ namespace osu_launcher
                 {
                     SKIN_COMBOBOX.Items.Add(Path.GetFileName(folder));
                 }
-                if (SKIN_COMBOBOX.Items.Count > 0) SKIN_COMBOBOX.SelectedIndex = 0;
+
+                if (SKIN_COMBOBOX.Items.Count > 0)
+                {
+                    // Skins found
+                    SKIN_COMBOBOX.Enabled = true;
+                    SKIN_COMBOBOX.SelectedIndex = 0;
+                }
+                else
+                {
+                    //No skins found
+                    MessageBox.Show("No skins were found in the skins folder. The skin selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SKIN_COMBOBOX.Enabled = false;
+                }
             }
             else
             {
                 MessageBox.Show("The skins folder was not found. The skin selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SKIN_COMBOBOX.Enabled = false;
             }
-            SKIN_COMBOBOX.Enabled = CHANGESKIN_CHECKBOX.Checked;
         }
 
         private void CHANGEAUDIO_CHECKBOX_CheckedChanged(object sender, EventArgs e)
