@@ -31,6 +31,14 @@ namespace osu_launcher.Forms
         // Form Font
         public readonly PrivateFontCollection FontCollection = new PrivateFontCollection();
 
+        // Meter Style Dictionary
+        private readonly Dictionary<int, string> _meterStyleDict = new Dictionary<int, string>
+        {
+            { 1, "None" },
+            { 2, "Error" },
+            { 3, "Colour" }
+        };
+
         // Constructor
         public Main()
         {
@@ -263,70 +271,69 @@ namespace osu_launcher.Forms
         // Add the parameters
         private Dictionary<string, string> AddParameters()
         {
-            string server = SERVERS_COMBOBOX.Text;
-            string songFolder = SONGSFOLDER_COMBOBOX.Text;
-
             var parameters = new Dictionary<string, string>
-            {
-                { "CredentialEndpoint", server == "Bancho" ? "" : server },
-                { "BeatmapDirectory", songFolder }
-            };
+    {
+        { "CredentialEndpoint", SERVERS_COMBOBOX.Text == "Bancho" ? "" : SERVERS_COMBOBOX.Text },
+        { "BeatmapDirectory", SONGSFOLDER_COMBOBOX.Text }
+    };
 
+            AddResolutionParameters(parameters);
+            AddProfileParameters(parameters);
+            AddOptionalParameters(parameters);
+            AddAudioParameters(parameters);
+
+            return parameters;
+        }
+
+        private void AddResolutionParameters(Dictionary<string, string> parameters)
+        {
+            string heightKey = FULLSCREEN_CHECKBOX.Checked ? "HeightFullscreen" : "Height";
+            string widthKey = FULLSCREEN_CHECKBOX.Checked ? "WidthFullscreen" : "Width";
+
+            AddParameterIfNotEmpty(parameters, heightKey, HEIGHT_TEXTBOX.Text);
+            AddParameterIfNotEmpty(parameters, widthKey, WIDTH_TEXTBOX.Text);
+        }
+
+        private void AddProfileParameters(Dictionary<string, string> parameters)
+        {
             if (CurrentProfile != null)
             {
                 parameters.Add("Username", CurrentProfile.Username);
             }
+        }
 
-            if (FULLSCREEN_CHECKBOX.Checked)
-            {
-                if (HEIGHT_TEXTBOX.Text != "") parameters.Add("HeightFullscreen", HEIGHT_TEXTBOX.Text);
-                if (WIDTH_TEXTBOX.Text != "") parameters.Add("WidthFullscreen", WIDTH_TEXTBOX.Text);
-            }
-            else
-            {
-                if (HEIGHT_TEXTBOX.Text != "") parameters.Add("Height", HEIGHT_TEXTBOX.Text);
-                if (WIDTH_TEXTBOX.Text != "") parameters.Add("Width", WIDTH_TEXTBOX.Text);
-            }
-
-            if (METERSCALE_TEXTBOX.Text != "")
-            {
-                parameters.Add("ScoreMeterScale", METERSCALE_TEXTBOX.Text);
-            }
-
-            if (METERSTYLE_COMBOBOX.SelectedIndex != 0)
-            {
-                switch (METERSTYLE_COMBOBOX.SelectedIndex)
-                {
-                    case 1:
-                        parameters.Add("ScoreMeter", "None");
-                        break;
-                    case 2:
-                        parameters.Add("ScoreMeter", "Error");
-                        break;
-                    case 3:
-                        parameters.Add("ScoreMeter", "Colour");
-                        break;
-                }
-            }
-
-            if (CHANGEAUDIO_CHECKBOX.Checked)
-            {
-                parameters.Add("VolumeUniversal", MASTER_BAR.Value.ToString());
-                parameters.Add("VolumeEffect", EFFECT_BAR.Value.ToString());
-                parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
-            }
-
-            if (OFFSET_TEXTBOX.Text != "")
-            {
-                parameters.Add("Offset", OFFSET_TEXTBOX.Text);
-            }
+        private void AddOptionalParameters(Dictionary<string, string> parameters)
+        {
+            AddParameterIfNotEmpty(parameters, "ScoreMeterScale", METERSCALE_TEXTBOX.Text);
+            AddParameterIfNotEmpty(parameters, "Offset", OFFSET_TEXTBOX.Text);
 
             if (CHANGESKIN_CHECKBOX.Checked)
             {
                 parameters.Add("Skin", SKIN_COMBOBOX.Text);
             }
 
-            return parameters;
+            if (METERSTYLE_COMBOBOX.SelectedIndex != 0 && _meterStyleDict.TryGetValue(METERSTYLE_COMBOBOX.SelectedIndex, out string meterStyle))
+            {
+                parameters.Add("ScoreMeter", meterStyle);
+            }
+        }
+
+        private void AddAudioParameters(Dictionary<string, string> parameters)
+        {
+            if (CHANGEAUDIO_CHECKBOX.Checked)
+            {
+                parameters.Add("VolumeUniversal", MASTER_BAR.Value.ToString());
+                parameters.Add("VolumeEffect", EFFECT_BAR.Value.ToString());
+                parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
+            }
+        }
+
+        private void AddParameterIfNotEmpty(Dictionary<string, string> parameters, string key, string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                parameters.Add(key, value);
+            }
         }
 
         // Launch the software
