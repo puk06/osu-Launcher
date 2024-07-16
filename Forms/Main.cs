@@ -272,10 +272,10 @@ namespace osu_launcher.Forms
         private Dictionary<string, string> AddParameters()
         {
             var parameters = new Dictionary<string, string>
-    {
-        { "CredentialEndpoint", SERVERS_COMBOBOX.Text == "Bancho" ? "" : SERVERS_COMBOBOX.Text },
-        { "BeatmapDirectory", SONGSFOLDER_COMBOBOX.Text }
-    };
+            {
+                { "CredentialEndpoint", SERVERS_COMBOBOX.Text == "Bancho" ? "" : SERVERS_COMBOBOX.Text },
+                { "BeatmapDirectory", SONGSFOLDER_COMBOBOX.Text }
+            };
 
             AddResolutionParameters(parameters);
             AddProfileParameters(parameters);
@@ -285,7 +285,8 @@ namespace osu_launcher.Forms
             return parameters;
         }
 
-        private void AddResolutionParameters(Dictionary<string, string> parameters)
+        // Add the resolution parameters
+        private void AddResolutionParameters(IDictionary<string, string> parameters)
         {
             string heightKey = FULLSCREEN_CHECKBOX.Checked ? "HeightFullscreen" : "Height";
             string widthKey = FULLSCREEN_CHECKBOX.Checked ? "WidthFullscreen" : "Width";
@@ -294,15 +295,17 @@ namespace osu_launcher.Forms
             AddParameterIfNotEmpty(parameters, widthKey, WIDTH_TEXTBOX.Text);
         }
 
-        private void AddProfileParameters(Dictionary<string, string> parameters)
+        // Add the profile parameters
+        private void AddProfileParameters(IDictionary<string, string> parameters)
         {
             if (CurrentProfile != null)
             {
                 parameters.Add("Username", CurrentProfile.Username);
             }
         }
-
-        private void AddOptionalParameters(Dictionary<string, string> parameters)
+        
+        // Add the optional parameters
+        private void AddOptionalParameters(IDictionary<string, string> parameters)
         {
             AddParameterIfNotEmpty(parameters, "ScoreMeterScale", METERSCALE_TEXTBOX.Text);
             AddParameterIfNotEmpty(parameters, "Offset", OFFSET_TEXTBOX.Text);
@@ -318,7 +321,8 @@ namespace osu_launcher.Forms
             }
         }
 
-        private void AddAudioParameters(Dictionary<string, string> parameters)
+        // Add the audio parameters
+        private void AddAudioParameters(IDictionary<string, string> parameters)
         {
             if (CHANGEAUDIO_CHECKBOX.Checked)
             {
@@ -328,7 +332,8 @@ namespace osu_launcher.Forms
             }
         }
 
-        private void AddParameterIfNotEmpty(Dictionary<string, string> parameters, string key, string value)
+        // Add the parameter if not empty
+        private static void AddParameterIfNotEmpty(IDictionary<string, string> parameters, string key, string value)
         {
             if (!string.IsNullOrEmpty(value))
             {
