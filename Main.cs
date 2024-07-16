@@ -509,7 +509,6 @@ namespace osu_launcher
                 TabIndex = 1,
                 Text = software.Name,
                 Font = new System.Drawing.Font(FontCollection.Families[1], 15)
-
             };
 
             int labelWidth = TextRenderer.MeasureText(softwareNameLabel.Text, softwareNameLabel.Font).Width;
