@@ -159,123 +159,14 @@ namespace osu_launcher.Forms
 
                 // Get the values
                 string server = SERVERS_COMBOBOX.Text;
-                string songFolder = SONGSFOLDER_COMBOBOX.Text;
                 string osuFolder = OSUFOLDER_TEXTBOX.Text;
 
-                // Add the values to the data file
-                if (!ArrayContains(_data["Servers"].ToObject<string[]>(), server))
-                {
-                    SERVERS_COMBOBOX.Items.Add(server);
-                    (_data["Servers"] as JArray).Add(server);
-                }
-
-                if (!ArrayContains(_data["SongsFolder"].ToObject<string[]>(), songFolder))
-                {
-                    SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
-                    (_data["SongsFolder"] as JArray).Add(songFolder);
-                }
-
-                _data["Profiles"] = new JArray();
-                foreach (var profile in Profiles)
-                {
-                    (_data["Profiles"] as JArray).Add(new JObject
-                    {
-                        { "Name", profile.Name },
-                        { "Username", profile.Username },
-                        { "Password", profile.Password },
-                        { "ScoreMeter", profile.ScoreMeter },
-                        { "MeterStyle", profile.MeterStyle },
-                        { "Width", profile.Width },
-                        { "Height", profile.Height },
-                        { "Fullscreen", profile.Fullscreen },
-                        { "VolumeMaster", profile.VolumeMaster },
-                        { "VolumeEffect", profile.VolumeEffect },
-                        { "VolumeMusic", profile.VolumeMusic },
-                        { "ChangeVolume", profile.ChangeVolume },
-                        { "Offset", profile.Offset },
-                        { "Skin", profile.Skin },
-                        { "ChangeSkin", profile.ChangeSkin }
-                    });
-                }
-
-                _data["Softwares"] = new JArray();
-                foreach (var software in Softwares)
-                {
-                    (_data["Softwares"] as JArray).Add(new JObject
-                    {
-                        { "Name", software.Name },
-                        { "Author", software.Author },
-                        { "Description", software.Description },
-                        { "Path", software.Path },
-                        { "Checked", software.Checked }
-                    });
-                }
-
-                _data["osuFolder"] = osuFolder;
+                // Save the config data
+                SaveConfigData();
 
                 // Change the config values
-                var parameters = new Dictionary<string, string>
-                {
-                    {"CredentialEndpoint", server == "Bancho" ? "" : server},
-                    { "BeatmapDirectory", songFolder }
-                };
-
-                if (CurrentProfile != null)
-                {
-                    parameters.Add("Username", CurrentProfile.Username);
-                    string decryptedPassword = PasswordProtector.DecryptPassword(Convert.FromBase64String(CurrentProfile.Password));
-                    Clipboard.SetText(decryptedPassword);
-                }
-
-                if (FULLSCREEN_CHECKBOX.Checked)
-                {
-                    if (HEIGHT_TEXTBOX.Text != "") parameters.Add("HeightFullscreen", HEIGHT_TEXTBOX.Text);
-                    if (WIDTH_TEXTBOX.Text != "") parameters.Add("WidthFullscreen", WIDTH_TEXTBOX.Text);
-                }
-                else
-                {
-                    if (HEIGHT_TEXTBOX.Text != "") parameters.Add("Height", HEIGHT_TEXTBOX.Text);
-                    if (WIDTH_TEXTBOX.Text != "") parameters.Add("Width", WIDTH_TEXTBOX.Text);
-                }
-
-                if (METERSCALE_TEXTBOX.Text != "")
-                {
-                    parameters.Add("ScoreMeterScale", METERSCALE_TEXTBOX.Text);
-                }
-
-                if (METERSTYLE_COMBOBOX.SelectedIndex != 0)
-                {
-                    switch (METERSTYLE_COMBOBOX.SelectedIndex)
-                    {
-                        case 1:
-                            parameters.Add("ScoreMeter", "None");
-                            break;
-                        case 2:
-                            parameters.Add("ScoreMeter", "Error");
-                            break;
-                        case 3:
-                            parameters.Add("ScoreMeter", "Colour");
-                            break;
-                    }
-                }
-
-                if (CHANGEAUDIO_CHECKBOX.Checked)
-                {
-                    parameters.Add("VolumeUniversal", MASTER_BAR.Value.ToString());
-                    parameters.Add("VolumeEffect", EFFECT_BAR.Value.ToString());
-                    parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
-                }
-
-                if (OFFSET_TEXTBOX.Text != "")
-                {
-                    parameters.Add("Offset", OFFSET_TEXTBOX.Text);
-                }
-
-                if (CHANGESKIN_CHECKBOX.Checked)
-                {
-                    parameters.Add("Skin", SKIN_COMBOBOX.Text);
-                }
-
+                var parameters = AddParameters();
+                
                 // Write the config values
                 ChangeConfigValue(osuFolder, parameters);
 
@@ -289,7 +180,156 @@ namespace osu_launcher.Forms
                 Process.Start(startInfo);
 
                 // Launch the software
-                foreach (var checkBox in SoftwareTab.Controls.OfType<CheckBox>())
+                LaunchSoftwares();
+
+                // Save the config file
+                StreamWriter streamWriter =
+                    new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
+                streamWriter.WriteLine(_data.ToString());
+                streamWriter.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + ex, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Save the config data
+        private void SaveConfigData()
+        {
+            string server = SERVERS_COMBOBOX.Text;
+            string songFolder = SONGSFOLDER_COMBOBOX.Text;
+            string osuFolder = OSUFOLDER_TEXTBOX.Text;
+
+            if (!ArrayContains(_data["Servers"].ToObject<string[]>(), server))
+            {
+                SERVERS_COMBOBOX.Items.Add(server);
+                (_data["Servers"] as JArray).Add(server);
+            }
+
+            if (!ArrayContains(_data["SongsFolder"].ToObject<string[]>(), songFolder))
+            {
+                SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
+                (_data["SongsFolder"] as JArray).Add(songFolder);
+            }
+
+            _data["Profiles"] = new JArray();
+            foreach (var profile in Profiles)
+            {
+                (_data["Profiles"] as JArray).Add(new JObject
+                {
+                    { "Name", profile.Name },
+                    { "Username", profile.Username },
+                    { "Password", profile.Password },
+                    { "ScoreMeter", profile.ScoreMeter },
+                    { "MeterStyle", profile.MeterStyle },
+                    { "Width", profile.Width },
+                    { "Height", profile.Height },
+                    { "Fullscreen", profile.Fullscreen },
+                    { "VolumeMaster", profile.VolumeMaster },
+                    { "VolumeEffect", profile.VolumeEffect },
+                    { "VolumeMusic", profile.VolumeMusic },
+                    { "ChangeVolume", profile.ChangeVolume },
+                    { "Offset", profile.Offset },
+                    { "Skin", profile.Skin },
+                    { "ChangeSkin", profile.ChangeSkin }
+                });
+            }
+
+            _data["Softwares"] = new JArray();
+            foreach (var software in Softwares)
+            {
+                (_data["Softwares"] as JArray).Add(new JObject
+                {
+                    { "Name", software.Name },
+                    { "Author", software.Author },
+                    { "Description", software.Description },
+                    { "Path", software.Path },
+                    { "Checked", software.Checked }
+                });
+            }
+
+            _data["osuFolder"] = osuFolder;
+        }
+
+        // Add the parameters
+        private Dictionary<string, string> AddParameters()
+        {
+            string server = SERVERS_COMBOBOX.Text;
+            string songFolder = SONGSFOLDER_COMBOBOX.Text;
+
+            var parameters = new Dictionary<string, string>
+            {
+                { "CredentialEndpoint", server == "Bancho" ? "" : server },
+                { "BeatmapDirectory", songFolder }
+            };
+
+            if (CurrentProfile != null)
+            {
+                parameters.Add("Username", CurrentProfile.Username);
+                string decryptedPassword = PasswordProtector.DecryptPassword(Convert.FromBase64String(CurrentProfile.Password));
+                Clipboard.SetText(decryptedPassword);
+            }
+
+            if (FULLSCREEN_CHECKBOX.Checked)
+            {
+                if (HEIGHT_TEXTBOX.Text != "") parameters.Add("HeightFullscreen", HEIGHT_TEXTBOX.Text);
+                if (WIDTH_TEXTBOX.Text != "") parameters.Add("WidthFullscreen", WIDTH_TEXTBOX.Text);
+            }
+            else
+            {
+                if (HEIGHT_TEXTBOX.Text != "") parameters.Add("Height", HEIGHT_TEXTBOX.Text);
+                if (WIDTH_TEXTBOX.Text != "") parameters.Add("Width", WIDTH_TEXTBOX.Text);
+            }
+
+            if (METERSCALE_TEXTBOX.Text != "")
+            {
+                parameters.Add("ScoreMeterScale", METERSCALE_TEXTBOX.Text);
+            }
+
+            if (METERSTYLE_COMBOBOX.SelectedIndex != 0)
+            {
+                switch (METERSTYLE_COMBOBOX.SelectedIndex)
+                {
+                    case 1:
+                        parameters.Add("ScoreMeter", "None");
+                        break;
+                    case 2:
+                        parameters.Add("ScoreMeter", "Error");
+                        break;
+                    case 3:
+                        parameters.Add("ScoreMeter", "Colour");
+                        break;
+                }
+            }
+
+            if (CHANGEAUDIO_CHECKBOX.Checked)
+            {
+                parameters.Add("VolumeUniversal", MASTER_BAR.Value.ToString());
+                parameters.Add("VolumeEffect", EFFECT_BAR.Value.ToString());
+                parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
+            }
+
+            if (OFFSET_TEXTBOX.Text != "")
+            {
+                parameters.Add("Offset", OFFSET_TEXTBOX.Text);
+            }
+
+            if (CHANGESKIN_CHECKBOX.Checked)
+            {
+                parameters.Add("Skin", SKIN_COMBOBOX.Text);
+            }
+
+            return parameters;
+        }
+
+        // Launch the software
+        private void LaunchSoftwares()
+        {
+            foreach (var checkBox in SoftwareTab.Controls.OfType<CheckBox>())
+            {
+                try
                 {
                     if (!checkBox.Checked) continue;
                     foreach (var software in Softwares)
@@ -305,17 +345,10 @@ namespace osu_launcher.Forms
                         Process.Start(softwareStartInfo);
                     }
                 }
-
-                // Save the config file
-                StreamWriter streamWriter =
-                    new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
-                streamWriter.WriteLine(_data.ToString());
-                streamWriter.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + ex, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                catch
+                {
+                    MessageBox.Show($"The \"{checkBox.Name}\" could not be launched.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
