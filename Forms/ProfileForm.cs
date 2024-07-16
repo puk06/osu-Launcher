@@ -32,6 +32,17 @@ namespace osu_launcher.Forms
                 PROFILEEDIT_COMBOBOX.Items.Add(enumerable.ElementAt(i).Name);
             }
 
+            if (PROFILEEDIT_COMBOBOX.Items.Count > 0)
+            {
+                ChangeEditFormStatus(true);
+                PROFILEEDIT_COMBOBOX.SelectedIndex = 0;
+            }
+            else
+            {
+                ResetValueEdit();
+                ChangeEditFormStatus(false);
+            }
+
             string skinsPath = Path.Combine(osuFolder, "Skins");
             if (Directory.Exists(skinsPath))
             {
@@ -48,6 +59,26 @@ namespace osu_launcher.Forms
                 MessageBox.Show("The skins folder was not found. The skin selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SKIN_COMBOBOX.Enabled = false;
             }
+        }
+
+        private void ChangeEditFormStatus(bool value)
+        {
+            NAMEEDIT_TEXTBOX.Enabled = value;
+            USERNAMEEDIT_TEXTBOX.Enabled = value;
+            PASSWORDEDIT_TEXTBOX.Enabled = value;
+            CONFIRMEDIT_TEXTBOX.Enabled = value;
+            SCOREMETEREDIT_TEXTBOX.Enabled = value;
+            METERSTYLEEDIT_COMBOBOX.Enabled = value;
+            WIDTHEDIT_TEXTBOX.Enabled = value;
+            HEIGHTEDIT_TEXTBOX.Enabled = value;
+            FULLSCREENEDIT_CHECKBOX.Enabled = value;
+            MASTEREDIT_BAR.Enabled = value;
+            EFFECTEDIT_BAR.Enabled = value;
+            MUSICEDIT_BAR.Enabled = value;
+            CHANGEAUDIOEDIT_CHECKBOX.Enabled = value;
+            OFFSETEDIT_TEXTBOX.Enabled = value;
+            SKINEDIT_COMBOBOX.Enabled = value;
+            CHANGESKINEDIT_CHECKBOX.Enabled = value;
         }
 
         // Generate a button for each profile
@@ -73,10 +104,24 @@ namespace osu_launcher.Forms
                 if (result == DialogResult.No) return;
                 _mainForm.Profiles = _mainForm.Profiles.Where(u => u.Name != profile.Name);
                 UsersTab.Controls.OfType<Button>().ToList().ForEach(c => c.Dispose());
+                PROFILEEDIT_COMBOBOX.Items.Clear();
                 foreach (var p in _mainForm.Profiles)
                 {
                     GenerateButton(p);
+                    PROFILEEDIT_COMBOBOX.Items.Add(p.Name);
                 }
+
+                if (PROFILEEDIT_COMBOBOX.Items.Count > 0)
+                {
+                    ChangeEditFormStatus(true);
+                    PROFILEEDIT_COMBOBOX.SelectedIndex = 0;
+                }
+                else
+                {
+                    ResetValueEdit();
+                    ChangeEditFormStatus(false);
+                }
+
                 _mainForm.CurrentProfile = null;
             };
             UsersTab.Controls.Add(button);
@@ -117,7 +162,7 @@ namespace osu_launcher.Forms
             MessageBox.Show("New profile created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _mainForm.CurrentProfile = profile;
             _mainForm.SaveConfigData();
-            UpdateProfileButtons();
+            UpdateProfile();
             ResetValue();
         }
 
@@ -157,7 +202,7 @@ namespace osu_launcher.Forms
             MessageBox.Show("Profile edited successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _mainForm.CurrentProfile = profile;
             _mainForm.SaveConfigData();
-            UpdateProfileButtons();
+            UpdateProfile();
             ResetValueEdit();
         }
 
@@ -300,13 +345,26 @@ namespace osu_launcher.Forms
             }
         }
 
-        // Update the profile buttons on the Users tab
-        private void UpdateProfileButtons()
+        // Update the profile on the Users tab and edit combobox
+        private void UpdateProfile()
         {
             UsersTab.Controls.OfType<Button>().ToList().ForEach(c => c.Dispose());
+            PROFILEEDIT_COMBOBOX.Items.Clear();
             foreach (var p in _mainForm.Profiles)
             {
                 GenerateButton(p);
+                PROFILEEDIT_COMBOBOX.Items.Add(p.Name);
+            }
+
+            if (PROFILEEDIT_COMBOBOX.Items.Count > 0)
+            {
+                ChangeEditFormStatus(true);
+                PROFILEEDIT_COMBOBOX.SelectedIndex = 0;
+            }
+            else
+            {
+                ResetValueEdit();
+                ChangeEditFormStatus(false);
             }
         }
 
@@ -548,8 +606,9 @@ namespace osu_launcher.Forms
             if (profile == null) return;
             NAMEEDIT_TEXTBOX.Text = profile.Name;
             USERNAMEEDIT_TEXTBOX.Text = profile.Username;
-            PASSWORDEDIT_TEXTBOX.Text = profile.Password;
-            CONFIRMEDIT_TEXTBOX.Text = profile.Password;
+            var password = PasswordProtector.DecryptPassword(Convert.FromBase64String(profile.Password));
+            PASSWORDEDIT_TEXTBOX.Text = password;
+            CONFIRMEDIT_TEXTBOX.Text = password;
             SCOREMETEREDIT_TEXTBOX.Text = profile.ScoreMeter.ToString();
             METERSTYLEEDIT_COMBOBOX.SelectedIndex = profile.MeterStyle ?? 0;
             WIDTHEDIT_TEXTBOX.Text = profile.Width.ToString();
