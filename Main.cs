@@ -287,15 +287,15 @@ namespace osu_launcher
                 };
                 Process.Start(startInfo);
 
-                // software tabからソフトウェアを起動
+                // Launch the software
                 foreach (var checkBox in SoftwareTab.Controls.OfType<CheckBox>())
                 {
                     if (!checkBox.Checked) continue;
-                    foreach (var software in _data["Softwares"])
+                    foreach (var software in Softwares)
                     {
-                        if (software["Name"].ToString() != checkBox.Name) continue;
-                        string softwarePath = Path.Combine(osuFolder, software["Path"].ToString());
-                        if (!File.Exists(softwarePath)) return;
+                        if (software.Name != checkBox.Name) continue;
+                        string softwarePath = software.Path;
+                        if (!File.Exists(softwarePath)) continue;
                         ProcessStartInfo softwareStartInfo = new ProcessStartInfo
                         {
                             FileName = softwarePath,
