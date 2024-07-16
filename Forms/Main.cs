@@ -446,7 +446,7 @@ namespace osu_launcher.Forms
                 AddValueToArray(ref reasons, "❌️ osu!.exe not found in osu! folder");
             }
 
-            if (string.IsNullOrEmpty(WIDTH_TEXTBOX.Text))
+            if (!string.IsNullOrEmpty(WIDTH_TEXTBOX.Text))
             {
                 var result = int.TryParse(WIDTH_TEXTBOX.Text, out int width);
                 if (!result)
@@ -460,7 +460,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (string.IsNullOrEmpty(HEIGHT_TEXTBOX.Text))
+            if (!string.IsNullOrEmpty(HEIGHT_TEXTBOX.Text))
             {
                 var result = int.TryParse(HEIGHT_TEXTBOX.Text, out int height);
                 if (!result)
