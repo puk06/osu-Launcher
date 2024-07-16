@@ -22,22 +22,22 @@ namespace osu_launcher.Forms
         private IEnumerable<string> CheckValue()
         {
             IEnumerable<string> reasons = Array.Empty<string>();
-            if (NAME_TEXTBOX.Text == "")
+            if (string.IsNullOrEmpty(NAME_TEXTBOX.Text))
             {
                 Main.AddValueToArray(ref reasons, "❌️ Name is empty");
             }
 
-            if (AUTHOR_TEXTBOX.Text == "")
+            if (string.IsNullOrEmpty(AUTHOR_TEXTBOX.Text))
             {
                 Main.AddValueToArray(ref reasons, "❌️ Author is empty");
             }
 
-            if (DESCRIPTION_TEXTBOX.Text == "")
+            if (string.IsNullOrEmpty(DESCRIPTION_TEXTBOX.Text))
             {
                 Main.AddValueToArray(ref reasons, "❌️ Description is empty");
             }
 
-            if (PATH_TEXTBOX.Text == "")
+            if (string.IsNullOrEmpty(PATH_TEXTBOX.Text))
             {
                 Main.AddValueToArray(ref reasons, "❌️ Path is empty");
             }

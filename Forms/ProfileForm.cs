@@ -425,7 +425,7 @@ namespace osu_launcher.Forms
         private IEnumerable<string> CheckValue()
         {
             IEnumerable<string> reasons = Array.Empty<string>();
-            if (SCOREMETER_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(SCOREMETER_TEXTBOX.Text))
             {
                 var result = double.TryParse(SCOREMETER_TEXTBOX.Text, out double scoreMeter);
                 if (!result)
@@ -438,7 +438,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (WIDTH_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(WIDTH_TEXTBOX.Text))
             {
                 var result = int.TryParse(WIDTH_TEXTBOX.Text, out int width);
                 if (!result)
@@ -452,7 +452,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (HEIGHT_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(HEIGHT_TEXTBOX.Text))
             {
                 var result = int.TryParse(HEIGHT_TEXTBOX.Text, out int height);
                 if (!result)
@@ -466,7 +466,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (OFFSET_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(OFFSET_TEXTBOX.Text))
             {
                 var result = int.TryParse(OFFSET_TEXTBOX.Text, out int offset);
                 if (!result)
@@ -481,7 +481,7 @@ namespace osu_launcher.Forms
         private IEnumerable<string> CheckValueEdit()
         {
             IEnumerable<string> reasons = Array.Empty<string>();
-            if (SCOREMETEREDIT_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(SCOREMETEREDIT_TEXTBOX.Text))
             {
                 var result = double.TryParse(SCOREMETEREDIT_TEXTBOX.Text, out double scoreMeter);
                 if (!result)
@@ -494,7 +494,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (WIDTHEDIT_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(WIDTHEDIT_TEXTBOX.Text))
             {
                 var result = int.TryParse(WIDTHEDIT_TEXTBOX.Text, out int width);
                 if (!result)
@@ -508,7 +508,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (HEIGHTEDIT_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(HEIGHTEDIT_TEXTBOX.Text))
             {
                 var result = int.TryParse(HEIGHTEDIT_TEXTBOX.Text, out int height);
                 if (!result)
@@ -522,7 +522,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (OFFSETEDIT_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(OFFSETEDIT_TEXTBOX.Text))
             {
                 var result = int.TryParse(OFFSETEDIT_TEXTBOX.Text, out int offset);
                 if (!result)

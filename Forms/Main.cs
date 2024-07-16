@@ -125,7 +125,7 @@ namespace osu_launcher.Forms
                 if (Profiles.Any()) USERNAME_BUTTON.Text = Profiles.First().Name;
 
                 OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
-                if (OSUFOLDER_TEXTBOX.Text == "")
+                if (string.IsNullOrEmpty(OSUFOLDER_TEXTBOX.Text))
                 {
                     MessageBox.Show("The osu! folder is not set. Please set it from the Settings tab!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -446,7 +446,7 @@ namespace osu_launcher.Forms
                 AddValueToArray(ref reasons, "❌️ osu!.exe not found in osu! folder");
             }
 
-            if (WIDTH_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(WIDTH_TEXTBOX.Text))
             {
                 var result = int.TryParse(WIDTH_TEXTBOX.Text, out int width);
                 if (!result)
@@ -460,7 +460,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (HEIGHT_TEXTBOX.Text != "")
+            if (string.IsNullOrEmpty(HEIGHT_TEXTBOX.Text))
             {
                 var result = int.TryParse(HEIGHT_TEXTBOX.Text, out int height);
                 if (!result)
@@ -474,7 +474,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (SERVERS_COMBOBOX.Text != "Bancho" && SERVERS_COMBOBOX.Text == "")
+            if (SERVERS_COMBOBOX.Text != "Bancho" && string.IsNullOrEmpty(SERVERS_COMBOBOX.Text))
             {
                 AddValueToArray(ref reasons, "❌️ Server not selected");
             }
