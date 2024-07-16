@@ -474,7 +474,6 @@ namespace osu_launcher.Forms
                     Main.AddValueToArray(ref reasons, "❌️ Offset contains non-numeric characters");
                 }
             }
-
             return reasons;
         }
 
