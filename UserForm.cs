@@ -18,12 +18,12 @@ namespace osu_launcher
         // This is the constructor for the ProfileForm
         public ProfileForm(IEnumerable<Profile> profiles, string osuFolder, Main mainForm)
         {
+            _mainForm = mainForm;
             InitializeComponent();
             MASTER_BAR.Value = 100;
             EFFECT_BAR.Value = 100;
             MUSIC_BAR.Value = 100;
             METERSTYLE_COMBOBOX.SelectedIndex = 0;
-            _mainForm = mainForm;
             var enumerable = profiles as Profile[] ?? profiles.ToArray();
             for (int i = 0; i < enumerable.Length; i++)
             {

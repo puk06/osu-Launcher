@@ -60,10 +60,8 @@ namespace osu_launcher
                 // Initialize the components
                 InitializeComponent();
 
+                // Set meter style
                 METERSTYLE_COMBOBOX.SelectedIndex = 0;
-
-                // Set the font
-                SetFont();
 
                 // Set the web browser
                 var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
@@ -125,26 +123,6 @@ namespace osu_launcher
             }
         }
 
-        // Set the font
-        private void SetFont()
-        {
-            TopTab.Font = new System.Drawing.Font(FontCollection.Families[1], 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            OSUFOLDER_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            SERVER_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            SONGSFOLDER_DELETE.Font = new System.Drawing.Font(FontCollection.Families[1], 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            USERNAME_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            RESOLUTION_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            SONGSFOLDER_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            LAUNCH_BUTTON.Font = new System.Drawing.Font(FontCollection.Families[1], 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            MainTab.Font = new System.Drawing.Font(FontCollection.Families[1], 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            USERNAME_BUTTON.Font = new System.Drawing.Font(FontCollection.Families[0], 15.75F);
-            SONGSFOLDER_COMBOBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 15.75F);
-            OSUFOLDER_TEXTBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 15.75F);
-            WIDTH_TEXTBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 14F);
-            HEIGHT_TEXTBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 14F);
-            SERVERS_COMBOBOX.Font = new System.Drawing.Font(FontCollection.Families[0], 15.75F);
-        }
-
         // Launch osu!
         private void LAUNCH_BUTTON_Click(object sender, EventArgs e)
         {
@@ -163,8 +141,6 @@ namespace osu_launcher
                 string server = SERVERS_COMBOBOX.Text;
                 string songFolder = SONGSFOLDER_COMBOBOX.Text;
                 string osuFolder = OSUFOLDER_TEXTBOX.Text;
-
-                //currentUserからWidth, Height, Fullscreenを取得し、設定
 
                 // Add the values to the data file
                 if (!ArrayContains(_data["Servers"].ToObject<string[]>(), server))
@@ -191,7 +167,14 @@ namespace osu_launcher
                         { "MeterStyle", profile.MeterStyle },
                         { "Width", profile.Width },
                         { "Height", profile.Height },
-                        { "Fullscreen", profile.Fullscreen }
+                        { "Fullscreen", profile.Fullscreen },
+                        { "VolumeMaster", profile.VolumeMaster },
+                        { "VolumeEffect", profile.VolumeEffect },
+                        { "VolumeMusic", profile.VolumeMusic },
+                        { "ChangeVolume", profile.ChangeVolume },
+                        { "Offset", profile.Offset },
+                        { "Skin", profile.Skin },
+                        { "ChangeSkin", profile.ChangeSkin }
                     });
                 }
 
@@ -273,7 +256,6 @@ namespace osu_launcher
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + ex, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -282,38 +264,60 @@ namespace osu_launcher
         // Change the config values
         private static void ChangeConfigValue(string osuFolder, Dictionary<string, string> param)
         {
-            string username = Environment.UserName;
-            string path = Path.Combine(osuFolder, $"osu!.{username}.cfg");
-            string[] lines = File.ReadAllLines(path);
-            for (int i = 0; i < lines.Length; i++)
+            try
             {
-                string key = lines[i].Split('=')[0].Trim();
-                for (int j = 0; j < param.Count; j++)
+                string username = Environment.UserName;
+                string path = Path.Combine(osuFolder, $"osu!.{username}.cfg");
+                string[] lines = File.ReadAllLines(path);
+                for (int i = 0; i < lines.Length; i++)
                 {
-                    if (key != param.ElementAt(j).Key) continue;
-                    lines[i] = $"{param.ElementAt(j).Key} = {param.ElementAt(j).Value}";
-                    break;
+                    string key = lines[i].Split('=')[0].Trim();
+                    for (int j = 0; j < param.Count; j++)
+                    {
+                        if (key != param.ElementAt(j).Key) continue;
+                        lines[i] = $"{param.ElementAt(j).Key} = {param.ElementAt(j).Value}";
+                        break;
+                    }
                 }
+
+                File.WriteAllLines(path, lines);
             }
-            File.WriteAllLines(path, lines);
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         // Delete the song folder
         private void SONGSFOLDER_DELETE_Click(object sender, EventArgs e)
         {
             if (SONGSFOLDER_COMBOBOX.Text == "Songs") return;
-            if (ArrayContains(_data["SongsFolder"].ToObject<string[]>(), SONGSFOLDER_COMBOBOX.Text))
+            var result = MessageBox.Show("Are you sure you want to delete the selected song folder?", "Delete Song Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes) DeleteSongFolder();
+        }
+
+        // Delete the song folder
+        private void DeleteSongFolder()
+        {
+            try
             {
-                _data["SongsFolder"] = new JArray(_data["SongsFolder"].Where(item => item.ToString() != SONGSFOLDER_COMBOBOX.Text));
-                SONGSFOLDER_COMBOBOX.Items.Remove(SONGSFOLDER_COMBOBOX.Text);
-                SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
-                StreamWriter streamWriter = new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
-                streamWriter.WriteLine(_data.ToString());
-                streamWriter.Close();
+                if (ArrayContains(_data["SongsFolder"].ToObject<string[]>(), SONGSFOLDER_COMBOBOX.Text))
+                {
+                    _data["SongsFolder"] = new JArray(_data["SongsFolder"].Where(item => item.ToString() != SONGSFOLDER_COMBOBOX.Text));
+                    SONGSFOLDER_COMBOBOX.Items.Remove(SONGSFOLDER_COMBOBOX.Text);
+                    SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
+                    StreamWriter streamWriter = new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
+                    streamWriter.WriteLine(_data.ToString());
+                    streamWriter.Close();
+                }
+                else
+                {
+                    SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
+                }
             }
-            else
+            catch (Exception e)
             {
-                SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
+                MessageBox.Show("The song folder could not be deleted. The reasons are as follows.\n" + e, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -408,6 +412,7 @@ namespace osu_launcher
             };
         }
 
+        // Change the audio values
         private void MASTER_BAR_Scroll(object sender, EventArgs e)
         {
             MASTERVALUE_LABEL.Text = MASTER_BAR.Value + "%";
@@ -423,6 +428,7 @@ namespace osu_launcher
             AUDIOVALUE_LABEL.Text = AUDIO_BAR.Value + "%";
         }
 
+        // Enable the text box
         private void CHANGESKIN_CHECKBOX_CheckedChanged(object sender, EventArgs e)
         {
             string skinsPath = Path.Combine(OSUFOLDER_TEXTBOX.Text, "Skins");
