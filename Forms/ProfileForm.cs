@@ -179,19 +179,19 @@ namespace osu_launcher.Forms
                 return;
             }
 
-            if (IsAnyFieldEmpty())
+            if (IsAnyFieldEmptyEdit())
             {
                 ShowErrorMessage("Please fill in all fields");
                 return;
             }
 
-            if (ArePasswordsMismatch())
+            if (ArePasswordsMismatchEdit())
             {
                 ShowErrorMessage("Passwords do not match. Try Again");
                 return;
             }
 
-            if (IsProfileNameDuplicate())
+            if (IsProfileNameDuplicateEdit())
             {
                 ShowErrorMessage("The profile name already exists");
                 NAMEEDIT_TEXTBOX.Text = "";
@@ -199,7 +199,6 @@ namespace osu_launcher.Forms
             }
 
             var profile = EditProfile();
-
             _mainForm.Profiles = _mainForm.Profiles.Where(p => p.Name != PROFILEEDIT_COMBOBOX.SelectedItem.ToString());
             _mainForm.Profiles = _mainForm.Profiles.Append(profile);
             MessageBox.Show("Profile edited successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -224,16 +223,37 @@ namespace osu_launcher.Forms
                    string.IsNullOrEmpty(CONFIRM_TEXTBOX.Text);
         }
 
+        // Check if any required field is empty for editing
+        private bool IsAnyFieldEmptyEdit()
+        {
+            return string.IsNullOrEmpty(NAMEEDIT_TEXTBOX.Text) ||
+                   string.IsNullOrEmpty(USERNAMEEDIT_TEXTBOX.Text) ||
+                   string.IsNullOrEmpty(PASSWORDEDIT_TEXTBOX.Text) ||
+                   string.IsNullOrEmpty(CONFIRMEDIT_TEXTBOX.Text);
+        }
+
         // Check if passwords do not match
         private bool ArePasswordsMismatch()
         {
             return PASSWORD_TEXTBOX.Text != CONFIRM_TEXTBOX.Text;
         }
 
+        // Check if passwords do not match for editing
+        private bool ArePasswordsMismatchEdit()
+        {
+            return PASSWORDEDIT_TEXTBOX.Text != CONFIRMEDIT_TEXTBOX.Text;
+        }
+
         // Check if the profile name already exists
         private bool IsProfileNameDuplicate()
         {
             return _mainForm.Profiles.Any(userdata => userdata.Name == NAME_TEXTBOX.Text);
+        }
+
+        // Check if the profile name already exists for editing
+        private bool IsProfileNameDuplicateEdit()
+        {
+            return _mainForm.Profiles.Any(userdata => userdata.Name == NAMEEDIT_TEXTBOX.Text);
         }
 
         // Create a new profile based on form input
