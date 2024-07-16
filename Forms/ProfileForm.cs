@@ -86,91 +86,129 @@ namespace osu_launcher.Forms
             var reasons = CheckValue();
             if (reasons.Any())
             {
-                MessageBox.Show("The profile could not be created. The reasons are as follows.\n" + string.Join("\n", reasons), "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("The profile could not be created. The reasons are as follows.\n" + string.Join("\n", reasons));
                 return;
             }
 
-            if (NAME_TEXTBOX.Text == "" || USERNAME_TEXTBOX.Text == "" || PASSWORD_TEXTBOX.Text == "" || CONFIRM_TEXTBOX.Text == "")
+            if (IsAnyFieldEmpty())
             {
-                MessageBox.Show("Please fill in all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("Please fill in all fields");
+                return;
             }
-            else if (PASSWORD_TEXTBOX.Text == CONFIRM_TEXTBOX.Text)
+
+            if (ArePasswordsMismatch())
             {
-                // Check if the profile already exists
-                if (_mainForm.Profiles.Any(userdata => userdata.Name == USERNAME_TEXTBOX.Name))
-                {
-                    MessageBox.Show("The profile name already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    NAME_TEXTBOX.Text = "";
-                    return;
-                }
-
-                var profile = new Profile
-                {
-                    Name = NAME_TEXTBOX.Text,
-                    Username = USERNAME_TEXTBOX.Text,
-                    Password = Convert.ToBase64String(PasswordProtector.EncryptPassword(PASSWORD_TEXTBOX.Text))
-                };
-
-                if (SCOREMETER_TEXTBOX.Text != "")
-                {
-                    profile.ScoreMeter = Math.Round(Convert.ToDouble(SCOREMETER_TEXTBOX.Text), 2);
-                }
-
-                if (METERSTYLE_COMBOBOX.SelectedIndex != 0)
-                {
-                    profile.MeterStyle = METERSTYLE_COMBOBOX.SelectedIndex;
-                }
-
-                if (HEIGHT_TEXTBOX.Text != "" || WIDTH_TEXTBOX.Text != "")
-                {
-                    profile.Width = Convert.ToInt32(WIDTH_TEXTBOX.Text);
-                    profile.Height = Convert.ToInt32(HEIGHT_TEXTBOX.Text);
-                    profile.Fullscreen = FULLSCREEN_CHECKBOX.Checked;
-                }
-
-                if (CHANGEAUDIO_CHECKBOX.Checked)
-                {
-                    profile.ChangeVolume = true;
-                    profile.VolumeMaster = MASTER_BAR.Value;
-                    profile.VolumeEffect = EFFECT_BAR.Value;
-                    profile.VolumeMusic = MUSIC_BAR.Value;
-                }
-                else
-                {
-                    profile.ChangeVolume = false;
-                }
-
-                if (OFFSET_TEXTBOX.Text != "")
-                {
-                    profile.Offset = Convert.ToInt32(OFFSET_TEXTBOX.Text);
-                }
-
-                if (CHANGESKIN_CHECKBOX.Checked)
-                {
-                    profile.ChangeSkin = true;
-                    profile.Skin = SKIN_COMBOBOX.SelectedItem.ToString();
-                }
-                else
-                {
-                    profile.ChangeSkin = false;
-                }
-
-                _mainForm.Profiles = _mainForm.Profiles.Append(profile);
-                MessageBox.Show("New profile created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                _mainForm.CurrentProfile = profile;
-
-                // Generate the buttons for the profiles
-                UsersTab.Controls.OfType<Button>().ToList().ForEach(c => c.Dispose());
-                foreach (var p in _mainForm.Profiles)
-                {
-                    GenerateButton(p);
-                }
-                ResetValue();
+                ShowErrorMessage("Passwords do not match. Try Again");
+                return;
             }
-            else if (PASSWORD_LABEL.Text != CONFIRM_LABEL.Text)
+
+            if (IsProfileNameDuplicate())
             {
-                MessageBox.Show("Passwords do not match. Try Again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowErrorMessage("The profile name already exists");
+                NAME_TEXTBOX.Text = "";
+                return;
+            }
+
+            var profile = CreateProfile();
+
+            _mainForm.Profiles = _mainForm.Profiles.Append(profile);
+            MessageBox.Show("New profile created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _mainForm.CurrentProfile = profile;
+
+            UpdateProfileButtons();
+            ResetValue();
+        }
+
+        // Show error messages
+        private void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        // Check if any required field is empty
+        private bool IsAnyFieldEmpty()
+        {
+            return string.IsNullOrEmpty(NAME_TEXTBOX.Text) ||
+                   string.IsNullOrEmpty(USERNAME_TEXTBOX.Text) ||
+                   string.IsNullOrEmpty(PASSWORD_TEXTBOX.Text) ||
+                   string.IsNullOrEmpty(CONFIRM_TEXTBOX.Text);
+        }
+
+        // Check if passwords do not match
+        private bool ArePasswordsMismatch()
+        {
+            return PASSWORD_TEXTBOX.Text != CONFIRM_TEXTBOX.Text;
+        }
+
+        // Check if the profile name already exists
+        private bool IsProfileNameDuplicate()
+        {
+            return _mainForm.Profiles.Any(userdata => userdata.Name == USERNAME_TEXTBOX.Text);
+        }
+
+        // Create a new profile based on form input
+        private Profile CreateProfile()
+        {
+            var profile = new Profile
+            {
+                Name = NAME_TEXTBOX.Text,
+                Username = USERNAME_TEXTBOX.Text,
+                Password = Convert.ToBase64String(PasswordProtector.EncryptPassword(PASSWORD_TEXTBOX.Text))
+            };
+
+            // Add optional parameters
+            AddOptionalParameters(profile);
+
+            return profile;
+        }
+
+        // Add optional parameters to the profile
+        private void AddOptionalParameters(Profile profile)
+        {
+            if (!string.IsNullOrEmpty(SCOREMETER_TEXTBOX.Text))
+            {
+                profile.ScoreMeter = Math.Round(Convert.ToDouble(SCOREMETER_TEXTBOX.Text), 2);
+            }
+
+            if (METERSTYLE_COMBOBOX.SelectedIndex != 0)
+            {
+                profile.MeterStyle = METERSTYLE_COMBOBOX.SelectedIndex;
+            }
+
+            if (!string.IsNullOrEmpty(HEIGHT_TEXTBOX.Text) || !string.IsNullOrEmpty(WIDTH_TEXTBOX.Text))
+            {
+                profile.Width = Convert.ToInt32(WIDTH_TEXTBOX.Text);
+                profile.Height = Convert.ToInt32(HEIGHT_TEXTBOX.Text);
+                profile.Fullscreen = FULLSCREEN_CHECKBOX.Checked;
+            }
+
+            if (CHANGEAUDIO_CHECKBOX.Checked)
+            {
+                profile.ChangeVolume = true;
+                profile.VolumeMaster = MASTER_BAR.Value;
+                profile.VolumeEffect = EFFECT_BAR.Value;
+                profile.VolumeMusic = MUSIC_BAR.Value;
+            }
+
+            if (!string.IsNullOrEmpty(OFFSET_TEXTBOX.Text))
+            {
+                profile.Offset = Convert.ToInt32(OFFSET_TEXTBOX.Text);
+            }
+
+            if (CHANGESKIN_CHECKBOX.Checked)
+            {
+                profile.ChangeSkin = true;
+                profile.Skin = SKIN_COMBOBOX.SelectedItem.ToString();
+            }
+        }
+
+        // Update the profile buttons on the Users tab
+        private void UpdateProfileButtons()
+        {
+            UsersTab.Controls.OfType<Button>().ToList().ForEach(c => c.Dispose());
+            foreach (var p in _mainForm.Profiles)
+            {
+                GenerateButton(p);
             }
         }
 
