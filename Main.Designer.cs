@@ -607,6 +607,7 @@ namespace osu_launcher
             // 
             // SKIN_COMBOBOX
             // 
+            this.SKIN_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SKIN_COMBOBOX.Enabled = false;
             this.SKIN_COMBOBOX.Font = new System.Drawing.Font(guiFont, 14F);
             this.SKIN_COMBOBOX.FormattingEnabled = true;

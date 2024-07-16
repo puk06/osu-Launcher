@@ -431,6 +431,12 @@ namespace osu_launcher
         // Enable the text box
         private void CHANGESKIN_CHECKBOX_CheckedChanged(object sender, EventArgs e)
         {
+            if (!CHANGESKIN_CHECKBOX.Checked)
+            {
+                SKIN_COMBOBOX.Enabled = false;
+                return;
+            }
+
             string skinsPath = Path.Combine(OSUFOLDER_TEXTBOX.Text, "Skins");
             if (Directory.Exists(skinsPath))
             {
@@ -444,6 +450,7 @@ namespace osu_launcher
                 if (SKIN_COMBOBOX.Items.Count > 0)
                 {
                     // Skins found
+                    CHANGESKIN_CHECKBOX.Checked = true;
                     SKIN_COMBOBOX.Enabled = true;
                     SKIN_COMBOBOX.SelectedIndex = 0;
                 }
@@ -452,12 +459,14 @@ namespace osu_launcher
                     //No skins found
                     MessageBox.Show("No skins were found in the skins folder. The skin selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     SKIN_COMBOBOX.Enabled = false;
+                    CHANGESKIN_CHECKBOX.Checked = false;
                 }
             }
             else
             {
                 MessageBox.Show("The skins folder was not found. The skin selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SKIN_COMBOBOX.Enabled = false;
+                CHANGESKIN_CHECKBOX.Checked = false;
             }
         }
 
