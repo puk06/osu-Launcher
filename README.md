@@ -1,3 +1,5 @@
+![](https://github.com/user-attachments/assets/8a469378-532f-47b0-99b5-bd1692255828)
+
 # osu! Launcher ![License](https://img.shields.io/github/license/puk06/osu-Launcher?style=flat-square) ![Release](https://img.shields.io/github/v/release/puk06/osu-Launcher?style=flat-square) ![Language](https://img.shields.io/badge/language-c%23-green?style=flat-square) ![CodeFactor](https://www.codefactor.io/repository/github/puk06/osu-launcher/badge)
 
 > [\[discord\]](https://discord.gg/AGNDPsZPya) Free and open-source, feature-rich, powerful launcher for osu!.
