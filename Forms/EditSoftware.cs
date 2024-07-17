@@ -20,36 +20,11 @@ namespace osu_launcher.Forms
         {
             _mainForm = mainForm;
             InitializeComponent();
-            SetFont();
             _software = software;
             NAME_TEXTBOX.Text = software.Name;
             AUTHOR_TEXTBOX.Text = software.Author;
             DESCRIPTION_TEXTBOX.Text = software.Description;
             PATH_TEXTBOX.Text = software.Path;
-        }
-
-        // Set the font
-        private void SetFont()
-        {
-            // Set the font to the controls
-            foreach (Control control in Controls)
-            {
-                SetFontToControls(control);
-            }
-        }
-
-        // Set the font to the controls
-        private void SetFontToControls(Control control)
-        {
-            switch (control.Font.Name)
-            {
-                case "Noto Sans JP":
-                    control.Font = new Font(_mainForm.FontCollection.Families[0], control.Font.Size, control.Font.Style, control.Font.Unit, control.Font.GdiCharSet);
-                    break;
-                case "Quicksand Light":
-                    control.Font = new Font(_mainForm.FontCollection.Families[1], control.Font.Size, control.Font.Style, control.Font.Unit, control.Font.GdiCharSet);
-                    break;
-            }
         }
 
         // Check if the values are valid

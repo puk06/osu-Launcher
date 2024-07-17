@@ -72,54 +72,7 @@ namespace osu_launcher.Forms
             }
         }
 
-        // Set the font
-        private void SetFont()
-        {
-            // Set the font to the controls
-            foreach (Control control in Controls)
-            {
-                SetFontToControls(control);
-            }
-
-            // MainTab
-            foreach (Control control in MainTab.Controls)
-            {
-                SetFontToControls(control);
-            }
-
-            // ProfilesTab
-            foreach (Control control in ProfilesTab.Controls)
-            {
-                SetFontToControls(control);
-            }
-
-            // CreateTab
-            foreach (Control control in CreateTab.Controls)
-            {
-                SetFontToControls(control);
-            }
-
-            // EditTab
-            foreach (Control control in EditTab.Controls)
-            {
-                SetFontToControls(control);
-            }
-        }
-
-        // Set the font to the controls
-        private void SetFontToControls(Control control)
-        {
-            switch (control.Font.Name)
-            {
-                case "Noto Sans JP":
-                    control.Font = new Font(_mainForm.FontCollection.Families[0], control.Font.Size, control.Font.Style, control.Font.Unit, control.Font.GdiCharSet);
-                    break;
-                case "Quicksand Light":
-                    control.Font = new Font(_mainForm.FontCollection.Families[1], control.Font.Size, control.Font.Style, control.Font.Unit, control.Font.GdiCharSet);
-                    break;
-            }
-        }
-
+        // Change the status of the edit form
         private void ChangeEditFormStatus(bool value)
         {
             USERNAMEEDIT_TEXTBOX.Enabled = value;
@@ -137,7 +90,6 @@ namespace osu_launcher.Forms
             if (SKINEDIT_COMBOBOX.Items.Count <= 0) return;
             SKINEDIT_COMBOBOX.Enabled = value;
             CHANGESKINEDIT_CHECKBOX.Enabled = value;
-
         }
 
         // Generate a button for each profile
