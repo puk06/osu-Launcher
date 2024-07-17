@@ -248,10 +248,11 @@ namespace osu_launcher.Forms
             // 
             this.SKIN_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SKIN_COMBOBOX.Enabled = false;
+            this.SKIN_COMBOBOX.Font = new System.Drawing.Font("Quicksand Light", 11F);
             this.SKIN_COMBOBOX.FormattingEnabled = true;
             this.SKIN_COMBOBOX.Location = new System.Drawing.Point(15, 707);
             this.SKIN_COMBOBOX.Name = "SKIN_COMBOBOX";
-            this.SKIN_COMBOBOX.Size = new System.Drawing.Size(242, 26);
+            this.SKIN_COMBOBOX.Size = new System.Drawing.Size(242, 31);
             this.SKIN_COMBOBOX.TabIndex = 70;
             // 
             // SKIN_LABE
@@ -735,10 +736,11 @@ namespace osu_launcher.Forms
             // 
             this.SKINEDIT_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SKINEDIT_COMBOBOX.Enabled = false;
+            this.SKINEDIT_COMBOBOX.Font = new System.Drawing.Font("Quicksand Light", 11F);
             this.SKINEDIT_COMBOBOX.FormattingEnabled = true;
             this.SKINEDIT_COMBOBOX.Location = new System.Drawing.Point(15, 754);
             this.SKINEDIT_COMBOBOX.Name = "SKINEDIT_COMBOBOX";
-            this.SKINEDIT_COMBOBOX.Size = new System.Drawing.Size(242, 26);
+            this.SKINEDIT_COMBOBOX.Size = new System.Drawing.Size(242, 31);
             this.SKINEDIT_COMBOBOX.TabIndex = 112;
             // 
             // SKINEDIT_LABEL

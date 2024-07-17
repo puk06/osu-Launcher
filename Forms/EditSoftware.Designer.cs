@@ -137,6 +137,7 @@ namespace osu_launcher.Forms
             this.RESET_BUTTON.TabIndex = 10;
             this.RESET_BUTTON.Text = "Reset";
             this.RESET_BUTTON.UseVisualStyleBackColor = true;
+            this.RESET_BUTTON.Click += new System.EventHandler(this.RESET_BUTTON_Click);
             // 
             // label1
             // 
@@ -160,7 +161,6 @@ namespace osu_launcher.Forms
             // EditSoftware
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 31F);
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(676, 294);
             this.Controls.Add(this.OPEN_BUTTON);
@@ -182,7 +182,8 @@ namespace osu_launcher.Forms
             this.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.MaximizeBox = false;
             this.Name = "EditSoftware";
-            this.Text = "AddSoftware";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Edit Software";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -524,7 +524,6 @@ namespace osu_launcher.Forms
                     {
                         SoftwareTab.Controls.Clear();
                         LoadSoftwares();
-                        SaveConfigData();
                     };
                 };
 
@@ -581,7 +580,6 @@ namespace osu_launcher.Forms
                 {
                     SoftwareTab.Controls.Clear();
                     LoadSoftwares();
-                    SaveConfigData();
                 };
             };
 
@@ -649,7 +647,6 @@ namespace osu_launcher.Forms
             profileForm.FormClosed += (_object, _event) =>
             {
                 RefreshProfile();
-                SaveConfigData();
             };
         }
 

@@ -51,9 +51,9 @@ namespace osu_launcher.Forms
             this.ADDSOFTWARE_LABEL.AutoSize = true;
             this.ADDSOFTWARE_LABEL.Location = new System.Drawing.Point(12, 9);
             this.ADDSOFTWARE_LABEL.Name = "ADDSOFTWARE_LABEL";
-            this.ADDSOFTWARE_LABEL.Size = new System.Drawing.Size(189, 31);
+            this.ADDSOFTWARE_LABEL.Size = new System.Drawing.Size(149, 31);
             this.ADDSOFTWARE_LABEL.TabIndex = 0;
-            this.ADDSOFTWARE_LABEL.Text = "Add AddSoftware";
+            this.ADDSOFTWARE_LABEL.Text = "Add Software";
             // 
             // NAME_LABEL
             // 
@@ -161,7 +161,6 @@ namespace osu_launcher.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.ClientSize = new System.Drawing.Size(676, 294);
             this.Controls.Add(this.OPEN_BUTTON);
             this.Controls.Add(this.label1);
@@ -182,7 +181,8 @@ namespace osu_launcher.Forms
             this.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.MaximizeBox = false;
             this.Name = "AddSoftware";
-            this.Text = "AddSoftware";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Add Software";
             this.ResumeLayout(false);
             this.PerformLayout();
 

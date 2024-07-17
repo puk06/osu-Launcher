@@ -192,13 +192,23 @@ namespace osu_launcher.Forms
             }
 
             var profile = EditProfile();
-            _mainForm.Profiles = _mainForm.Profiles.Where(u => u.Name != NAMEEDIT_TEXTBOX.Text);
+            _mainForm.Profiles = _mainForm.Profiles.Where(u => u.Name != profile.Name);
             _mainForm.Profiles = _mainForm.Profiles.Append(profile);
             MessageBox.Show("Profile edited successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _mainForm.CurrentProfile = profile;
             _mainForm.SaveConfigData();
             UpdateProfile();
-            ResetValueEdit();
+
+            if (PROFILEEDIT_COMBOBOX.Items.Count > 0)
+            {
+                ChangeEditFormStatus(true);
+                PROFILEEDIT_COMBOBOX.SelectedIndex = 0;
+            }
+            else
+            {
+                ResetValueEdit();
+                ChangeEditFormStatus(false);
+            }
         }
 
         // Show error messages

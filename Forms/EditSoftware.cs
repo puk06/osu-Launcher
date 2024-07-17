@@ -68,20 +68,14 @@ namespace osu_launcher.Forms
                     return;
             }
 
-            // Check if the software already exists
-            if (_mainForm.Softwares.Any(s => s.Name == NAME_TEXTBOX.Text))
-            {
-                MessageBox.Show("The software name alread exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             // Overwrite the software
             var software = new Software
             {
                 Name = NAME_TEXTBOX.Text,
                 Author = AUTHOR_TEXTBOX.Text,
                 Description = DESCRIPTION_TEXTBOX.Text,
-                Path = PATH_TEXTBOX.Text
+                Path = PATH_TEXTBOX.Text,
+                Checked = _software.Checked
             };
 
             _mainForm.Softwares = _mainForm.Softwares.Where(s => s.Name != _software.Name).ToArray();
@@ -102,6 +96,14 @@ namespace osu_launcher.Forms
             {
                 PATH_TEXTBOX.Text = openFileDialog.FileName;
             }
+        }
+
+        private void RESET_BUTTON_Click(object sender, EventArgs e)
+        {
+            NAME_TEXTBOX.Text = _software.Name;
+            AUTHOR_TEXTBOX.Text = _software.Author;
+            DESCRIPTION_TEXTBOX.Text = _software.Description;
+            PATH_TEXTBOX.Text = _software.Path;
         }
     }
 }
