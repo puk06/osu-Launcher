@@ -520,10 +520,17 @@ namespace osu_launcher.Forms
                     if (Application.OpenForms.OfType<AddSoftware>().Any()) return;
                     var addSoftwareForm = new AddSoftware(this);
                     addSoftwareForm.Show();
+
+                    // Disable the form
+                    Enabled = false;
+
                     addSoftwareForm.FormClosed += (_object, _event) =>
                     {
                         SoftwareTab.Controls.Clear();
                         LoadSoftwares();
+
+                        // Enable the form
+                        Enabled = true;
                     };
                 };
 
@@ -643,10 +650,16 @@ namespace osu_launcher.Forms
             var profileForm = new ProfileForm(Profiles, OSUFOLDER_TEXTBOX.Text, this);
             profileForm.Show();
 
+            // Disable the form
+            Enabled = false;
+
             // if the form is closed, update the profile
             profileForm.FormClosed += (_object, _event) =>
             {
                 RefreshProfile();
+
+                // Enable the form
+                Enabled = true;
             };
         }
 
