@@ -1021,6 +1021,7 @@ namespace osu_launcher.Forms
             // 
             // NAMEEDIT_TEXTBOX
             // 
+            this.NAMEEDIT_TEXTBOX.Enabled = false;
             this.NAMEEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP", 9F);
             this.NAMEEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 92);
             this.NAMEEDIT_TEXTBOX.Name = "NAMEEDIT_TEXTBOX";

@@ -122,7 +122,13 @@ namespace osu_launcher.Forms
                     };
                     AddValueToArray(ref Profiles, user);
                 }
-                if (Profiles.Any()) USERNAME_BUTTON.Text = Profiles.First().Name;
+
+                var enumerable = Profiles as Profile[] ?? Profiles.ToArray();
+                if (enumerable.Any())
+                {
+                    CurrentProfile = enumerable.First();
+                    PROFILE_BUTTON.Text = CurrentProfile.Name;
+                }
 
                 OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
                 if (string.IsNullOrEmpty(OSUFOLDER_TEXTBOX.Text))
@@ -158,9 +164,10 @@ namespace osu_launcher.Forms
             {
                 // Check if the values are valid
                 var reasons = CheckValue();
-                if (reasons.Any())
+                var enumerable = reasons as string[] ?? reasons.ToArray();
+                if (enumerable.Any())
                 {
-                    MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + string.Join("\n", reasons), "Error",
+                    MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + string.Join("\n", enumerable), "Error",
                                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -352,11 +359,12 @@ namespace osu_launcher.Forms
                     {
                         if (software.Name != checkBox.Name) continue;
                         string softwarePath = software.Path;
-                        if (!File.Exists(softwarePath)) continue;
+                        string workingDirectory = Path.GetDirectoryName(softwarePath);
+                        if (!File.Exists(softwarePath) || string.IsNullOrEmpty(workingDirectory)) continue;
                         ProcessStartInfo softwareStartInfo = new ProcessStartInfo
                         {
                             FileName = softwarePath,
-                            WorkingDirectory = Path.GetDirectoryName(softwarePath)
+                            WorkingDirectory = workingDirectory
                         };
                         Process.Start(softwareStartInfo);
                     }
@@ -491,7 +499,7 @@ namespace osu_launcher.Forms
                 var enumerable = Softwares as Software[] ?? Softwares.ToArray();
                 for (int i = 0; i < enumerable.Length; i++)
                 {
-                    GenerateSoftwaresTab(enumerable[i]);
+                    GenerateSoftwaresTab(enumerable.ElementAt(i));
                 }
 
                 int baseLocation = 69 * (SoftwareTab.Controls.OfType<CheckBox>().Count() + 1);
@@ -504,7 +512,7 @@ namespace osu_launcher.Forms
                     Size = new System.Drawing.Size(75, 23),
                     TabIndex = 0,
                     UseVisualStyleBackColor = true,
-                    Font = new System.Drawing.Font(FontCollection.Families[1], 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)))
+                    Font = new System.Drawing.Font(FontCollection.Families[1], 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0)
                 };
 
                 addSoftwareButton.Click += (sender, e) =>
@@ -560,10 +568,10 @@ namespace osu_launcher.Forms
                 Name = "label" + software.Name,
                 TabIndex = 1,
                 Text = software.Name,
-                Font = new System.Drawing.Font(FontCollection.Families[1], 15)
+                Font = new System.Drawing.Font(FontCollection.Families[1], 15),
+                ContextMenuStrip = new ContextMenuStrip()
             };
 
-            softwareNameLabel.ContextMenuStrip = new ContextMenuStrip();
             softwareNameLabel.ContextMenuStrip.Items.Add("Edit").Click += (_object, _event) =>
             {
                 if (Application.OpenForms.OfType<AddSoftware>().Any()) return;
@@ -629,8 +637,8 @@ namespace osu_launcher.Forms
             if (result == DialogResult.Yes) DeleteSongFolder();
         }
 
-        // Open User Manager
-        private void USERNAME_BUTTON_Click(object sender, EventArgs e)
+        // Open Profile Manager
+        private void PROFILE_BUTTON_Click(object sender, EventArgs e)
         {
             // Check if the form is already open
             if (Application.OpenForms.OfType<ProfileForm>().Any()) return;
@@ -647,7 +655,7 @@ namespace osu_launcher.Forms
 
         private void RefreshProfile()
         {
-            USERNAME_BUTTON.Text = CurrentProfile?.Name ?? "No Profile";
+            PROFILE_BUTTON.Text = CurrentProfile?.Name ?? "No Profile";
             HEIGHT_TEXTBOX.Text = CurrentProfile?.Height.ToString() ?? "";
             WIDTH_TEXTBOX.Text = CurrentProfile?.Width.ToString() ?? "";
             FULLSCREEN_CHECKBOX.Checked = CurrentProfile?.Fullscreen ?? false;
