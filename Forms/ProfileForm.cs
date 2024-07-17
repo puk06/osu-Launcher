@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -21,6 +22,7 @@ namespace osu_launcher.Forms
         {
             _mainForm = mainForm;
             InitializeComponent();
+            SetFont();
             MASTER_BAR.Value = 100;
             EFFECT_BAR.Value = 100;
             MUSIC_BAR.Value = 100;
@@ -63,8 +65,58 @@ namespace osu_launcher.Forms
             else
             {
                 MessageBox.Show("The skins folder was not found. The skin selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CHANGESKIN_CHECKBOX.Enabled = false;
+                CHANGESKINEDIT_CHECKBOX.Enabled = false;
                 SKIN_COMBOBOX.Enabled = false;
                 SKINEDIT_COMBOBOX.Enabled = false;
+            }
+        }
+
+        // Set the font
+        private void SetFont()
+        {
+            // Set the font to the controls
+            foreach (Control control in Controls)
+            {
+                SetFontToControls(control);
+            }
+
+            // MainTab
+            foreach (Control control in MainTab.Controls)
+            {
+                SetFontToControls(control);
+            }
+
+            // ProfilesTab
+            foreach (Control control in ProfilesTab.Controls)
+            {
+                SetFontToControls(control);
+            }
+
+            // CreateTab
+            foreach (Control control in CreateTab.Controls)
+            {
+                SetFontToControls(control);
+            }
+
+            // EditTab
+            foreach (Control control in EditTab.Controls)
+            {
+                SetFontToControls(control);
+            }
+        }
+
+        // Set the font to the controls
+        private void SetFontToControls(Control control)
+        {
+            switch (control.Font.Name)
+            {
+                case "Noto Sans JP":
+                    control.Font = new Font(_mainForm.FontCollection.Families[0], control.Font.Size, control.Font.Style, control.Font.Unit, control.Font.GdiCharSet);
+                    break;
+                case "Quicksand Light":
+                    control.Font = new Font(_mainForm.FontCollection.Families[1], control.Font.Size, control.Font.Style, control.Font.Unit, control.Font.GdiCharSet);
+                    break;
             }
         }
 
@@ -80,7 +132,12 @@ namespace osu_launcher.Forms
             FULLSCREENEDIT_CHECKBOX.Enabled = value;
             CHANGEAUDIOEDIT_CHECKBOX.Enabled = value;
             OFFSETEDIT_TEXTBOX.Enabled = value;
+            EDIT_BUTTON.Enabled = value;
+            EDITRESET_BUTTON.Enabled = value;
+            if (SKINEDIT_COMBOBOX.Items.Count <= 0) return;
+            SKINEDIT_COMBOBOX.Enabled = value;
             CHANGESKINEDIT_CHECKBOX.Enabled = value;
+
         }
 
         // Generate a button for each profile
@@ -89,7 +146,7 @@ namespace osu_launcher.Forms
             Button button = new Button
             {
                 Text = profile.Name,
-                Location = new Point(14, 45 * (UsersTab.Controls.OfType<Button>().Count() + 1)),
+                Location = new Point(14, 45 * (ProfilesTab.Controls.OfType<Button>().Count() + 1)),
                 Size = new Size(250, 42),
                 Font = new Font(_mainForm.FontCollection.Families[0], 15.75F)
             };
@@ -105,7 +162,7 @@ namespace osu_launcher.Forms
                 var result = MessageBox.Show("Are you sure you want to delete this profile?", "Delete Profile", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.No) return;
                 _mainForm.Profiles = _mainForm.Profiles.Where(u => u.Name != profile.Name);
-                UsersTab.Controls.OfType<Button>().ToList().ForEach(c => c.Dispose());
+                ProfilesTab.Controls.OfType<Button>().ToList().ForEach(c => c.Dispose());
                 PROFILEEDIT_COMBOBOX.Items.Clear();
                 foreach (var p in _mainForm.Profiles)
                 {
@@ -127,7 +184,7 @@ namespace osu_launcher.Forms
                 _mainForm.SaveConfigData();
                 _mainForm.CurrentProfile = null;
             };
-            UsersTab.Controls.Add(button);
+            ProfilesTab.Controls.Add(button);
         }
 
         // This is the event handler for the CREATE_BUTTON
@@ -368,7 +425,7 @@ namespace osu_launcher.Forms
         // Update the profile on the Users tab and edit combobox
         private void UpdateProfile()
         {
-            UsersTab.Controls.OfType<Button>().ToList().ForEach(c => c.Dispose());
+            ProfilesTab.Controls.OfType<Button>().ToList().ForEach(c => c.Dispose());
             PROFILEEDIT_COMBOBOX.Items.Clear();
             foreach (var p in _mainForm.Profiles)
             {
@@ -394,7 +451,7 @@ namespace osu_launcher.Forms
         private void HightLightCurrentProfile()
         {
             if (_mainForm.CurrentProfile == null) return;
-            foreach (Button button in UsersTab.Controls.OfType<Button>())
+            foreach (Button button in ProfilesTab.Controls.OfType<Button>())
             {
                 if (button.Text == _mainForm.CurrentProfile.Name)
                 {

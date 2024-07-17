@@ -32,10 +32,10 @@ namespace osu_launcher.Forms
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProfileForm));
             this.MainTab = new System.Windows.Forms.TabControl();
-            this.UsersTab = new System.Windows.Forms.TabPage();
+            this.ProfilesTab = new System.Windows.Forms.TabPage();
             this.SELECTUSER_LABEL = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.ResisterTab = new System.Windows.Forms.TabPage();
+            this.CreateTab = new System.Windows.Forms.TabPage();
             this.CHANGESKIN_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.SKIN_COMBOBOX = new System.Windows.Forms.ComboBox();
             this.SKIN_LABE = new System.Windows.Forms.Label();
@@ -125,8 +125,8 @@ namespace osu_launcher.Forms
             this.EDITPROFILE_LABEL = new System.Windows.Forms.Label();
             this.USERFORM_LABEL = new System.Windows.Forms.Label();
             this.MainTab.SuspendLayout();
-            this.UsersTab.SuspendLayout();
-            this.ResisterTab.SuspendLayout();
+            this.ProfilesTab.SuspendLayout();
+            this.CreateTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MUSIC_BAR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EFFECT_BAR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MASTER_BAR)).BeginInit();
@@ -138,8 +138,8 @@ namespace osu_launcher.Forms
             // 
             // MainTab
             // 
-            this.MainTab.Controls.Add(this.UsersTab);
-            this.MainTab.Controls.Add(this.ResisterTab);
+            this.MainTab.Controls.Add(this.ProfilesTab);
+            this.MainTab.Controls.Add(this.CreateTab);
             this.MainTab.Controls.Add(this.EditTab);
             this.MainTab.Font = new System.Drawing.Font("Quicksand Light", 9F);
             this.MainTab.Location = new System.Drawing.Point(12, 54);
@@ -148,18 +148,18 @@ namespace osu_launcher.Forms
             this.MainTab.Size = new System.Drawing.Size(291, 384);
             this.MainTab.TabIndex = 0;
             // 
-            // UsersTab
+            // ProfilesTab
             // 
-            this.UsersTab.AutoScroll = true;
-            this.UsersTab.Controls.Add(this.SELECTUSER_LABEL);
-            this.UsersTab.Controls.Add(this.label3);
-            this.UsersTab.Font = new System.Drawing.Font("Quicksand Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UsersTab.Location = new System.Drawing.Point(4, 27);
-            this.UsersTab.Name = "UsersTab";
-            this.UsersTab.Padding = new System.Windows.Forms.Padding(3);
-            this.UsersTab.Size = new System.Drawing.Size(283, 353);
-            this.UsersTab.TabIndex = 0;
-            this.UsersTab.Text = "Profiles";
+            this.ProfilesTab.AutoScroll = true;
+            this.ProfilesTab.Controls.Add(this.SELECTUSER_LABEL);
+            this.ProfilesTab.Controls.Add(this.label3);
+            this.ProfilesTab.Font = new System.Drawing.Font("Quicksand Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProfilesTab.Location = new System.Drawing.Point(4, 27);
+            this.ProfilesTab.Name = "ProfilesTab";
+            this.ProfilesTab.Padding = new System.Windows.Forms.Padding(3);
+            this.ProfilesTab.Size = new System.Drawing.Size(283, 353);
+            this.ProfilesTab.TabIndex = 0;
+            this.ProfilesTab.Text = "Profiles";
             // 
             // SELECTUSER_LABEL
             // 
@@ -179,58 +179,58 @@ namespace osu_launcher.Forms
             this.label3.Size = new System.Drawing.Size(250, 1);
             this.label3.TabIndex = 21;
             // 
-            // ResisterTab
+            // CreateTab
             // 
-            this.ResisterTab.AutoScroll = true;
-            this.ResisterTab.Controls.Add(this.CHANGESKIN_CHECKBOX);
-            this.ResisterTab.Controls.Add(this.SKIN_COMBOBOX);
-            this.ResisterTab.Controls.Add(this.SKIN_LABE);
-            this.ResisterTab.Controls.Add(this.label4);
-            this.ResisterTab.Controls.Add(this.CHANGEAUDIO_CHECKBOX);
-            this.ResisterTab.Controls.Add(this.OFFSET_TEXTBOX);
-            this.ResisterTab.Controls.Add(this.OFFSET_LABEL);
-            this.ResisterTab.Controls.Add(this.label11);
-            this.ResisterTab.Controls.Add(this.OFFSETMASTER_LABEL);
-            this.ResisterTab.Controls.Add(this.MUSIC_BAR);
-            this.ResisterTab.Controls.Add(this.MUSIC_LABEL);
-            this.ResisterTab.Controls.Add(this.EFFECT_BAR);
-            this.ResisterTab.Controls.Add(this.EFFECT_LABEL);
-            this.ResisterTab.Controls.Add(this.MASTER_BAR);
-            this.ResisterTab.Controls.Add(this.AUDIO_LABEL);
-            this.ResisterTab.Controls.Add(this.label5);
-            this.ResisterTab.Controls.Add(this.MASTER_LABEL);
-            this.ResisterTab.Controls.Add(this.FULLSCREEN_CHECKBOX);
-            this.ResisterTab.Controls.Add(this.METERSTYLE_COMBOBOX);
-            this.ResisterTab.Controls.Add(this.METERSTYLE_LABEL);
-            this.ResisterTab.Controls.Add(this.HEIGHT_LABEL);
-            this.ResisterTab.Controls.Add(this.HEIGHT_TEXTBOX);
-            this.ResisterTab.Controls.Add(this.RESOLUTION_LABEL);
-            this.ResisterTab.Controls.Add(this.label9);
-            this.ResisterTab.Controls.Add(this.WIDTH_LABEL);
-            this.ResisterTab.Controls.Add(this.label7);
-            this.ResisterTab.Controls.Add(this.label6);
-            this.ResisterTab.Controls.Add(this.SCOREMETER_TEXTBOX);
-            this.ResisterTab.Controls.Add(this.SCOREMETER_LABEL);
-            this.ResisterTab.Controls.Add(this.WIDTH_TEXTBOX);
-            this.ResisterTab.Controls.Add(this.NAME_TEXTBOX);
-            this.ResisterTab.Controls.Add(this.NAME_LABEL);
-            this.ResisterTab.Controls.Add(this.label1);
-            this.ResisterTab.Controls.Add(this.RESET_BUTTON);
-            this.ResisterTab.Controls.Add(this.CREATE_BUTTON);
-            this.ResisterTab.Controls.Add(this.CONFIRM_TEXTBOX);
-            this.ResisterTab.Controls.Add(this.CONFIRM_LABEL);
-            this.ResisterTab.Controls.Add(this.PASSWORD_TEXTBOX);
-            this.ResisterTab.Controls.Add(this.PASSWORD_LABEL);
-            this.ResisterTab.Controls.Add(this.USERNAME_TEXTBOX);
-            this.ResisterTab.Controls.Add(this.USERNAME_LABEL);
-            this.ResisterTab.Controls.Add(this.NEWUSER_LABEL);
-            this.ResisterTab.Font = new System.Drawing.Font("Quicksand Light", 9F);
-            this.ResisterTab.Location = new System.Drawing.Point(4, 27);
-            this.ResisterTab.Name = "ResisterTab";
-            this.ResisterTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ResisterTab.Size = new System.Drawing.Size(283, 353);
-            this.ResisterTab.TabIndex = 1;
-            this.ResisterTab.Text = "Create Profile";
+            this.CreateTab.AutoScroll = true;
+            this.CreateTab.Controls.Add(this.CHANGESKIN_CHECKBOX);
+            this.CreateTab.Controls.Add(this.SKIN_COMBOBOX);
+            this.CreateTab.Controls.Add(this.SKIN_LABE);
+            this.CreateTab.Controls.Add(this.label4);
+            this.CreateTab.Controls.Add(this.CHANGEAUDIO_CHECKBOX);
+            this.CreateTab.Controls.Add(this.OFFSET_TEXTBOX);
+            this.CreateTab.Controls.Add(this.OFFSET_LABEL);
+            this.CreateTab.Controls.Add(this.label11);
+            this.CreateTab.Controls.Add(this.OFFSETMASTER_LABEL);
+            this.CreateTab.Controls.Add(this.MUSIC_BAR);
+            this.CreateTab.Controls.Add(this.MUSIC_LABEL);
+            this.CreateTab.Controls.Add(this.EFFECT_BAR);
+            this.CreateTab.Controls.Add(this.EFFECT_LABEL);
+            this.CreateTab.Controls.Add(this.MASTER_BAR);
+            this.CreateTab.Controls.Add(this.AUDIO_LABEL);
+            this.CreateTab.Controls.Add(this.label5);
+            this.CreateTab.Controls.Add(this.MASTER_LABEL);
+            this.CreateTab.Controls.Add(this.FULLSCREEN_CHECKBOX);
+            this.CreateTab.Controls.Add(this.METERSTYLE_COMBOBOX);
+            this.CreateTab.Controls.Add(this.METERSTYLE_LABEL);
+            this.CreateTab.Controls.Add(this.HEIGHT_LABEL);
+            this.CreateTab.Controls.Add(this.HEIGHT_TEXTBOX);
+            this.CreateTab.Controls.Add(this.RESOLUTION_LABEL);
+            this.CreateTab.Controls.Add(this.label9);
+            this.CreateTab.Controls.Add(this.WIDTH_LABEL);
+            this.CreateTab.Controls.Add(this.label7);
+            this.CreateTab.Controls.Add(this.label6);
+            this.CreateTab.Controls.Add(this.SCOREMETER_TEXTBOX);
+            this.CreateTab.Controls.Add(this.SCOREMETER_LABEL);
+            this.CreateTab.Controls.Add(this.WIDTH_TEXTBOX);
+            this.CreateTab.Controls.Add(this.NAME_TEXTBOX);
+            this.CreateTab.Controls.Add(this.NAME_LABEL);
+            this.CreateTab.Controls.Add(this.label1);
+            this.CreateTab.Controls.Add(this.RESET_BUTTON);
+            this.CreateTab.Controls.Add(this.CREATE_BUTTON);
+            this.CreateTab.Controls.Add(this.CONFIRM_TEXTBOX);
+            this.CreateTab.Controls.Add(this.CONFIRM_LABEL);
+            this.CreateTab.Controls.Add(this.PASSWORD_TEXTBOX);
+            this.CreateTab.Controls.Add(this.PASSWORD_LABEL);
+            this.CreateTab.Controls.Add(this.USERNAME_TEXTBOX);
+            this.CreateTab.Controls.Add(this.USERNAME_LABEL);
+            this.CreateTab.Controls.Add(this.NEWUSER_LABEL);
+            this.CreateTab.Font = new System.Drawing.Font("Quicksand Light", 9F);
+            this.CreateTab.Location = new System.Drawing.Point(4, 27);
+            this.CreateTab.Name = "CreateTab";
+            this.CreateTab.Padding = new System.Windows.Forms.Padding(3);
+            this.CreateTab.Size = new System.Drawing.Size(283, 353);
+            this.CreateTab.TabIndex = 1;
+            this.CreateTab.Text = "Create Profile";
             // 
             // CHANGESKIN_CHECKBOX
             // 
@@ -1160,10 +1160,10 @@ namespace osu_launcher.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProfileForm";
             this.MainTab.ResumeLayout(false);
-            this.UsersTab.ResumeLayout(false);
-            this.UsersTab.PerformLayout();
-            this.ResisterTab.ResumeLayout(false);
-            this.ResisterTab.PerformLayout();
+            this.ProfilesTab.ResumeLayout(false);
+            this.ProfilesTab.PerformLayout();
+            this.CreateTab.ResumeLayout(false);
+            this.CreateTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MUSIC_BAR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EFFECT_BAR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MASTER_BAR)).EndInit();
@@ -1180,8 +1180,8 @@ namespace osu_launcher.Forms
         #endregion
 
         private System.Windows.Forms.TabControl MainTab;
-        private System.Windows.Forms.TabPage UsersTab;
-        private System.Windows.Forms.TabPage ResisterTab;
+        private System.Windows.Forms.TabPage ProfilesTab;
+        private System.Windows.Forms.TabPage CreateTab;
         private System.Windows.Forms.Label USERFORM_LABEL;
         private System.Windows.Forms.Label NEWUSER_LABEL;
         private System.Windows.Forms.Button RESET_BUTTON;

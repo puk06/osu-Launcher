@@ -209,6 +209,7 @@ namespace osu_launcher.Forms
             this.OSUFOLDER_FOLDEROPEN_BUTTON.TabIndex = 74;
             this.OSUFOLDER_FOLDEROPEN_BUTTON.Text = "open";
             this.OSUFOLDER_FOLDEROPEN_BUTTON.UseVisualStyleBackColor = true;
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.Click += new System.EventHandler(this.OSUFOLDER_FOLDEROPEN_BUTTON_Click);
             // 
             // label3
             // 

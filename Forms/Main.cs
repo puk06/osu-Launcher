@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
@@ -72,6 +73,9 @@ namespace osu_launcher.Forms
 
                 // Initialize the components
                 InitializeComponent();
+
+                // Set the font
+                SetFont();
 
                 // Set meter style
                 METERSTYLE_COMBOBOX.SelectedIndex = 0;
@@ -154,6 +158,48 @@ namespace osu_launcher.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("osu-Launcher could not be launched. The reasons are as follows.\n" + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Set the font
+        private void SetFont()
+        {
+            //すべてのコントロールにフォントを設定
+            foreach (Control control in Controls)
+            {
+                SetFontToControls(control);
+            }
+            
+            //MainTab
+            foreach (Control control in MainTab.Controls)
+            {
+                SetFontToControls(control);
+            }
+
+            //SoftwareTab
+            foreach (Control control in SoftwareTab.Controls)
+            {
+                SetFontToControls(control);
+            }
+
+            //SettingsTab
+            foreach (Control control in SettingsTab.Controls)
+            {
+                SetFontToControls(control);
+            }
+        }
+
+        // Set the font to the controls
+        private void SetFontToControls(Control control)
+        {
+            switch (control.Font.Name)
+            {
+                case "Noto Sans JP":
+                    control.Font = new Font(FontCollection.Families[0], control.Font.Size, control.Font.Style, control.Font.Unit, control.Font.GdiCharSet);
+                    break;
+                case "Quicksand Light":
+                    control.Font = new Font(FontCollection.Families[1], control.Font.Size, control.Font.Style, control.Font.Unit, control.Font.GdiCharSet);
+                    break;
             }
         }
 
@@ -743,6 +789,16 @@ namespace osu_launcher.Forms
             MASTER_BAR.Enabled = CHANGEAUDIO_CHECKBOX.Checked;
             EFFECT_BAR.Enabled = CHANGEAUDIO_CHECKBOX.Checked;
             AUDIO_BAR.Enabled = CHANGEAUDIO_CHECKBOX.Checked;
+        }
+
+        private void OSUFOLDER_FOLDEROPEN_BUTTON_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.Description = "Select the osu! folder";
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                OSUFOLDER_TEXTBOX.Text = folderBrowserDialog.SelectedPath;
+            }
         }
     }
 }

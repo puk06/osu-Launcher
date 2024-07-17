@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing.Text;
+using System.Windows.Forms;
 
 namespace osu_launcher.Forms
 {
@@ -30,6 +31,7 @@ namespace osu_launcher.Forms
         /// </summary>
         private void InitializeComponent()
         {
+
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddSoftware));
             this.ADDSOFTWARE_LABEL = new System.Windows.Forms.Label();
             this.NAME_LABEL = new System.Windows.Forms.Label();
