@@ -124,7 +124,7 @@ namespace osu_launcher.Forms
                 }
 
                 var enumerable = Profiles as Profile[] ?? Profiles.ToArray();
-                if (enumerable.Any())
+                if (enumerable.Length > 0)
                 {
                     CurrentProfile = enumerable.First();
                     PROFILE_BUTTON.Text = CurrentProfile.Name;
@@ -165,7 +165,7 @@ namespace osu_launcher.Forms
                 // Check if the values are valid
                 var reasons = CheckValue();
                 var enumerable = reasons as string[] ?? reasons.ToArray();
-                if (enumerable.Any())
+                if (enumerable.Length > 0)
                 {
                     MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + string.Join("\n", enumerable), "Error",
                                                MessageBoxButtons.OK, MessageBoxIcon.Error);
