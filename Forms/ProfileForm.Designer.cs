@@ -288,6 +288,7 @@ namespace osu_launcher.Forms
             // OFFSET_TEXTBOX
             // 
             this.OFFSET_TEXTBOX.Location = new System.Drawing.Point(100, 640);
+            this.OFFSET_TEXTBOX.Font = new System.Drawing.Font(_mainForm.FontCollection.Families[0], 10F);
             this.OFFSET_TEXTBOX.Name = "OFFSET_TEXTBOX";
             this.OFFSET_TEXTBOX.Size = new System.Drawing.Size(158, 22);
             this.OFFSET_TEXTBOX.TabIndex = 64;
