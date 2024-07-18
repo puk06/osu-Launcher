@@ -713,6 +713,7 @@ namespace osu_launcher.Forms
             // PROFILEEDIT_COMBOBOX
             // 
             this.PROFILEEDIT_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PROFILEEDIT_COMBOBOX.Font = new System.Drawing.Font(_mainForm.FontCollection.Families[0], 10F);
             this.PROFILEEDIT_COMBOBOX.FormattingEnabled = true;
             this.PROFILEEDIT_COMBOBOX.Location = new System.Drawing.Point(100, 15);
             this.PROFILEEDIT_COMBOBOX.Name = "PROFILEEDIT_COMBOBOX";
@@ -776,6 +777,7 @@ namespace osu_launcher.Forms
             // OFFSETEDIT_TEXTBOX
             // 
             this.OFFSETEDIT_TEXTBOX.Location = new System.Drawing.Point(100, 687);
+            this.OFFSETEDIT_TEXTBOX.Font = new System.Drawing.Font(_mainForm.FontCollection.Families[0], 10F);
             this.OFFSETEDIT_TEXTBOX.Name = "OFFSETEDIT_TEXTBOX";
             this.OFFSETEDIT_TEXTBOX.Size = new System.Drawing.Size(158, 22);
             this.OFFSETEDIT_TEXTBOX.TabIndex = 108;
