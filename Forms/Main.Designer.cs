@@ -38,7 +38,6 @@ namespace osu_launcher.Forms
             this.SettingsTab = new System.Windows.Forms.TabPage();
             this.CHANGEAUDIO_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.OSUFOLDER_FOLDEROPEN_BUTTON = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.SKIN_COMBOBOX = new System.Windows.Forms.ComboBox();
             this.CHANGESKIN_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -84,6 +83,10 @@ namespace osu_launcher.Forms
             this.SERVER_LABEL = new System.Windows.Forms.Label();
             this.PROFILE_LABEL = new System.Windows.Forms.Label();
             this.PROFILE_BUTTON = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.PASSWORDAUTOCOPY_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.MainTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AUDIO_BAR)).BeginInit();
@@ -138,9 +141,12 @@ namespace osu_launcher.Forms
             // SettingsTab
             // 
             this.SettingsTab.AutoScroll = true;
+            this.SettingsTab.Controls.Add(this.label3);
+            this.SettingsTab.Controls.Add(this.PASSWORDAUTOCOPY_CHECKBOX);
+            this.SettingsTab.Controls.Add(this.label12);
+            this.SettingsTab.Controls.Add(this.label13);
             this.SettingsTab.Controls.Add(this.CHANGEAUDIO_CHECKBOX);
             this.SettingsTab.Controls.Add(this.OSUFOLDER_FOLDEROPEN_BUTTON);
-            this.SettingsTab.Controls.Add(this.label3);
             this.SettingsTab.Controls.Add(this.SKIN_COMBOBOX);
             this.SettingsTab.Controls.Add(this.CHANGESKIN_CHECKBOX);
             this.SettingsTab.Controls.Add(this.label5);
@@ -210,14 +216,6 @@ namespace osu_launcher.Forms
             this.OSUFOLDER_FOLDEROPEN_BUTTON.Text = "open";
             this.OSUFOLDER_FOLDEROPEN_BUTTON.UseVisualStyleBackColor = true;
             this.OSUFOLDER_FOLDEROPEN_BUTTON.Click += new System.EventHandler(this.OSUFOLDER_FOLDEROPEN_BUTTON_Click);
-            // 
-            // label3
-            // 
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(31, 845);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(750, 1);
-            this.label3.TabIndex = 73;
             // 
             // SKIN_COMBOBOX
             // 
@@ -300,7 +298,7 @@ namespace osu_launcher.Forms
             this.AUDIOVALUE_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 13F);
             this.AUDIOVALUE_LABEL.Location = new System.Drawing.Point(457, 557);
             this.AUDIOVALUE_LABEL.Name = "AUDIOVALUE_LABEL";
-            this.AUDIOVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
+            this.AUDIOVALUE_LABEL.Size = new System.Drawing.Size(55, 26);
             this.AUDIOVALUE_LABEL.TabIndex = 63;
             this.AUDIOVALUE_LABEL.Text = "100%";
             // 
@@ -310,7 +308,7 @@ namespace osu_launcher.Forms
             this.EFFECTVALUE_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 13F);
             this.EFFECTVALUE_LABEL.Location = new System.Drawing.Point(456, 528);
             this.EFFECTVALUE_LABEL.Name = "EFFECTVALUE_LABEL";
-            this.EFFECTVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
+            this.EFFECTVALUE_LABEL.Size = new System.Drawing.Size(55, 26);
             this.EFFECTVALUE_LABEL.TabIndex = 62;
             this.EFFECTVALUE_LABEL.Text = "100%";
             // 
@@ -320,7 +318,7 @@ namespace osu_launcher.Forms
             this.MASTERVALUE_LABEL.Font = new System.Drawing.Font(FontCollection.Families[1], 13F);
             this.MASTERVALUE_LABEL.Location = new System.Drawing.Point(456, 498);
             this.MASTERVALUE_LABEL.Name = "MASTERVALUE_LABEL";
-            this.MASTERVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
+            this.MASTERVALUE_LABEL.Size = new System.Drawing.Size(55, 26);
             this.MASTERVALUE_LABEL.TabIndex = 61;
             this.MASTERVALUE_LABEL.Text = "100%";
             // 
@@ -653,6 +651,42 @@ namespace osu_launcher.Forms
             this.PROFILE_BUTTON.UseVisualStyleBackColor = true;
             this.PROFILE_BUTTON.Click += new System.EventHandler(this.PROFILE_BUTTON_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font(FontCollection.Families[1], 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(23, 830);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(119, 35);
+            this.label12.TabIndex = 77;
+            this.label12.Text = "Password";
+            // 
+            // label13
+            // 
+            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label13.Location = new System.Drawing.Point(29, 868);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(750, 1);
+            this.label13.TabIndex = 76;
+            // 
+            // PASSWORDAUTOCOPY_CHECKBOX
+            // 
+            this.PASSWORDAUTOCOPY_CHECKBOX.AutoSize = true;
+            this.PASSWORDAUTOCOPY_CHECKBOX.Location = new System.Drawing.Point(34, 882);
+            this.PASSWORDAUTOCOPY_CHECKBOX.Name = "PASSWORDAUTOCOPY_CHECKBOX";
+            this.PASSWORDAUTOCOPY_CHECKBOX.Size = new System.Drawing.Size(139, 37);
+            this.PASSWORDAUTOCOPY_CHECKBOX.TabIndex = 80;
+            this.PASSWORDAUTOCOPY_CHECKBOX.Text = "Auto Copy";
+            this.PASSWORDAUTOCOPY_CHECKBOX.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label3.Location = new System.Drawing.Point(29, 935);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(750, 1);
+            this.label3.TabIndex = 81;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -733,10 +767,13 @@ namespace osu_launcher.Forms
         private Label label5;
         private Label label10;
         private ComboBox SKIN_COMBOBOX;
-        private Label label3;
         private Button OSUFOLDER_FOLDEROPEN_BUTTON;
         private CheckBox CHANGEAUDIO_CHECKBOX;
         private TabPage SoftwareTab;
+        private CheckBox PASSWORDAUTOCOPY_CHECKBOX;
+        private Label label12;
+        private Label label13;
+        private Label label3;
     }
 }
 

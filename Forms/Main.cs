@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
@@ -92,18 +91,21 @@ namespace osu_launcher.Forms
                 _data = JObject.Parse(str);
 
                 // Set the values
+                if (_data["Servers"] == null) _data["Servers"] = new JArray();
                 foreach (var server in _data["Servers"])
                 {
                     SERVERS_COMBOBOX.Items.Add(server);
                 }
                 if (SERVERS_COMBOBOX.Items.Count > 0) SERVERS_COMBOBOX.SelectedIndex = 0;
 
+                if (_data["SongsFolder"] == null) _data["SongsFolder"] = new JArray();
                 foreach (var songFolder in _data["SongsFolder"])
                 {
                     SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
                 }
                 if (SONGSFOLDER_COMBOBOX.Items.Count > 0) SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
 
+                if (_data["Profiles"] == null) _data["Profiles"] = new JArray();
                 foreach (var userdata in _data["Profiles"])
                 {
                     var user = new Profile
@@ -135,13 +137,22 @@ namespace osu_launcher.Forms
                     RefreshProfile();
                 }
 
+                if (_data["osuFolder"] == null) _data["osuFolder"] = string.Empty;
                 OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
                 if (string.IsNullOrEmpty(OSUFOLDER_TEXTBOX.Text))
                 {
                     MessageBox.Show("The osu! folder is not set. Please set it from the Settings tab!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
+                // Copy the value
+                if (_data["PasswordAutoCopy"] == null) _data["PasswordAutoCopy"] = true;
+                else if (_data["PasswordAutoCopy"].ToObject<bool>())
+                {
+                    PASSWORDAUTOCOPY_CHECKBOX.Checked = true;
+                }
+
                 // Load the software
+                if (_data["Softwares"] == null) _data["Softwares"] = new JArray();
                 foreach (var software in _data["Softwares"])
                 {
                     var soft = new Software
@@ -191,10 +202,18 @@ namespace osu_launcher.Forms
                 ChangeConfigValue(osuFolder, parameters);
 
                 // Copy the password
-                if (CurrentProfile != null)
+                if (CurrentProfile != null && PASSWORDAUTOCOPY_CHECKBOX.Checked)
                 {
-                    string decryptedPassword = PasswordProtector.DecryptPassword(Convert.FromBase64String(CurrentProfile.Password));
-                    Clipboard.SetText(decryptedPassword);
+                    try
+                    {
+                        string decryptedPassword =
+                            PasswordProtector.DecryptPassword(Convert.FromBase64String(CurrentProfile.Password));
+                        Clipboard.SetText(decryptedPassword);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("The password could not be copied.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
 
                 // Launch osu!
@@ -234,6 +253,9 @@ namespace osu_launcher.Forms
                 SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
                 (_data["SongsFolder"] as JArray).Add(songFolder);
             }
+
+            // Save the password
+            _data["PasswordAutoCopy"] = PASSWORDAUTOCOPY_CHECKBOX.Checked;
 
             _data["Profiles"] = new JArray();
             foreach (var profile in Profiles)
@@ -285,7 +307,9 @@ namespace osu_launcher.Forms
             var parameters = new Dictionary<string, string>
             {
                 { "CredentialEndpoint", SERVERS_COMBOBOX.Text == "Bancho" ? string.Empty : SERVERS_COMBOBOX.Text },
-                { "BeatmapDirectory", SONGSFOLDER_COMBOBOX.Text }
+                { "BeatmapDirectory", SONGSFOLDER_COMBOBOX.Text },
+                { "SavePassword", "1" },
+                { "SaveUsername", "1" }
             };
 
             AddResolutionParameters(parameters);
@@ -339,6 +363,7 @@ namespace osu_launcher.Forms
             {
                 parameters.Add("VolumeUniversal", MASTER_BAR.Value.ToString());
                 parameters.Add("VolumeEffect", EFFECT_BAR.Value.ToString());
+                parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
                 parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
             }
         }
@@ -533,6 +558,7 @@ namespace osu_launcher.Forms
                     {
                         SoftwareTab.Controls.Clear();
                         LoadSoftwares();
+                        SaveConfigData();
 
                         // Enable the form
                         Enabled = true;
@@ -719,6 +745,9 @@ namespace osu_launcher.Forms
             string skinsPath = Path.Combine(OSUFOLDER_TEXTBOX.Text, "Skins");
             if (Directory.Exists(skinsPath))
             {
+                //すでに選択されてた場合
+                string selectedSkin = SKIN_COMBOBOX.Text;
+
                 SKIN_COMBOBOX.Items.Clear();
                 var folders = Directory.GetDirectories(skinsPath);
                 foreach (var folder in folders)
@@ -731,7 +760,7 @@ namespace osu_launcher.Forms
                     // Skins found
                     CHANGESKIN_CHECKBOX.Checked = true;
                     SKIN_COMBOBOX.Enabled = true;
-                    SKIN_COMBOBOX.SelectedIndex = 0;
+                    SKIN_COMBOBOX.SelectedIndex = SKIN_COMBOBOX.Items.Contains(selectedSkin) ? SKIN_COMBOBOX.Items.IndexOf(selectedSkin) : 0;
                 }
                 else
                 {

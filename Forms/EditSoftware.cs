@@ -41,8 +41,8 @@ namespace osu_launcher.Forms
             var software = new Software
             {
                 Name = NAME_TEXTBOX.Text,
-                Author = AUTHOR_TEXTBOX.Text,
-                Description = DESCRIPTION_TEXTBOX.Text,
+                Author = AUTHOR_TEXTBOX.Text == string.Empty ? "Unknown" : AUTHOR_TEXTBOX.Text,
+                Description = DESCRIPTION_TEXTBOX.Text == string.Empty ? "No description" : DESCRIPTION_TEXTBOX.Text,
                 Path = PATH_TEXTBOX.Text,
                 Checked = _software.Checked
             };
@@ -91,16 +91,6 @@ namespace osu_launcher.Forms
                 Main.AddValueToArray(ref reasons, "❌️ Name is not in English");
             }
 
-            if (string.IsNullOrEmpty(AUTHOR_TEXTBOX.Text))
-            {
-                Main.AddValueToArray(ref reasons, "❌️ Author is empty");
-            }
-
-            if (string.IsNullOrEmpty(DESCRIPTION_TEXTBOX.Text))
-            {
-                Main.AddValueToArray(ref reasons, "❌️ Description is empty");
-            }
-
             if (string.IsNullOrEmpty(PATH_TEXTBOX.Text))
             {
                 Main.AddValueToArray(ref reasons, "❌️ Path is empty");
@@ -114,7 +104,8 @@ namespace osu_launcher.Forms
             return reasons;
         }
 
-        private bool IsEnglish(string text)
+        // Check if the text is in English
+        private static bool IsEnglish(string text)
         {
             return text.All(c => c < 128);
         }
