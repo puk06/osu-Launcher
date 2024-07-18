@@ -132,6 +132,7 @@ namespace osu_launcher.Forms
                 {
                     CurrentProfile = enumerable.First();
                     PROFILE_BUTTON.Text = CurrentProfile.Name;
+                    RefreshProfile();
                 }
 
                 OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
