@@ -21,7 +21,6 @@ namespace osu_launcher.Forms
         {
             _mainForm = mainForm;
             InitializeComponent();
-            SetFont();
             MASTER_BAR.Value = 100;
             EFFECT_BAR.Value = 100;
             MUSIC_BAR.Value = 100;
@@ -163,7 +162,7 @@ namespace osu_launcher.Forms
             if (IsProfileNameDuplicate())
             {
                 ShowErrorMessage("The profile name already exists");
-                NAME_TEXTBOX.Text = "";
+                NAME_TEXTBOX.Text = string.Empty;
                 return;
             }
 
@@ -316,10 +315,11 @@ namespace osu_launcher.Forms
             if (CHANGEAUDIO_CHECKBOX.Checked)
             {
                 profile.ChangeVolume = true;
-                profile.VolumeMaster = MASTER_BAR.Value;
-                profile.VolumeEffect = EFFECT_BAR.Value;
-                profile.VolumeMusic = MUSIC_BAR.Value;
             }
+
+            profile.VolumeMaster = MASTER_BAR.Value;
+            profile.VolumeEffect = EFFECT_BAR.Value;
+            profile.VolumeMusic = MUSIC_BAR.Value;
 
             if (!string.IsNullOrEmpty(OFFSET_TEXTBOX.Text))
             {
@@ -329,8 +329,9 @@ namespace osu_launcher.Forms
             if (CHANGESKIN_CHECKBOX.Checked)
             {
                 profile.ChangeSkin = true;
-                profile.Skin = SKIN_COMBOBOX.SelectedItem.ToString();
             }
+
+            profile.Skin = SKIN_COMBOBOX.Text;
         }
 
         // Add optional parameters to the profile for editing
@@ -356,10 +357,11 @@ namespace osu_launcher.Forms
             if (CHANGEAUDIOEDIT_CHECKBOX.Checked)
             {
                 profile.ChangeVolume = true;
-                profile.VolumeMaster = MASTEREDIT_BAR.Value;
-                profile.VolumeEffect = EFFECTEDIT_BAR.Value;
-                profile.VolumeMusic = MUSICEDIT_BAR.Value;
             }
+
+            profile.VolumeMaster = MASTEREDIT_BAR.Value;
+            profile.VolumeEffect = EFFECTEDIT_BAR.Value;
+            profile.VolumeMusic = MUSICEDIT_BAR.Value;
 
             if (!string.IsNullOrEmpty(OFFSETEDIT_TEXTBOX.Text))
             {
@@ -369,8 +371,9 @@ namespace osu_launcher.Forms
             if (CHANGESKINEDIT_CHECKBOX.Checked)
             {
                 profile.ChangeSkin = true;
-                profile.Skin = SKINEDIT_COMBOBOX.SelectedItem.ToString();
             }
+
+            profile.Skin = SKINEDIT_COMBOBOX.Text;
         }
 
         // Update the profile on the Users tab and edit combobox
@@ -399,6 +402,7 @@ namespace osu_launcher.Forms
             HightLightCurrentProfile();
         }
 
+        // Highlight the current profile
         private void HightLightCurrentProfile()
         {
             if (_mainForm.CurrentProfile == null) return;
@@ -426,40 +430,40 @@ namespace osu_launcher.Forms
         // Reset the values of the form
         private void ResetValue()
         {
-            NAME_TEXTBOX.Text = "";
-            USERNAME_TEXTBOX.Text = "";
-            PASSWORD_TEXTBOX.Text = "";
-            CONFIRM_TEXTBOX.Text = "";
-            SCOREMETER_TEXTBOX.Text = "";
+            NAME_TEXTBOX.Text = string.Empty;
+            USERNAME_TEXTBOX.Text = string.Empty;
+            PASSWORD_TEXTBOX.Text = string.Empty;
+            CONFIRM_TEXTBOX.Text = string.Empty;
+            SCOREMETER_TEXTBOX.Text = string.Empty;
             METERSTYLE_COMBOBOX.SelectedIndex = 0;
-            WIDTH_TEXTBOX.Text = "";
-            HEIGHT_TEXTBOX.Text = "";
+            WIDTH_TEXTBOX.Text = string.Empty;
+            HEIGHT_TEXTBOX.Text = string.Empty;
             FULLSCREEN_CHECKBOX.Checked = false;
             MASTER_BAR.Value = 100;
             EFFECT_BAR.Value = 100;
             MUSIC_BAR.Value = 100;
             CHANGEAUDIO_CHECKBOX.Checked = false;
-            OFFSET_TEXTBOX.Text = "";
+            OFFSET_TEXTBOX.Text = string.Empty;
             if (SKIN_COMBOBOX.Items.Count > 0) SKIN_COMBOBOX.SelectedIndex = 0;
             CHANGESKIN_CHECKBOX.Checked = false;
         }
 
         private void ResetValueEdit()
         {
-            NAMEEDIT_TEXTBOX.Text = "";
-            USERNAMEEDIT_TEXTBOX.Text = "";
-            PASSWORDEDIT_TEXTBOX.Text = "";
-            CONFIRMEDIT_TEXTBOX.Text = "";
-            SCOREMETEREDIT_TEXTBOX.Text = "";
+            NAMEEDIT_TEXTBOX.Text = string.Empty;
+            USERNAMEEDIT_TEXTBOX.Text = string.Empty;
+            PASSWORDEDIT_TEXTBOX.Text = string.Empty;
+            CONFIRMEDIT_TEXTBOX.Text = string.Empty;
+            SCOREMETEREDIT_TEXTBOX.Text = string.Empty;
             METERSTYLEEDIT_COMBOBOX.SelectedIndex = 0;
-            WIDTHEDIT_TEXTBOX.Text = "";
-            HEIGHTEDIT_TEXTBOX.Text = "";
+            WIDTHEDIT_TEXTBOX.Text = string.Empty;
+            HEIGHTEDIT_TEXTBOX.Text = string.Empty;
             FULLSCREENEDIT_CHECKBOX.Checked = false;
             MASTEREDIT_BAR.Value = 100;
             EFFECTEDIT_BAR.Value = 100;
             MUSICEDIT_BAR.Value = 100;
             CHANGEAUDIOEDIT_CHECKBOX.Checked = false;
-            OFFSETEDIT_TEXTBOX.Text = "";
+            OFFSETEDIT_TEXTBOX.Text = string.Empty;
             if (SKINEDIT_COMBOBOX.Items.Count > 0) SKINEDIT_COMBOBOX.SelectedIndex = 0;
             CHANGESKINEDIT_CHECKBOX.Checked = false;
         }
@@ -656,9 +660,9 @@ namespace osu_launcher.Forms
             WIDTHEDIT_TEXTBOX.Text = profile.Width.ToString();
             HEIGHTEDIT_TEXTBOX.Text = profile.Height.ToString();
             FULLSCREENEDIT_CHECKBOX.Checked = profile.Fullscreen;
-            MASTEREDIT_BAR.Value = profile.VolumeMaster ?? 100;
-            EFFECTEDIT_BAR.Value = profile.VolumeEffect ?? 100;
-            MUSICEDIT_BAR.Value = profile.VolumeMusic ?? 100;
+            MASTEREDIT_BAR.Value = profile.VolumeMaster;
+            EFFECTEDIT_BAR.Value = profile.VolumeEffect;
+            MUSICEDIT_BAR.Value = profile.VolumeMusic;
             CHANGEAUDIOEDIT_CHECKBOX.Checked = profile.ChangeVolume;
             OFFSETEDIT_TEXTBOX.Text = profile.Offset.ToString();
             if (SKINEDIT_COMBOBOX.Items.Count > 0)

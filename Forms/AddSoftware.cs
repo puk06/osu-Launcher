@@ -18,38 +18,7 @@ namespace osu_launcher.Forms
             InitializeComponent();
         }
 
-        // Check if the values are valid
-        private IEnumerable<string> CheckValue()
-        {
-            IEnumerable<string> reasons = Array.Empty<string>();
-            if (string.IsNullOrEmpty(NAME_TEXTBOX.Text))
-            {
-                Main.AddValueToArray(ref reasons, "❌️ Name is empty");
-            }
-
-            if (string.IsNullOrEmpty(AUTHOR_TEXTBOX.Text))
-            {
-                Main.AddValueToArray(ref reasons, "❌️ Author is empty");
-            }
-
-            if (string.IsNullOrEmpty(DESCRIPTION_TEXTBOX.Text))
-            {
-                Main.AddValueToArray(ref reasons, "❌️ Description is empty");
-            }
-
-            if (string.IsNullOrEmpty(PATH_TEXTBOX.Text))
-            {
-                Main.AddValueToArray(ref reasons, "❌️ Path is empty");
-            }
-
-            if (!File.Exists(PATH_TEXTBOX.Text))
-            {
-                Main.AddValueToArray(ref reasons, "❌️ Path does not exist");
-            }
-
-            return reasons;
-        }
-
+        // This is the event handler for the CREATE_BUTTON
         private void CREATE_BUTTON_Click(object sender, EventArgs e)
         {
             var reasons = CheckValue();
@@ -82,6 +51,7 @@ namespace osu_launcher.Forms
             Close();
         }
 
+        // This is the event handler for the OPEN_BUTTON
         private void OPEN_BUTTON_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -94,6 +64,47 @@ namespace osu_launcher.Forms
             {
                 PATH_TEXTBOX.Text = openFileDialog.FileName;
             }
+        }
+
+        // This is the event handler for the RESET_BUTTON
+        private void RESET_BUTTON_Click(object sender, EventArgs e)
+        {
+            NAME_TEXTBOX.Text = string.Empty;
+            AUTHOR_TEXTBOX.Text = string.Empty;
+            DESCRIPTION_TEXTBOX.Text = string.Empty;
+            PATH_TEXTBOX.Text = string.Empty;
+        }
+
+        // Check if the values are valid
+        private IEnumerable<string> CheckValue()
+        {
+            IEnumerable<string> reasons = Array.Empty<string>();
+            if (string.IsNullOrEmpty(NAME_TEXTBOX.Text))
+            {
+                Main.AddValueToArray(ref reasons, "❌️ Name is empty");
+            }
+
+            if (string.IsNullOrEmpty(AUTHOR_TEXTBOX.Text))
+            {
+                Main.AddValueToArray(ref reasons, "❌️ Author is empty");
+            }
+
+            if (string.IsNullOrEmpty(DESCRIPTION_TEXTBOX.Text))
+            {
+                Main.AddValueToArray(ref reasons, "❌️ Description is empty");
+            }
+
+            if (string.IsNullOrEmpty(PATH_TEXTBOX.Text))
+            {
+                Main.AddValueToArray(ref reasons, "❌️ Path is empty");
+            }
+
+            if (!File.Exists(PATH_TEXTBOX.Text))
+            {
+                Main.AddValueToArray(ref reasons, "❌️ Path does not exist");
+            }
+
+            return reasons;
         }
     }
 }

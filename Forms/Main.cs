@@ -76,6 +76,9 @@ namespace osu_launcher.Forms
 
                 // Set meter style
                 METERSTYLE_COMBOBOX.SelectedIndex = 0;
+                MASTER_BAR.Value = 100;
+                EFFECT_BAR.Value = 100;
+                AUDIO_BAR.Value = 100;
 
                 // Set the web browser
                 var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
@@ -113,9 +116,9 @@ namespace osu_launcher.Forms
                         Width = userdata["Width"].ToObject<int?>(),
                         Height = userdata["Height"].ToObject<int?>(),
                         Fullscreen = userdata["Fullscreen"].ToObject<bool>(),
-                        VolumeMaster = userdata["VolumeMaster"].ToObject<int?>(),
-                        VolumeEffect = userdata["VolumeEffect"].ToObject<int?>(),
-                        VolumeMusic = userdata["VolumeMusic"].ToObject<int?>(),
+                        VolumeMaster = userdata["VolumeMaster"].ToObject<int>(),
+                        VolumeEffect = userdata["VolumeEffect"].ToObject<int>(),
+                        VolumeMusic = userdata["VolumeMusic"].ToObject<int>(),
                         ChangeVolume = userdata["ChangeVolume"].ToObject<bool>(),
                         Offset = userdata["Offset"].ToObject<int?>(),
                         Skin = userdata["Skin"].ToString(),
@@ -198,7 +201,7 @@ namespace osu_launcher.Forms
                 {
                     FileName = Path.Combine(osuFolder, "osu!.exe"),
                     WorkingDirectory = osuFolder,
-                    Arguments = server == "Bancho" ? "" : "-devserver " + server
+                    Arguments = server == "Bancho" ? string.Empty : "-devserver " + server
                 };
                 Process.Start(startInfo);
 
@@ -280,7 +283,7 @@ namespace osu_launcher.Forms
         {
             var parameters = new Dictionary<string, string>
             {
-                { "CredentialEndpoint", SERVERS_COMBOBOX.Text == "Bancho" ? "" : SERVERS_COMBOBOX.Text },
+                { "CredentialEndpoint", SERVERS_COMBOBOX.Text == "Bancho" ? string.Empty : SERVERS_COMBOBOX.Text },
                 { "BeatmapDirectory", SONGSFOLDER_COMBOBOX.Text }
             };
 
@@ -549,7 +552,7 @@ namespace osu_launcher.Forms
             int baseLocation = 69 * (SoftwareTab.Controls.OfType<CheckBox>().Count() + 1);
             var checkBox = new CheckBox
             {
-                Text = "",
+                Text = string.Empty,
                 AutoSize = true,
                 Location = new System.Drawing.Point(20, baseLocation - 44),
                 Name = software.Name,
@@ -664,21 +667,27 @@ namespace osu_launcher.Forms
             };
         }
 
+        // Refresh the profile
         private void RefreshProfile()
         {
             PROFILE_BUTTON.Text = CurrentProfile?.Name ?? "No Profile";
-            HEIGHT_TEXTBOX.Text = CurrentProfile?.Height.ToString() ?? "";
-            WIDTH_TEXTBOX.Text = CurrentProfile?.Width.ToString() ?? "";
+            HEIGHT_TEXTBOX.Text = CurrentProfile?.Height.ToString() ?? string.Empty;
+            WIDTH_TEXTBOX.Text = CurrentProfile?.Width.ToString() ?? string.Empty;
             FULLSCREEN_CHECKBOX.Checked = CurrentProfile?.Fullscreen ?? false;
-            METERSCALE_TEXTBOX.Text = CurrentProfile?.ScoreMeter.ToString() ?? "";
+            METERSCALE_TEXTBOX.Text = CurrentProfile?.ScoreMeter.ToString() ?? string.Empty;
             METERSTYLE_COMBOBOX.SelectedIndex = CurrentProfile?.MeterStyle ?? 0;
             CHANGEAUDIO_CHECKBOX.Checked = CurrentProfile?.ChangeVolume ?? false;
-            MASTER_BAR.Value = CurrentProfile?.VolumeMaster ?? 0;
-            EFFECT_BAR.Value = CurrentProfile?.VolumeEffect ?? 0;
-            AUDIO_BAR.Value = CurrentProfile?.VolumeMusic ?? 0;
-            OFFSET_TEXTBOX.Text = CurrentProfile?.Offset.ToString() ?? "";
+            MASTER_BAR.Value = CurrentProfile?.VolumeMaster ?? 100;
+            EFFECT_BAR.Value = CurrentProfile?.VolumeEffect ?? 100;
+            AUDIO_BAR.Value = CurrentProfile?.VolumeMusic ?? 100;
+            MASTERVALUE_LABEL.Text = MASTER_BAR.Value + "%";
+            EFFECTVALUE_LABEL.Text = EFFECT_BAR.Value + "%";
+            AUDIOVALUE_LABEL.Text = AUDIO_BAR.Value + "%";
+            OFFSET_TEXTBOX.Text = CurrentProfile?.Offset.ToString() ?? string.Empty;
             CHANGESKIN_CHECKBOX.Checked = CurrentProfile?.ChangeSkin ?? false;
-            if (CHANGESKIN_CHECKBOX.Checked) SKIN_COMBOBOX.Text = CurrentProfile?.Skin ?? "";
+            if (CurrentProfile?.ChangeSkin == null || CurrentProfile?.ChangeSkin != true) return;
+            var skinIndex = SKIN_COMBOBOX.Items.IndexOf(CurrentProfile.Skin);
+            if (skinIndex != -1) SKIN_COMBOBOX.SelectedIndex = SKIN_COMBOBOX.Items.IndexOf(CurrentProfile.Skin);
         }
 
         // Change the audio values

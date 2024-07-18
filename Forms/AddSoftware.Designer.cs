@@ -139,6 +139,7 @@ namespace osu_launcher.Forms
             this.RESET_BUTTON.TabIndex = 10;
             this.RESET_BUTTON.Text = "Reset";
             this.RESET_BUTTON.UseVisualStyleBackColor = true;
+            this.RESET_BUTTON.Click += new System.EventHandler(this.RESET_BUTTON_Click);
             // 
             // label1
             // 

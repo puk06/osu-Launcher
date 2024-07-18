@@ -302,7 +302,7 @@ namespace osu_launcher.Forms
             this.AUDIOVALUE_LABEL.Name = "AUDIOVALUE_LABEL";
             this.AUDIOVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
             this.AUDIOVALUE_LABEL.TabIndex = 63;
-            this.AUDIOVALUE_LABEL.Text = "0%";
+            this.AUDIOVALUE_LABEL.Text = "100%";
             // 
             // EFFECTVALUE_LABEL
             // 
@@ -312,7 +312,7 @@ namespace osu_launcher.Forms
             this.EFFECTVALUE_LABEL.Name = "EFFECTVALUE_LABEL";
             this.EFFECTVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
             this.EFFECTVALUE_LABEL.TabIndex = 62;
-            this.EFFECTVALUE_LABEL.Text = "0%";
+            this.EFFECTVALUE_LABEL.Text = "100%";
             // 
             // MASTERVALUE_LABEL
             // 
@@ -322,7 +322,7 @@ namespace osu_launcher.Forms
             this.MASTERVALUE_LABEL.Name = "MASTERVALUE_LABEL";
             this.MASTERVALUE_LABEL.Size = new System.Drawing.Size(37, 26);
             this.MASTERVALUE_LABEL.TabIndex = 61;
-            this.MASTERVALUE_LABEL.Text = "0%";
+            this.MASTERVALUE_LABEL.Text = "100%";
             // 
             // AUDIO_BAR
             // 
