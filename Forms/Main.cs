@@ -18,7 +18,7 @@ namespace osu_launcher.Forms
     public partial class Main : Form
     {
         // Data Values
-        private readonly JObject _data;
+        private JObject _data;
 
         // Profiles
         public IEnumerable<Profile> Profiles = Array.Empty<Profile>();
@@ -51,132 +51,167 @@ namespace osu_launcher.Forms
         {
             try
             {
-                // Initialize CefSharp
-                var settings = new CefSettings
-                {
-                    RootCachePath =
-                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                            "CefSharp\\Cache")
-                };
-                Cef.Initialize(settings);
-
-                // Check if the files exist
-                if (!File.Exists("./src/Fonts/Quicksand-Light.ttf") || !File.Exists("./src/Fonts/NotoSansJP-Light.ttf"))
-                {
-                    MessageBox.Show("The font file was not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Environment.Exit(1);
-                }
-
-                if (!File.Exists("./src/data.json"))
-                {
-                    MessageBox.Show("The data file was not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Environment.Exit(1);
-                }
-
-                //Add Font File
+                InitializeCefSharp();
+                ValidateRequiredFiles();
                 AddFontFile();
-
-                // Initialize the components
                 InitializeComponent();
-
-                // Set meter style
-                METERSTYLE_COMBOBOX.SelectedIndex = 0;
-                MASTER_BAR.Value = 100;
-                EFFECT_BAR.Value = 100;
-                AUDIO_BAR.Value = 100;
-
-                // Set the web browser
-                var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
-                TopTab.Controls.Add(webBrowser);
-                webBrowser.Dock = DockStyle.Fill;
-
-                // Load the config file
-                StreamReader streamReader = new StreamReader("./src/data.json", Encoding.GetEncoding("Shift_JIS"));
-                string str = streamReader.ReadToEnd();
-                streamReader.Close();
-                _data = JObject.Parse(str);
-
-                // Set the values
-                if (_data["Servers"] == null) _data["Servers"] = new JArray();
-                foreach (var server in _data["Servers"])
-                {
-                    SERVERS_COMBOBOX.Items.Add(server);
-                }
-                if (SERVERS_COMBOBOX.Items.Count > 0) SERVERS_COMBOBOX.SelectedIndex = 0;
-
-                if (_data["SongsFolder"] == null) _data["SongsFolder"] = new JArray();
-                foreach (var songFolder in _data["SongsFolder"])
-                {
-                    SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
-                }
-                if (SONGSFOLDER_COMBOBOX.Items.Count > 0) SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
-
-                if (_data["Profiles"] == null) _data["Profiles"] = new JArray();
-                foreach (var userdata in _data["Profiles"])
-                {
-                    var user = new Profile
-                    {
-                        Name = userdata["Name"].ToString(),
-                        Username = userdata["Username"].ToString(),
-                        Password = userdata["Password"].ToString(),
-                        ScoreMeter = userdata["ScoreMeter"].ToObject<double?>(),
-                        MeterStyle = userdata["MeterStyle"].ToObject<int?>(),
-                        Width = userdata["Width"].ToObject<int?>(),
-                        Height = userdata["Height"].ToObject<int?>(),
-                        Fullscreen = userdata["Fullscreen"].ToObject<bool>(),
-                        VolumeMaster = userdata["VolumeMaster"].ToObject<int>(),
-                        VolumeEffect = userdata["VolumeEffect"].ToObject<int>(),
-                        VolumeMusic = userdata["VolumeMusic"].ToObject<int>(),
-                        ChangeVolume = userdata["ChangeVolume"].ToObject<bool>(),
-                        Offset = userdata["Offset"].ToObject<int?>(),
-                        Skin = userdata["Skin"].ToString(),
-                        ChangeSkin = userdata["ChangeSkin"].ToObject<bool>()
-                    };
-                    AddValueToArray(ref Profiles, user);
-                }
-
-                var enumerable = Profiles as Profile[] ?? Profiles.ToArray();
-                if (enumerable.Length > 0)
-                {
-                    CurrentProfile = enumerable.First();
-                    PROFILE_BUTTON.Text = CurrentProfile.Name;
-                    RefreshProfile();
-                }
-
-                if (_data["osuFolder"] == null) _data["osuFolder"] = string.Empty;
-                OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
-                if (string.IsNullOrEmpty(OSUFOLDER_TEXTBOX.Text))
-                {
-                    MessageBox.Show("The osu! folder is not set. Please set it from the Settings tab!!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                // Copy the value
-                if (_data["PasswordAutoCopy"] == null) _data["PasswordAutoCopy"] = true;
-                else if (_data["PasswordAutoCopy"].ToObject<bool>())
-                {
-                    PASSWORDAUTOCOPY_CHECKBOX.Checked = true;
-                }
-
-                // Load the software
-                if (_data["Softwares"] == null) _data["Softwares"] = new JArray();
-                foreach (var software in _data["Softwares"])
-                {
-                    var soft = new Software
-                    {
-                        Name = software["Name"].ToString(),
-                        Author = software["Author"].ToString(),
-                        Description = software["Description"].ToString(),
-                        Path = software["Path"].ToString(),
-                        Checked = software["Checked"].ToObject<bool>(),
-                    };
-                    AddValueToArray(ref Softwares, soft);
-                }
+                InitializeDefaults();
+                InitializeWebBrowser();
+                LoadConfigFile();
+                InitializeComboboxes();
+                SetInitialProfile();
+                ValidateOsuFolder();
+                SetPasswordAutoCopy();
                 LoadSoftwares();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("osu-Launcher could not be launched. The reasons are as follows.\n" + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorMessage("osu-Launcher could not be launched. The reasons are as follows.\n" + ex);
             }
+        }
+
+        private static void InitializeCefSharp()
+        {
+            var settings = new CefSettings
+            {
+                RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
+            };
+            Cef.Initialize(settings);
+        }
+
+        private static void ValidateRequiredFiles()
+        {
+            if (!File.Exists("./src/Fonts/Quicksand-Light.ttf") || !File.Exists("./src/Fonts/NotoSansJP-Light.ttf"))
+            {
+                ShowErrorMessage("The font file was not found.");
+                Environment.Exit(1);
+            }
+
+            if (!File.Exists("./src/data.json"))
+            {
+                ShowErrorMessage("The data file was not found.");
+                Environment.Exit(1);
+            }
+        }
+
+        private static void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void InitializeDefaults()
+        {
+            METERSTYLE_COMBOBOX.SelectedIndex = 0;
+            MASTER_BAR.Value = 100;
+            EFFECT_BAR.Value = 100;
+            AUDIO_BAR.Value = 100;
+        }
+
+        private void InitializeWebBrowser()
+        {
+            var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
+            TopTab.Controls.Add(webBrowser);
+            webBrowser.Dock = DockStyle.Fill;
+        }
+
+        private void LoadConfigFile()
+        {
+            StreamReader streamReader = new StreamReader("./src/data.json", Encoding.GetEncoding("Shift_JIS"));
+            string str = streamReader.ReadToEnd();
+            streamReader.Close();
+            _data = JObject.Parse(str);
+        }
+
+        private void InitializeComboboxes()
+        {
+            InitializeCombobox(SERVERS_COMBOBOX, _data["Servers"]);
+            InitializeCombobox(SONGSFOLDER_COMBOBOX, _data["SongsFolder"]);
+            InitializeProfiles();
+        }
+
+        private static void InitializeCombobox(ComboBox comboBox, JToken items)
+        {
+            if (items == null) items = new JArray();
+            foreach (var item in items)
+            {
+                comboBox.Items.Add(item);
+            }
+            if (comboBox.Items.Count > 0) comboBox.SelectedIndex = 0;
+        }
+
+        private void InitializeProfiles()
+        {
+            if (_data["Profiles"] == null) _data["Profiles"] = new JArray();
+            foreach (var userdata in _data["Profiles"])
+            {
+                var user = new Profile
+                {
+                    Name = userdata["Name"].ToString(),
+                    Username = userdata["Username"].ToString(),
+                    Password = userdata["Password"].ToString(),
+                    ScoreMeter = userdata["ScoreMeter"].ToObject<double?>(),
+                    MeterStyle = userdata["MeterStyle"].ToObject<int?>(),
+                    Width = userdata["Width"].ToObject<int?>(),
+                    Height = userdata["Height"].ToObject<int?>(),
+                    Fullscreen = userdata["Fullscreen"].ToObject<bool>(),
+                    VolumeMaster = userdata["VolumeMaster"].ToObject<int>(),
+                    VolumeEffect = userdata["VolumeEffect"].ToObject<int>(),
+                    VolumeMusic = userdata["VolumeMusic"].ToObject<int>(),
+                    ChangeVolume = userdata["ChangeVolume"].ToObject<bool>(),
+                    Offset = userdata["Offset"].ToObject<int?>(),
+                    Skin = userdata["Skin"].ToString(),
+                    ChangeSkin = userdata["ChangeSkin"].ToObject<bool>()
+                };
+                AddValueToArray(ref Profiles, user);
+            }
+        }
+
+        private void SetInitialProfile()
+        {
+            var enumerable = Profiles as Profile[] ?? Profiles.ToArray();
+            if (enumerable.Length > 0)
+            {
+                CurrentProfile = enumerable.First();
+                PROFILE_BUTTON.Text = CurrentProfile.Name;
+                RefreshProfile();
+            }
+        }
+
+        private void ValidateOsuFolder()
+        {
+            if (_data["osuFolder"] == null) _data["osuFolder"] = string.Empty;
+            OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
+            if (string.IsNullOrEmpty(OSUFOLDER_TEXTBOX.Text))
+            {
+                ShowErrorMessage("The osu! folder is not set. Please set it from the Settings tab!!");
+            }
+        }
+
+        private void SetPasswordAutoCopy()
+        {
+            if (_data["PasswordAutoCopy"] == null) _data["PasswordAutoCopy"] = true;
+            else if (_data["PasswordAutoCopy"].ToObject<bool>())
+            {
+                PASSWORDAUTOCOPY_CHECKBOX.Checked = true;
+            }
+        }
+
+        private void LoadSoftwares()
+        {
+            if (_data["Softwares"] == null) _data["Softwares"] = new JArray();
+            foreach (var software in _data["Softwares"])
+            {
+                var soft = new Software
+                {
+                    Name = software["Name"].ToString(),
+                    Author = software["Author"].ToString(),
+                    Description = software["Description"].ToString(),
+                    Path = software["Path"].ToString(),
+                    Checked = software["Checked"].ToObject<bool>(),
+                };
+                AddValueToArray(ref Softwares, soft);
+            }
+            LoadSoftwaresButton();
         }
 
         // Add the font file
@@ -550,7 +585,7 @@ namespace osu_launcher.Forms
         }
 
         // Load the software
-        private void LoadSoftwares()
+        private void LoadSoftwaresButton()
         {
             try
             {
@@ -586,7 +621,7 @@ namespace osu_launcher.Forms
                     addSoftwareForm.FormClosed += (_object, _event) =>
                     {
                         SoftwareTab.Controls.Clear();
-                        LoadSoftwares();
+                        LoadSoftwaresButton();
                         SaveConfigData();
 
                         // Enable the form
@@ -646,7 +681,7 @@ namespace osu_launcher.Forms
                 editSoftwareForm.FormClosed += (__object, __event) =>
                 {
                     SoftwareTab.Controls.Clear();
-                    LoadSoftwares();
+                    LoadSoftwaresButton();
                 };
             };
 
@@ -656,7 +691,7 @@ namespace osu_launcher.Forms
                 if (result != DialogResult.Yes) return;
                 Softwares = Softwares.Where(s => s.Name != software.Name).ToArray();
                 SoftwareTab.Controls.Clear();
-                LoadSoftwares();
+                LoadSoftwaresButton();
                 SaveConfigData();
             };
 
