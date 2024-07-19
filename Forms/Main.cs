@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using CefSharp;
 using CefSharp.WinForms;
 using Newtonsoft.Json.Linq;
 using osu_launcher.Classes;
@@ -51,8 +50,8 @@ namespace osu_launcher.Forms
         {
             try
             {
-                InitializeCefSharp();
-                ValidateRequiredFiles();
+                Helper.InitializeCefSharp();
+                Helper.ValidateRequiredFiles();
                 AddFontFile();
                 InitializeComponent();
                 InitializeDefaults();
@@ -66,37 +65,8 @@ namespace osu_launcher.Forms
             }
             catch (Exception ex)
             {
-                ShowErrorMessage("osu-Launcher could not be launched. The reasons are as follows.\n" + ex);
+                Helper.ShowErrorMessage("osu-Launcher could not be launched. The reasons are as follows.\n" + ex);
             }
-        }
-
-        private static void InitializeCefSharp()
-        {
-            var settings = new CefSettings
-            {
-                RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
-            };
-            Cef.Initialize(settings);
-        }
-
-        private static void ValidateRequiredFiles()
-        {
-            if (!File.Exists("./src/Fonts/Quicksand-Light.ttf") || !File.Exists("./src/Fonts/NotoSansJP-Light.ttf"))
-            {
-                ShowErrorMessage("The font file was not found.");
-                Environment.Exit(1);
-            }
-
-            if (!File.Exists("./src/data.json"))
-            {
-                ShowErrorMessage("The data file was not found.");
-                Environment.Exit(1);
-            }
-        }
-
-        private static void ShowErrorMessage(string message)
-        {
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void InitializeDefaults()
@@ -162,7 +132,7 @@ namespace osu_launcher.Forms
                     Skin = userdata["Skin"].ToString(),
                     ChangeSkin = userdata["ChangeSkin"].ToObject<bool>()
                 };
-                AddValueToArray(ref Profiles, user);
+                Helper.AddValueToArray(ref Profiles, user);
             }
         }
 
@@ -183,7 +153,7 @@ namespace osu_launcher.Forms
             OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
             if (string.IsNullOrEmpty(OSUFOLDER_TEXTBOX.Text))
             {
-                ShowErrorMessage("The osu! folder is not set. Please set it from the Settings tab!!");
+                Helper.ShowErrorMessage("The osu! folder is not set. Please set it from the Settings tab!!");
             }
         }
 
@@ -209,7 +179,7 @@ namespace osu_launcher.Forms
                     Path = software["Path"].ToString(),
                     Checked = software["Checked"].ToObject<bool>(),
                 };
-                AddValueToArray(ref Softwares, soft);
+                Helper.AddValueToArray(ref Softwares, soft);
             }
             LoadSoftwaresButton();
         }
@@ -261,9 +231,9 @@ namespace osu_launcher.Forms
 
                 // Change the config values
                 var parameters = AddParameters();
-                
+
                 // Write the config values
-                ChangeConfigValue(osuFolder, parameters);
+                Helper.ChangeConfigValue(osuFolder, parameters);
 
                 // Copy the password
                 if (CurrentProfile != null && PASSWORDAUTOCOPY_CHECKBOX.Checked)
@@ -306,13 +276,13 @@ namespace osu_launcher.Forms
             string songFolder = SONGSFOLDER_COMBOBOX.Text;
             string osuFolder = OSUFOLDER_TEXTBOX.Text;
 
-            if (!ArrayContains(_data["Servers"].ToObject<string[]>(), server))
+            if (!Helper.ArrayContains(_data["Servers"].ToObject<string[]>(), server))
             {
                 SERVERS_COMBOBOX.Items.Add(server);
                 (_data["Servers"] as JArray).Add(server);
             }
 
-            if (!ArrayContains(_data["SongsFolder"].ToObject<string[]>(), songFolder))
+            if (!Helper.ArrayContains(_data["SongsFolder"].ToObject<string[]>(), songFolder))
             {
                 SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
                 (_data["SongsFolder"] as JArray).Add(songFolder);
@@ -390,8 +360,8 @@ namespace osu_launcher.Forms
             string heightKey = FULLSCREEN_CHECKBOX.Checked ? "HeightFullscreen" : "Height";
             string widthKey = FULLSCREEN_CHECKBOX.Checked ? "WidthFullscreen" : "Width";
 
-            AddParameterIfNotEmpty(parameters, heightKey, HEIGHT_TEXTBOX.Text);
-            AddParameterIfNotEmpty(parameters, widthKey, WIDTH_TEXTBOX.Text);
+            Helper.AddParameterIfNotEmpty(parameters, heightKey, HEIGHT_TEXTBOX.Text);
+            Helper.AddParameterIfNotEmpty(parameters, widthKey, WIDTH_TEXTBOX.Text);
         }
 
         // Add the profile parameters
@@ -406,8 +376,8 @@ namespace osu_launcher.Forms
         // Add the optional parameters
         private void AddOptionalParameters(IDictionary<string, string> parameters)
         {
-            AddParameterIfNotEmpty(parameters, "ScoreMeterScale", METERSCALE_TEXTBOX.Text);
-            AddParameterIfNotEmpty(parameters, "Offset", OFFSET_TEXTBOX.Text);
+            Helper.AddParameterIfNotEmpty(parameters, "ScoreMeterScale", METERSCALE_TEXTBOX.Text);
+            Helper.AddParameterIfNotEmpty(parameters, "Offset", OFFSET_TEXTBOX.Text);
 
             if (CHANGESKIN_CHECKBOX.Checked)
             {
@@ -429,15 +399,6 @@ namespace osu_launcher.Forms
                 parameters.Add("VolumeEffect", EFFECT_BAR.Value.ToString());
                 parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
                 parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
-            }
-        }
-
-        // Add the parameter if not empty
-        private static void AddParameterIfNotEmpty(IDictionary<string, string> parameters, string key, string value)
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                parameters.Add(key, value);
             }
         }
 
@@ -471,45 +432,12 @@ namespace osu_launcher.Forms
             }
         }
 
-        // Change the config values
-        private static void ChangeConfigValue(string osuFolder, Dictionary<string, string> param)
-        {
-            try
-            {
-                string username = Environment.UserName;
-                string path = Path.Combine(osuFolder, $"osu!.{username}.cfg");
-                string[] lines = File.ReadAllLines(path);
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    string key = lines[i].Split('=')[0].Trim();
-                    for (int j = 0; j < param.Count; j++)
-                    {
-                        if (key != param.ElementAt(j).Key) continue;
-                        lines[i] = $"{param.ElementAt(j).Key} = {param.ElementAt(j).Value}";
-                        break;
-                    }
-                }
-
-                File.WriteAllLines(path, lines);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        // Add the value to the array
-        public static void AddValueToArray<T>(ref IEnumerable<T> array, T value)
-        {
-            array = array.Append(value).ToArray();
-        }
-
         // Delete the song folder
         private void DeleteSongFolder()
         {
             try
             {
-                if (ArrayContains(_data["SongsFolder"].ToObject<string[]>(), SONGSFOLDER_COMBOBOX.Text))
+                if (Helper.ArrayContains(_data["SongsFolder"].ToObject<string[]>(), SONGSFOLDER_COMBOBOX.Text))
                 {
                     _data["SongsFolder"] = new JArray(_data["SongsFolder"].Where(item => item.ToString() != SONGSFOLDER_COMBOBOX.Text));
                     SONGSFOLDER_COMBOBOX.Items.Remove(SONGSFOLDER_COMBOBOX.Text);
@@ -536,17 +464,17 @@ namespace osu_launcher.Forms
             IEnumerable<string> reasons = Array.Empty<string>();
             if (!Directory.Exists(SONGSFOLDER_COMBOBOX.Text) && SONGSFOLDER_COMBOBOX.Text != "Songs")
             {
-                AddValueToArray(ref reasons, "❌️ Songs folder not found");
+                Helper.AddValueToArray(ref reasons, "❌️ Songs folder not found");
             }
 
             if (!Directory.Exists(OSUFOLDER_TEXTBOX.Text))
             {
-                AddValueToArray(ref reasons, "❌️ osu! folder not found");
+                Helper.AddValueToArray(ref reasons, "❌️ osu! folder not found");
             }
 
             if (!File.Exists(Path.Combine(OSUFOLDER_TEXTBOX.Text, "osu!.exe")))
             {
-                AddValueToArray(ref reasons, "❌️ osu!.exe not found in osu! folder");
+                Helper.AddValueToArray(ref reasons, "❌️ osu!.exe not found in osu! folder");
             }
 
             if (!string.IsNullOrEmpty(WIDTH_TEXTBOX.Text))
@@ -554,12 +482,12 @@ namespace osu_launcher.Forms
                 var result = int.TryParse(WIDTH_TEXTBOX.Text, out int width);
                 if (!result)
                 {
-                    AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
+                    Helper.AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
                 }
 
                 if (width < 0)
                 {
-                    AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
+                    Helper.AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
                 }
             }
 
@@ -568,18 +496,18 @@ namespace osu_launcher.Forms
                 var result = int.TryParse(HEIGHT_TEXTBOX.Text, out int height);
                 if (!result)
                 {
-                    AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
+                    Helper.AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
                 }
 
                 if (height < 0)
                 {
-                    AddValueToArray(ref reasons, "❌️ Height must be greater than 0");
+                    Helper.AddValueToArray(ref reasons, "❌️ Height must be greater than 0");
                 }
             }
 
             if (SERVERS_COMBOBOX.Text != "Bancho" && string.IsNullOrEmpty(SERVERS_COMBOBOX.Text))
             {
-                AddValueToArray(ref reasons, "❌️ Server not selected");
+                Helper.AddValueToArray(ref reasons, "❌️ Server not selected");
             }
 
             return reasons;
@@ -727,9 +655,6 @@ namespace osu_launcher.Forms
             SoftwareTab.Controls.Add(descriptionLabel);
         }
 
-        // Check if the array contains the value
-        private static bool ArrayContains(IEnumerable<string> array, string value) => array.Any(item => item == value);
-
         // Delete the song folder
         private void SONGSFOLDER_DELETE_Click(object sender, EventArgs e)
         {
@@ -762,44 +687,24 @@ namespace osu_launcher.Forms
         // Refresh the profile
         private void RefreshProfile()
         {
-            SetControlText(PROFILE_BUTTON, CurrentProfile?.Name, "No Profile");
-            SetControlText(HEIGHT_TEXTBOX, CurrentProfile?.Height?.ToString());
-            SetControlText(WIDTH_TEXTBOX, CurrentProfile?.Width?.ToString());
-            SetControlChecked(FULLSCREEN_CHECKBOX, CurrentProfile?.Fullscreen);
-            SetControlText(METERSCALE_TEXTBOX, CurrentProfile?.ScoreMeter?.ToString());
-            SetControlSelectedIndex(METERSTYLE_COMBOBOX, CurrentProfile?.MeterStyle ?? 0);
-            SetControlChecked(CHANGEAUDIO_CHECKBOX, CurrentProfile?.ChangeVolume);
-            SetControlValue(MASTER_BAR, CurrentProfile?.VolumeMaster ?? 100);
-            SetControlValue(EFFECT_BAR, CurrentProfile?.VolumeEffect ?? 100);
-            SetControlValue(AUDIO_BAR, CurrentProfile?.VolumeMusic ?? 100);
+            Helper.SetControlText(PROFILE_BUTTON, CurrentProfile?.Name, "No Profile");
+            Helper.SetControlText(HEIGHT_TEXTBOX, CurrentProfile?.Height?.ToString());
+            Helper.SetControlText(WIDTH_TEXTBOX, CurrentProfile?.Width?.ToString());
+            Helper.SetControlChecked(FULLSCREEN_CHECKBOX, CurrentProfile?.Fullscreen);
+            Helper.SetControlText(METERSCALE_TEXTBOX, CurrentProfile?.ScoreMeter?.ToString());
+            Helper.SetControlSelectedIndex(METERSTYLE_COMBOBOX, CurrentProfile?.MeterStyle ?? 0);
+            Helper.SetControlChecked(CHANGEAUDIO_CHECKBOX, CurrentProfile?.ChangeVolume);
+            Helper.SetControlValue(MASTER_BAR, CurrentProfile?.VolumeMaster ?? 100);
+            Helper.SetControlValue(EFFECT_BAR, CurrentProfile?.VolumeEffect ?? 100);
+            Helper.SetControlValue(AUDIO_BAR, CurrentProfile?.VolumeMusic ?? 100);
             UpdateVolumeLabels();
-            SetControlText(OFFSET_TEXTBOX, CurrentProfile?.Offset?.ToString());
-            SetControlChecked(CHANGESKIN_CHECKBOX, CurrentProfile?.ChangeSkin);
+            Helper.SetControlText(OFFSET_TEXTBOX, CurrentProfile?.Offset?.ToString());
+            Helper.SetControlChecked(CHANGESKIN_CHECKBOX, CurrentProfile?.ChangeSkin);
 
             if (CurrentProfile?.ChangeSkin == true)
             {
                 SetSkinComboBox();
             }
-        }
-
-        private static void SetControlText(Control control, string text, string defaultText = "")
-        {
-            control.Text = text ?? defaultText;
-        }
-
-        private static void SetControlChecked(CheckBox checkBox, bool? isChecked)
-        {
-            checkBox.Checked = isChecked ?? false;
-        }
-
-        private static void SetControlValue(TrackBar trackBar, int value)
-        {
-            trackBar.Value = value;
-        }
-
-        private static void SetControlSelectedIndex(ListControl comboBox, int selectedIndex)
-        {
-            comboBox.SelectedIndex = selectedIndex;
         }
 
         private void UpdateVolumeLabels()
