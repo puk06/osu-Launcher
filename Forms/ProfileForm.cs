@@ -477,11 +477,11 @@ namespace osu_launcher.Forms
                 var result = double.TryParse(SCOREMETER_TEXTBOX.Text, out double scoreMeter);
                 if (!result)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Score meter must be a number");
+                    Helper.AddValueToArray(ref reasons, "❌️ Score meter must be a number");
                 }
                 else if (scoreMeter < 0)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Score meter must be between 0 and 1");
+                    Helper.AddValueToArray(ref reasons, "❌️ Score meter must be between 0 and 1");
                 }
             }
 
@@ -490,12 +490,12 @@ namespace osu_launcher.Forms
                 var result = int.TryParse(WIDTH_TEXTBOX.Text, out int width);
                 if (!result)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
+                    Helper.AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
                 }
 
                 if (width < 0)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
+                    Helper.AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
                 }
             }
 
@@ -504,12 +504,12 @@ namespace osu_launcher.Forms
                 var result = int.TryParse(HEIGHT_TEXTBOX.Text, out int height);
                 if (!result)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
+                    Helper.AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
                 }
 
                 if (height < 0)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Height must be greater than 0");
+                    Helper.AddValueToArray(ref reasons, "❌️ Height must be greater than 0");
                 }
             }
 
@@ -518,7 +518,7 @@ namespace osu_launcher.Forms
                 var result = int.TryParse(OFFSET_TEXTBOX.Text, out int offset);
                 if (!result)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Offset contains non-numeric characters");
+                    Helper.AddValueToArray(ref reasons, "❌️ Offset contains non-numeric characters");
                 }
             }
 
@@ -533,11 +533,11 @@ namespace osu_launcher.Forms
                 var result = double.TryParse(SCOREMETEREDIT_TEXTBOX.Text, out double scoreMeter);
                 if (!result)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Score meter must be a number");
+                    Helper.AddValueToArray(ref reasons, "❌️ Score meter must be a number");
                 }
                 else if (scoreMeter < 0)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Score meter must be between 0 and 1");
+                    Helper.AddValueToArray(ref reasons, "❌️ Score meter must be between 0 and 1");
                 }
             }
 
@@ -546,12 +546,12 @@ namespace osu_launcher.Forms
                 var result = int.TryParse(WIDTHEDIT_TEXTBOX.Text, out int width);
                 if (!result)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
+                    Helper.AddValueToArray(ref reasons, "❌️ Width contains non-numeric characters");
                 }
 
                 if (width < 0)
-                {
-                    Main.AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
+                { 
+                    Helper.AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
                 }
             }
 
@@ -560,12 +560,12 @@ namespace osu_launcher.Forms
                 var result = int.TryParse(HEIGHTEDIT_TEXTBOX.Text, out int height);
                 if (!result)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
+                    Helper.AddValueToArray(ref reasons, "❌️ Height contains non-numeric characters");
                 }
 
                 if (height < 0)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Height must be greater than 0");
+                    Helper.AddValueToArray(ref reasons, "❌️ Height must be greater than 0");
                 }
             }
 
@@ -574,7 +574,7 @@ namespace osu_launcher.Forms
                 var result = int.TryParse(OFFSETEDIT_TEXTBOX.Text, out int offset);
                 if (!result)
                 {
-                    Main.AddValueToArray(ref reasons, "❌️ Offset contains non-numeric characters");
+                    Helper.AddValueToArray(ref reasons, "❌️ Offset contains non-numeric characters");
                 }
             }
 

@@ -81,27 +81,27 @@ namespace osu_launcher.Forms
             IEnumerable<string> reasons = Array.Empty<string>();
             if (string.IsNullOrEmpty(NAME_TEXTBOX.Text))
             {
-                Main.AddValueToArray(ref reasons, "❌️ Name is empty");
+                Helper.AddValueToArray(ref reasons, "❌️ Name is empty");
             }
 
             if (!IsEnglish(NAME_TEXTBOX.Text))
             {
-                Main.AddValueToArray(ref reasons, "❌️ Name is not in English");
+                Helper.AddValueToArray(ref reasons, "❌️ Name is not in English");
             }
 
             if (string.IsNullOrEmpty(PATH_TEXTBOX.Text))
             {
-                Main.AddValueToArray(ref reasons, "❌️ Path is empty");
+                Helper.AddValueToArray(ref reasons, "❌️ Path is empty");
             }
 
             if (!File.Exists(PATH_TEXTBOX.Text))
             {
-                Main.AddValueToArray(ref reasons, "❌️ Path does not exist");
+                Helper.AddValueToArray(ref reasons, "❌️ Path does not exist");
             }
 
             if (PATH_TEXTBOX.Text.Contains("ㅤ"))
             {
-                Main.AddValueToArray(ref reasons, "❌️ Path contains invalid characters");
+                Helper.AddValueToArray(ref reasons, "❌️ Path contains invalid characters");
             }
 
             return reasons;
