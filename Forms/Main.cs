@@ -27,10 +27,10 @@ namespace osu_launcher.Forms
         public IEnumerable<Software> Softwares = Array.Empty<Software>();
 
         // GUI Font
-        public readonly FontFamily GuiFont;
+        public FontFamily GuiFont;
 
         // Text Font
-        public readonly FontFamily TextFont;
+        public FontFamily TextFont;
 
         // Current Profile
         public Profile CurrentProfile;
@@ -73,24 +73,8 @@ namespace osu_launcher.Forms
                     Environment.Exit(1);
                 }
 
-                // Add the font files
-                _fontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
-                _fontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
-
-                // Set the font
-                foreach (FontFamily font in _fontCollection.Families)
-                {
-                    Console.WriteLine(font.Name);
-                    switch (font.Name)
-                    {
-                        case "Quicksand Light":
-                            GuiFont = font;
-                            break;
-                        case "Noto Sans JP Light":
-                            TextFont = font;
-                            break;
-                    }
-                }
+                //Add Font File
+                AddFontFile();
 
                 // Initialize the components
                 InitializeComponent();
@@ -192,6 +176,29 @@ namespace osu_launcher.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("osu-Launcher could not be launched. The reasons are as follows.\n" + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Add the font file
+        private void AddFontFile()
+        {
+            // Add the font files
+            _fontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
+            _fontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
+
+            // Set the font
+            foreach (FontFamily font in _fontCollection.Families)
+            {
+                Console.WriteLine(font.Name);
+                switch (font.Name)
+                {
+                    case "Quicksand Light":
+                        GuiFont = font;
+                        break;
+                    case "Noto Sans JP Light":
+                        TextFont = font;
+                        break;
+                }
             }
         }
 
@@ -719,24 +726,60 @@ namespace osu_launcher.Forms
         // Refresh the profile
         private void RefreshProfile()
         {
-            PROFILE_BUTTON.Text = CurrentProfile?.Name ?? "No Profile";
-            HEIGHT_TEXTBOX.Text = CurrentProfile?.Height.ToString() ?? string.Empty;
-            WIDTH_TEXTBOX.Text = CurrentProfile?.Width.ToString() ?? string.Empty;
-            FULLSCREEN_CHECKBOX.Checked = CurrentProfile?.Fullscreen ?? false;
-            METERSCALE_TEXTBOX.Text = CurrentProfile?.ScoreMeter.ToString() ?? string.Empty;
-            METERSTYLE_COMBOBOX.SelectedIndex = CurrentProfile?.MeterStyle ?? 0;
-            CHANGEAUDIO_CHECKBOX.Checked = CurrentProfile?.ChangeVolume ?? false;
-            MASTER_BAR.Value = CurrentProfile?.VolumeMaster ?? 100;
-            EFFECT_BAR.Value = CurrentProfile?.VolumeEffect ?? 100;
-            AUDIO_BAR.Value = CurrentProfile?.VolumeMusic ?? 100;
+            SetControlText(PROFILE_BUTTON, CurrentProfile?.Name, "No Profile");
+            SetControlText(HEIGHT_TEXTBOX, CurrentProfile?.Height?.ToString());
+            SetControlText(WIDTH_TEXTBOX, CurrentProfile?.Width?.ToString());
+            SetControlChecked(FULLSCREEN_CHECKBOX, CurrentProfile?.Fullscreen);
+            SetControlText(METERSCALE_TEXTBOX, CurrentProfile?.ScoreMeter?.ToString());
+            SetControlSelectedIndex(METERSTYLE_COMBOBOX, CurrentProfile?.MeterStyle ?? 0);
+            SetControlChecked(CHANGEAUDIO_CHECKBOX, CurrentProfile?.ChangeVolume);
+            SetControlValue(MASTER_BAR, CurrentProfile?.VolumeMaster ?? 100);
+            SetControlValue(EFFECT_BAR, CurrentProfile?.VolumeEffect ?? 100);
+            SetControlValue(AUDIO_BAR, CurrentProfile?.VolumeMusic ?? 100);
+            UpdateVolumeLabels();
+            SetControlText(OFFSET_TEXTBOX, CurrentProfile?.Offset?.ToString());
+            SetControlChecked(CHANGESKIN_CHECKBOX, CurrentProfile?.ChangeSkin);
+
+            if (CurrentProfile?.ChangeSkin == true)
+            {
+                SetSkinComboBox();
+            }
+        }
+
+        private static void SetControlText(Control control, string text, string defaultText = "")
+        {
+            control.Text = text ?? defaultText;
+        }
+
+        private static void SetControlChecked(CheckBox checkBox, bool? isChecked)
+        {
+            checkBox.Checked = isChecked ?? false;
+        }
+
+        private static void SetControlValue(TrackBar trackBar, int value)
+        {
+            trackBar.Value = value;
+        }
+
+        private static void SetControlSelectedIndex(ListControl comboBox, int selectedIndex)
+        {
+            comboBox.SelectedIndex = selectedIndex;
+        }
+
+        private void UpdateVolumeLabels()
+        {
             MASTERVALUE_LABEL.Text = MASTER_BAR.Value + "%";
             EFFECTVALUE_LABEL.Text = EFFECT_BAR.Value + "%";
             AUDIOVALUE_LABEL.Text = AUDIO_BAR.Value + "%";
-            OFFSET_TEXTBOX.Text = CurrentProfile?.Offset.ToString() ?? string.Empty;
-            CHANGESKIN_CHECKBOX.Checked = CurrentProfile?.ChangeSkin ?? false;
-            if (CurrentProfile?.ChangeSkin == null || CurrentProfile?.ChangeSkin != true) return;
+        }
+
+        private void SetSkinComboBox()
+        {
             var skinIndex = SKIN_COMBOBOX.Items.IndexOf(CurrentProfile.Skin);
-            if (skinIndex != -1) SKIN_COMBOBOX.SelectedIndex = SKIN_COMBOBOX.Items.IndexOf(CurrentProfile.Skin);
+            if (skinIndex != -1)
+            {
+                SKIN_COMBOBOX.SelectedIndex = skinIndex;
+            }
         }
 
         // Change the audio values
