@@ -601,12 +601,12 @@ namespace osu_launcher.Forms
                 {
                     Text = "Add Software",
                     AutoSize = true,
-                    Location = new System.Drawing.Point(20, baseLocation - 60),
+                    Location = new Point(20, baseLocation - 60),
                     Name = "AddSoftwareButton",
-                    Size = new System.Drawing.Size(75, 23),
+                    Size = new Size(75, 23),
                     TabIndex = 0,
                     UseVisualStyleBackColor = true,
-                    Font = new System.Drawing.Font(_fontCollection.Families[1], 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0)
+                    Font = new Font(_fontCollection.Families[1], 13F, FontStyle.Regular, GraphicsUnit.Point, 0)
                 };
 
                 addSoftwareButton.Click += (sender, e) =>
@@ -645,9 +645,9 @@ namespace osu_launcher.Forms
             {
                 Text = string.Empty,
                 AutoSize = true,
-                Location = new System.Drawing.Point(20, baseLocation - 44),
+                Location = new Point(20, baseLocation - 44),
                 Name = software.Name,
-                Size = new System.Drawing.Size(15, 14),
+                Size = new Size(15, 14),
                 TabIndex = 0,
                 UseVisualStyleBackColor = true
             };
@@ -665,11 +665,11 @@ namespace osu_launcher.Forms
             var softwareNameLabel = new Label
             {
                 AutoSize = true,
-                Location = new System.Drawing.Point(41, baseLocation - 66),
+                Location = new Point(41, baseLocation - 66),
                 Name = "label" + software.Name,
                 TabIndex = 1,
                 Text = software.Name,
-                Font = new System.Drawing.Font(_fontCollection.Families[1], 15),
+                Font = new Font(_fontCollection.Families[1], 15),
                 ContextMenuStrip = new ContextMenuStrip()
             };
 
@@ -702,21 +702,21 @@ namespace osu_launcher.Forms
             var authorLabel = new Label
             {
                 AutoSize = true,
-                Location = new System.Drawing.Point(label2Right, baseLocation - 60),
+                Location = new Point(label2Right, baseLocation - 60),
                 Name = "label2" + software.Name,
                 TabIndex = 1,
                 Text = "by " + software.Author,
-                Font = new System.Drawing.Font(_fontCollection.Families[1], 11)
+                Font = new Font(_fontCollection.Families[1], 11)
             };
 
             var descriptionLabel = new Label
             {
                 AutoSize = true,
-                Location = new System.Drawing.Point(41, baseLocation - 39),
+                Location = new Point(41, baseLocation - 39),
                 Name = "label3" + software.Name,
                 TabIndex = 1,
                 Text = "Description: " + software.Description,
-                Font = new System.Drawing.Font(_fontCollection.Families[1], 12)
+                Font = new Font(_fontCollection.Families[1], 12)
             };
 
             SoftwareTab.Controls.Add(checkBox);
