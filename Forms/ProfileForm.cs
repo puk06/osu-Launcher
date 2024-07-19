@@ -98,7 +98,7 @@ namespace osu_launcher.Forms
                 Text = profile.Name,
                 Location = new Point(14, 45 * (ProfilesTab.Controls.OfType<Button>().Count() + 1)),
                 Size = new Size(250, 42),
-                Font = new Font(_mainForm.FontCollection.Families[0], 15.75F)
+                Font = new Font(_mainForm.GuiFont, 15.75F)
             };
             button.Click += (_object, _event) =>
             {

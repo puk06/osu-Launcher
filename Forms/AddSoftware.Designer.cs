@@ -151,7 +151,7 @@ namespace osu_launcher.Forms
             // 
             // OPEN_BUTTON
             // 
-            this.OPEN_BUTTON.Font = new System.Drawing.Font(_mainForm.FontCollection.Families[0], 11F);
+            this.OPEN_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
             this.OPEN_BUTTON.Location = new System.Drawing.Point(558, 201);
             this.OPEN_BUTTON.Name = "OPEN_BUTTON";
             this.OPEN_BUTTON.Size = new System.Drawing.Size(75, 30);
@@ -178,7 +178,7 @@ namespace osu_launcher.Forms
             this.Controls.Add(this.AUTHOR_LABEL);
             this.Controls.Add(this.NAME_LABEL);
             this.Controls.Add(this.ADDSOFTWARE_LABEL);
-            this.Font = new System.Drawing.Font(_mainForm.FontCollection.Families[0], 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font(_mainForm.GuiFont, 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);

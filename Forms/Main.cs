@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
@@ -25,11 +26,17 @@ namespace osu_launcher.Forms
         // Softwares
         public IEnumerable<Software> Softwares = Array.Empty<Software>();
 
+        // GUI Font
+        public readonly FontFamily GuiFont;
+
+        // Text Font
+        public readonly FontFamily TextFont;
+
         // Current Profile
         public Profile CurrentProfile;
 
         // Form Font
-        public readonly PrivateFontCollection FontCollection = new PrivateFontCollection();
+        private readonly PrivateFontCollection _fontCollection = new PrivateFontCollection();
 
         // Meter Style Dictionary
         private readonly Dictionary<int, string> _meterStyleDict = new Dictionary<int, string>
@@ -67,8 +74,23 @@ namespace osu_launcher.Forms
                 }
 
                 // Add the font files
-                FontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
-                FontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
+                _fontCollection.AddFontFile("./src/Fonts/Quicksand-Light.ttf");
+                _fontCollection.AddFontFile("./src/Fonts/NotoSansJP-Light.ttf");
+
+                // Set the font
+                foreach (FontFamily font in _fontCollection.Families)
+                {
+                    Console.WriteLine(font.Name);
+                    switch (font.Name)
+                    {
+                        case "Quicksand Light":
+                            GuiFont = font;
+                            break;
+                        case "Noto Sans JP Light":
+                            TextFont = font;
+                            break;
+                    }
+                }
 
                 // Initialize the components
                 InitializeComponent();
@@ -542,7 +564,7 @@ namespace osu_launcher.Forms
                     Size = new System.Drawing.Size(75, 23),
                     TabIndex = 0,
                     UseVisualStyleBackColor = true,
-                    Font = new System.Drawing.Font(FontCollection.Families[1], 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0)
+                    Font = new System.Drawing.Font(_fontCollection.Families[1], 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0)
                 };
 
                 addSoftwareButton.Click += (sender, e) =>
@@ -605,7 +627,7 @@ namespace osu_launcher.Forms
                 Name = "label" + software.Name,
                 TabIndex = 1,
                 Text = software.Name,
-                Font = new System.Drawing.Font(FontCollection.Families[1], 15),
+                Font = new System.Drawing.Font(_fontCollection.Families[1], 15),
                 ContextMenuStrip = new ContextMenuStrip()
             };
 
@@ -642,7 +664,7 @@ namespace osu_launcher.Forms
                 Name = "label2" + software.Name,
                 TabIndex = 1,
                 Text = "by " + software.Author,
-                Font = new System.Drawing.Font(FontCollection.Families[1], 11)
+                Font = new System.Drawing.Font(_fontCollection.Families[1], 11)
             };
 
             var descriptionLabel = new Label
@@ -652,7 +674,7 @@ namespace osu_launcher.Forms
                 Name = "label3" + software.Name,
                 TabIndex = 1,
                 Text = "Description: " + software.Description,
-                Font = new System.Drawing.Font(FontCollection.Families[1], 12)
+                Font = new System.Drawing.Font(_fontCollection.Families[1], 12)
             };
 
             SoftwareTab.Controls.Add(checkBox);
