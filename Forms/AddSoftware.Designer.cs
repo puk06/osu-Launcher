@@ -188,7 +188,6 @@ namespace osu_launcher.Forms
             this.Text = "Add Software";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

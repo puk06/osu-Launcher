@@ -454,7 +454,8 @@ namespace osu_launcher.Forms
                         if (software.Name != checkBox.Name) continue;
                         string softwarePath = software.Path;
                         string workingDirectory = Path.GetDirectoryName(softwarePath);
-                        if (!File.Exists(softwarePath) || string.IsNullOrEmpty(workingDirectory)) continue;
+                        if (!File.Exists(softwarePath) || string.IsNullOrEmpty(workingDirectory))
+                            throw new Exception("The software could not be found.");
                         ProcessStartInfo softwareStartInfo = new ProcessStartInfo
                         {
                             FileName = softwarePath,

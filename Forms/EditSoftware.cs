@@ -101,6 +101,11 @@ namespace osu_launcher.Forms
                 Main.AddValueToArray(ref reasons, "❌️ Path does not exist");
             }
 
+            if (PATH_TEXTBOX.Text.Contains("ㅤ"))
+            {
+                Main.AddValueToArray(ref reasons, "❌️ Path contains invalid characters");
+            }
+
             return reasons;
         }
 
