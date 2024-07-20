@@ -99,5 +99,10 @@ namespace osu_launcher
                 parameters.Add(key, value);
             }
         }
+
+        public static bool IsEnglish(string text)
+        {
+            return text.All(c => c < 128);
+        }
     }
 }

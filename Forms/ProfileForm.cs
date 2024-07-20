@@ -143,25 +143,25 @@ namespace osu_launcher.Forms
             var reasons = CheckValue();
             if (reasons.Any())
             {
-                ShowErrorMessage("The profile could not be created. The reasons are as follows.\n" + string.Join("\n", reasons));
+                Helper.ShowErrorMessage("The profile could not be created. The reasons are as follows.\n" + string.Join("\n", reasons));
                 return;
             }
 
             if (IsAnyFieldEmpty())
             {
-                ShowErrorMessage("Please fill in all fields");
+                Helper.ShowErrorMessage("Please fill in all fields");
                 return;
             }
 
             if (ArePasswordsMismatch())
             {
-                ShowErrorMessage("Passwords do not match. Try Again");
+                Helper.ShowErrorMessage("Passwords do not match. Try Again");
                 return;
             }
 
             if (IsProfileNameDuplicate())
             {
-                ShowErrorMessage("The profile name already exists");
+                Helper.ShowErrorMessage("The profile name already exists");
                 NAME_TEXTBOX.Text = string.Empty;
                 return;
             }
@@ -182,19 +182,19 @@ namespace osu_launcher.Forms
             var reasons = CheckValueEdit();
             if (reasons.Any())
             {
-                ShowErrorMessage("The profile could not be saved. The reasons are as follows.\n" + string.Join("\n", reasons));
+                Helper.ShowErrorMessage("The profile could not be saved. The reasons are as follows.\n" + string.Join("\n", reasons));
                 return;
             }
 
             if (IsAnyFieldEmptyEdit())
             {
-                ShowErrorMessage("Please fill in all fields");
+                Helper.ShowErrorMessage("Please fill in all fields");
                 return;
             }
 
             if (ArePasswordsMismatchEdit())
             {
-                ShowErrorMessage("Passwords do not match. Try Again");
+                Helper.ShowErrorMessage("Passwords do not match. Try Again");
                 return;
             }
 
@@ -216,12 +216,6 @@ namespace osu_launcher.Forms
                 ResetValueEdit();
                 ChangeEditFormStatus(false);
             }
-        }
-
-        // Show error messages
-        private static void ShowErrorMessage(string message)
-        {
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         // Check if any required field is empty

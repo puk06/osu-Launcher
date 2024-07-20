@@ -86,7 +86,7 @@ namespace osu_launcher.Forms
                 Helper.AddValueToArray(ref reasons, "❌️ Name is empty");
             }
 
-            if (!IsEnglish(NAME_TEXTBOX.Text))
+            if (!Helper.IsEnglish(NAME_TEXTBOX.Text))
             {
                 Helper.AddValueToArray(ref reasons, "❌️ Name is not in English");
             }
@@ -107,12 +107,6 @@ namespace osu_launcher.Forms
             }
 
             return reasons;
-        }
-
-        // Check if the text is in English
-        private static bool IsEnglish(string text)
-        {
-            return text.All(c => c < 128);
         }
     }
 }
