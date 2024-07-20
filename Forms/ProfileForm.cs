@@ -209,7 +209,8 @@ namespace osu_launcher.Forms
             if (PROFILEEDIT_COMBOBOX.Items.Count > 0)
             {
                 ChangeEditFormStatus(true);
-                PROFILEEDIT_COMBOBOX.SelectedIndex = 0;
+                var index = PROFILEEDIT_COMBOBOX.Items.IndexOf(profile.Name);
+                PROFILEEDIT_COMBOBOX.SelectedIndex = index != -1 ? index : 0;
             }
             else
             {
