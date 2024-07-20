@@ -17,5 +17,7 @@
         public int? Offset { get; set; } = null;
         public string Skin { get; set; } = null;
         public bool ChangeSkin { get; set; } = false;
+        public string Server { get; set; } = null;
+        public bool ChangeServer { get; set; } = false;
     }
 }

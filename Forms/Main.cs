@@ -17,7 +17,10 @@ namespace osu_launcher.Forms
     public partial class Main : Form
     {
         // Data Values
-        private JObject _data;
+        public JObject Data;
+
+        // Servers
+        public IEnumerable<Server> Servers = Array.Empty<Server>();
 
         // Profiles
         public IEnumerable<Profile> Profiles = Array.Empty<Profile>();
@@ -30,6 +33,9 @@ namespace osu_launcher.Forms
 
         // Text Font
         public FontFamily TextFont;
+
+        // Current Server
+        public Server CurrentServer;
 
         // Current Profile
         public Profile CurrentProfile;
@@ -58,6 +64,7 @@ namespace osu_launcher.Forms
                 InitializeWebBrowser();
                 LoadConfigFile();
                 InitializeComboboxes();
+                SetInitialServer();
                 SetInitialProfile();
                 ValidateOsuFolder();
                 SetPasswordAutoCopy();
@@ -89,20 +96,20 @@ namespace osu_launcher.Forms
             StreamReader streamReader = new StreamReader("./src/data.json", Encoding.GetEncoding("Shift_JIS"));
             string str = streamReader.ReadToEnd();
             streamReader.Close();
-            _data = JObject.Parse(str);
+            Data = JObject.Parse(str);
         }
 
         private void InitializeComboboxes()
         {
-            Helper.InitializeCombobox(SERVERS_COMBOBOX, _data["Servers"]);
-            Helper.InitializeCombobox(SONGSFOLDER_COMBOBOX, _data["SongsFolder"]);
+            Helper.InitializeCombobox(SONGSFOLDER_COMBOBOX, Data["SongsFolder"]);
+            InitializeServers();
             InitializeProfiles();
         }
 
         private void InitializeProfiles()
         {
-            if (_data["Profiles"] == null) _data["Profiles"] = new JArray();
-            foreach (var userdata in _data["Profiles"])
+            if (Data["Profiles"] == null) Data["Profiles"] = new JArray();
+            foreach (var userdata in Data["Profiles"])
             {
                 var user = new Profile
                 {
@@ -120,9 +127,25 @@ namespace osu_launcher.Forms
                     ChangeVolume = userdata["ChangeVolume"].ToObject<bool>(),
                     Offset = userdata["Offset"].ToObject<int?>(),
                     Skin = userdata["Skin"].ToString(),
-                    ChangeSkin = userdata["ChangeSkin"].ToObject<bool>()
+                    ChangeSkin = userdata["ChangeSkin"].ToObject<bool>(),
+                    Server = userdata["Server"].ToString(),
+                    ChangeServer = userdata["ChangeServer"].ToObject<bool>()
                 };
                 Helper.AddValueToArray(ref Profiles, user);
+            }
+        }
+
+        private void InitializeServers()
+        {
+            if (Data["Servers"] == null) Data["Servers"] = new JArray();
+            foreach (var server in Data["Servers"])
+            {
+                var serv = new Server
+                {
+                    Name = server["Name"].ToString(),
+                    Ip = server["Ip"].ToString()
+                };
+                Helper.AddValueToArray(ref Servers, serv);
             }
         }
 
@@ -137,10 +160,21 @@ namespace osu_launcher.Forms
             }
         }
 
+        private void SetInitialServer()
+        {
+            var enumerable = Servers as Server[] ?? Servers.ToArray();
+            if (enumerable.Length > 0)
+            {
+                CurrentServer = enumerable.First();
+                SERVER_BUTTON.Text = CurrentServer.Name;
+                RefreshServer();
+            }
+        }
+
         private void ValidateOsuFolder()
         {
-            if (_data["osuFolder"] == null) _data["osuFolder"] = string.Empty;
-            OSUFOLDER_TEXTBOX.Text = _data["osuFolder"].ToString();
+            if (Data["osuFolder"] == null) Data["osuFolder"] = string.Empty;
+            OSUFOLDER_TEXTBOX.Text = Data["osuFolder"].ToString();
             if (string.IsNullOrEmpty(OSUFOLDER_TEXTBOX.Text))
             {
                 Helper.ShowErrorMessage("The osu! folder is not set. Please set it from the Settings tab!!");
@@ -149,8 +183,8 @@ namespace osu_launcher.Forms
 
         private void SetPasswordAutoCopy()
         {
-            if (_data["PasswordAutoCopy"] == null) _data["PasswordAutoCopy"] = true;
-            else if (_data["PasswordAutoCopy"].ToObject<bool>())
+            if (Data["PasswordAutoCopy"] == null) Data["PasswordAutoCopy"] = true;
+            else if (Data["PasswordAutoCopy"].ToObject<bool>())
             {
                 PASSWORDAUTOCOPY_CHECKBOX.Checked = true;
             }
@@ -158,8 +192,8 @@ namespace osu_launcher.Forms
 
         private void LoadSoftwares()
         {
-            if (_data["Softwares"] == null) _data["Softwares"] = new JArray();
-            foreach (var software in _data["Softwares"])
+            if (Data["Softwares"] == null) Data["Softwares"] = new JArray();
+            foreach (var software in Data["Softwares"])
             {
                 var soft = new Software
                 {
@@ -184,7 +218,6 @@ namespace osu_launcher.Forms
             // Set the font
             foreach (FontFamily font in _fontCollection.Families)
             {
-                Console.WriteLine(font.Name);
                 switch (font.Name)
                 {
                     case "Quicksand Light":
@@ -213,7 +246,6 @@ namespace osu_launcher.Forms
                 }
 
                 // Get the values
-                string server = SERVERS_COMBOBOX.Text;
                 string osuFolder = OSUFOLDER_TEXTBOX.Text;
 
                 // Save the config data
@@ -245,7 +277,7 @@ namespace osu_launcher.Forms
                 {
                     FileName = Path.Combine(osuFolder, "osu!.exe"),
                     WorkingDirectory = osuFolder,
-                    Arguments = server == "Bancho" ? string.Empty : "-devserver " + server
+                    Arguments = CurrentServer.Ip == "Bancho" ? string.Empty : "-devserver " + CurrentServer.Ip
                 };
                 Process.Start(startInfo);
 
@@ -262,29 +294,32 @@ namespace osu_launcher.Forms
         // Save the config data
         public void SaveConfigData()
         {
-            string server = SERVERS_COMBOBOX.Text;
             string songFolder = SONGSFOLDER_COMBOBOX.Text;
             string osuFolder = OSUFOLDER_TEXTBOX.Text;
 
-            if (!Helper.ArrayContains(_data["Servers"].ToObject<string[]>(), server))
+            Data["Servers"] = new JArray();
+            foreach (var server in Servers)
             {
-                SERVERS_COMBOBOX.Items.Add(server);
-                (_data["Servers"] as JArray).Add(server);
+                (Data["Servers"] as JArray).Add(new JObject
+                {
+                    { "Name", server.Name },
+                    { "Ip", server.Ip }
+                });
             }
 
-            if (!Helper.ArrayContains(_data["SongsFolder"].ToObject<string[]>(), songFolder))
+            if (!Helper.ArrayContains(Data["SongsFolder"].ToObject<string[]>(), songFolder))
             {
                 SONGSFOLDER_COMBOBOX.Items.Add(songFolder);
-                (_data["SongsFolder"] as JArray).Add(songFolder);
+                (Data["SongsFolder"] as JArray).Add(songFolder);
             }
 
             // Save the password
-            _data["PasswordAutoCopy"] = PASSWORDAUTOCOPY_CHECKBOX.Checked;
+            Data["PasswordAutoCopy"] = PASSWORDAUTOCOPY_CHECKBOX.Checked;
 
-            _data["Profiles"] = new JArray();
+            Data["Profiles"] = new JArray();
             foreach (var profile in Profiles)
             {
-                (_data["Profiles"] as JArray).Add(new JObject
+                (Data["Profiles"] as JArray).Add(new JObject
                 {
                     { "Name", profile.Name },
                     { "Username", profile.Username },
@@ -300,14 +335,16 @@ namespace osu_launcher.Forms
                     { "ChangeVolume", profile.ChangeVolume },
                     { "Offset", profile.Offset },
                     { "Skin", profile.Skin },
-                    { "ChangeSkin", profile.ChangeSkin }
+                    { "ChangeSkin", profile.ChangeSkin },
+                    { "Server", profile.Server },
+                    { "ChangeServer", profile.ChangeServer }
                 });
             }
 
-            _data["Softwares"] = new JArray();
+            Data["Softwares"] = new JArray();
             foreach (var software in Softwares)
             {
-                (_data["Softwares"] as JArray).Add(new JObject
+                (Data["Softwares"] as JArray).Add(new JObject
                 {
                     { "Name", software.Name },
                     { "Author", software.Author },
@@ -317,11 +354,11 @@ namespace osu_launcher.Forms
                 });
             }
 
-            _data["osuFolder"] = osuFolder;
+            Data["osuFolder"] = osuFolder;
 
             StreamWriter streamWriter =
                 new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
-            streamWriter.WriteLine(_data.ToString());
+            streamWriter.WriteLine(Data.ToString());
             streamWriter.Close();
         }
 
@@ -330,7 +367,7 @@ namespace osu_launcher.Forms
         {
             var parameters = new Dictionary<string, string>
             {
-                { "CredentialEndpoint", SERVERS_COMBOBOX.Text == "Bancho" ? string.Empty : SERVERS_COMBOBOX.Text },
+                { "CredentialEndpoint", CurrentServer.Ip == "Bancho" ? string.Empty : CurrentServer.Ip },
                 { "BeatmapDirectory", SONGSFOLDER_COMBOBOX.Text },
                 { "SavePassword", "1" },
                 { "SaveUsername", "1" }
@@ -426,13 +463,13 @@ namespace osu_launcher.Forms
         {
             try
             {
-                if (Helper.ArrayContains(_data["SongsFolder"].ToObject<string[]>(), SONGSFOLDER_COMBOBOX.Text))
+                if (Helper.ArrayContains(Data["SongsFolder"].ToObject<string[]>(), SONGSFOLDER_COMBOBOX.Text))
                 {
-                    _data["SongsFolder"] = new JArray(_data["SongsFolder"].Where(item => item.ToString() != SONGSFOLDER_COMBOBOX.Text));
+                    Data["SongsFolder"] = new JArray(Data["SongsFolder"].Where(item => item.ToString() != SONGSFOLDER_COMBOBOX.Text));
                     SONGSFOLDER_COMBOBOX.Items.Remove(SONGSFOLDER_COMBOBOX.Text);
                     SONGSFOLDER_COMBOBOX.SelectedIndex = 0;
                     StreamWriter streamWriter = new StreamWriter("./src/data.json", false, Encoding.GetEncoding("Shift_JIS"));
-                    streamWriter.WriteLine(_data.ToString());
+                    streamWriter.WriteLine(Data.ToString());
                     streamWriter.Close();
                     SaveConfigData();
                 }
@@ -494,7 +531,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (SERVERS_COMBOBOX.Text != "Bancho" && string.IsNullOrEmpty(SERVERS_COMBOBOX.Text))
+            if (CurrentServer == null)
             {
                 Helper.AddValueToArray(ref reasons, "❌️ Server not selected");
             }
@@ -657,7 +694,7 @@ namespace osu_launcher.Forms
         {
             // Check if the form is already open
             if (Application.OpenForms.OfType<ProfileForm>().Any()) return;
-            var profileForm = new ProfileForm(Profiles, OSUFOLDER_TEXTBOX.Text, this);
+            var profileForm = new ProfileForm(Profiles, Servers, OSUFOLDER_TEXTBOX.Text, this);
             profileForm.Show();
 
             // Disable the form
@@ -667,6 +704,26 @@ namespace osu_launcher.Forms
             profileForm.FormClosed += (_object, _event) =>
             {
                 RefreshProfile();
+
+                // Enable the form
+                Enabled = true;
+            };
+        }
+
+        private void SERVER_BUTTON_Click(object sender, EventArgs e)
+        {
+            // Check if the form is already open
+            if (Application.OpenForms.OfType<ServerForm>().Any()) return;
+            var serverForm = new ServerForm(Servers, this);
+            serverForm.Show();
+
+            // Disable the form
+            Enabled = false;
+
+            // if the form is closed, update the profile
+            serverForm.FormClosed += (_object, _event) =>
+            {
+                RefreshServer();
 
                 // Enable the form
                 Enabled = true;
@@ -694,6 +751,17 @@ namespace osu_launcher.Forms
             {
                 SetSkinComboBox();
             }
+
+            if (CurrentProfile?.ChangeServer == true)
+            {
+                CurrentServer = Servers.FirstOrDefault(server => server.Name == CurrentProfile.Server);
+                RefreshServer();
+            }
+        }
+
+        private void RefreshServer()
+        {
+            Helper.SetControlText(SERVER_BUTTON, CurrentServer?.Name, "No Server");
         }
 
         private void UpdateVolumeLabels()

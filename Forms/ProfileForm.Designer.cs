@@ -36,6 +36,10 @@ namespace osu_launcher.Forms
             this.SELECTUSER_LABEL = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.CreateTab = new System.Windows.Forms.TabPage();
+            this.CHANGESERVER_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.SERVER_COMBOBOX = new System.Windows.Forms.ComboBox();
+            this.SERVER_LABEL = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.CHANGESKIN_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.SKIN_COMBOBOX = new System.Windows.Forms.ComboBox();
             this.SKIN_LABE = new System.Windows.Forms.Label();
@@ -79,6 +83,10 @@ namespace osu_launcher.Forms
             this.USERNAME_LABEL = new System.Windows.Forms.Label();
             this.NEWUSER_LABEL = new System.Windows.Forms.Label();
             this.EditTab = new System.Windows.Forms.TabPage();
+            this.CHANGESERVEREDIT_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.SERVEREDIT_COMBOBOX = new System.Windows.Forms.ComboBox();
+            this.SERVEREDIT_LABEL = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.PROFILEEDIT_LABEL = new System.Windows.Forms.Label();
             this.PROFILEEDIT_COMBOBOX = new System.Windows.Forms.ComboBox();
             this.CHANGESKINEDIT_CHECKBOX = new System.Windows.Forms.CheckBox();
@@ -182,6 +190,10 @@ namespace osu_launcher.Forms
             // CreateTab
             // 
             this.CreateTab.AutoScroll = true;
+            this.CreateTab.Controls.Add(this.CHANGESERVER_CHECKBOX);
+            this.CreateTab.Controls.Add(this.SERVER_COMBOBOX);
+            this.CreateTab.Controls.Add(this.SERVER_LABEL);
+            this.CreateTab.Controls.Add(this.label14);
             this.CreateTab.Controls.Add(this.CHANGESKIN_CHECKBOX);
             this.CreateTab.Controls.Add(this.SKIN_COMBOBOX);
             this.CreateTab.Controls.Add(this.SKIN_LABE);
@@ -232,11 +244,52 @@ namespace osu_launcher.Forms
             this.CreateTab.TabIndex = 1;
             this.CreateTab.Text = "Create Profile";
             // 
+            // CHANGESERVER_CHECKBOX
+            // 
+            this.CHANGESERVER_CHECKBOX.AutoSize = true;
+            this.CHANGESERVER_CHECKBOX.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
+            this.CHANGESERVER_CHECKBOX.Location = new System.Drawing.Point(15, 841);
+            this.CHANGESERVER_CHECKBOX.Name = "CHANGESERVER_CHECKBOX";
+            this.CHANGESERVER_CHECKBOX.Size = new System.Drawing.Size(139, 28);
+            this.CHANGESERVER_CHECKBOX.TabIndex = 123;
+            this.CHANGESERVER_CHECKBOX.Text = "Change Server";
+            this.CHANGESERVER_CHECKBOX.UseVisualStyleBackColor = true;
+            this.CHANGESERVER_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGESERVER_CHECKBOX_CheckedChanged);
+            // 
+            // SERVER_COMBOBOX
+            // 
+            this.SERVER_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SERVER_COMBOBOX.Enabled = false;
+            this.SERVER_COMBOBOX.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
+            this.SERVER_COMBOBOX.FormattingEnabled = true;
+            this.SERVER_COMBOBOX.Location = new System.Drawing.Point(15, 809);
+            this.SERVER_COMBOBOX.Name = "SERVER_COMBOBOX";
+            this.SERVER_COMBOBOX.Size = new System.Drawing.Size(242, 31);
+            this.SERVER_COMBOBOX.TabIndex = 122;
+            // 
+            // SERVER_LABEL
+            // 
+            this.SERVER_LABEL.AutoSize = true;
+            this.SERVER_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
+            this.SERVER_LABEL.Location = new System.Drawing.Point(9, 770);
+            this.SERVER_LABEL.Name = "SERVER_LABEL";
+            this.SERVER_LABEL.Size = new System.Drawing.Size(79, 33);
+            this.SERVER_LABEL.TabIndex = 121;
+            this.SERVER_LABEL.Text = "Server";
+            // 
+            // label14
+            // 
+            this.label14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label14.Location = new System.Drawing.Point(8, 803);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(250, 1);
+            this.label14.TabIndex = 120;
+            // 
             // CHANGESKIN_CHECKBOX
             // 
             this.CHANGESKIN_CHECKBOX.AutoSize = true;
             this.CHANGESKIN_CHECKBOX.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
-            this.CHANGESKIN_CHECKBOX.Location = new System.Drawing.Point(15, 739);
+            this.CHANGESKIN_CHECKBOX.Location = new System.Drawing.Point(15, 740);
             this.CHANGESKIN_CHECKBOX.Name = "CHANGESKIN_CHECKBOX";
             this.CHANGESKIN_CHECKBOX.Size = new System.Drawing.Size(120, 28);
             this.CHANGESKIN_CHECKBOX.TabIndex = 71;
@@ -250,7 +303,7 @@ namespace osu_launcher.Forms
             this.SKIN_COMBOBOX.Enabled = false;
             this.SKIN_COMBOBOX.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
             this.SKIN_COMBOBOX.FormattingEnabled = true;
-            this.SKIN_COMBOBOX.Location = new System.Drawing.Point(15, 707);
+            this.SKIN_COMBOBOX.Location = new System.Drawing.Point(15, 708);
             this.SKIN_COMBOBOX.Name = "SKIN_COMBOBOX";
             this.SKIN_COMBOBOX.Size = new System.Drawing.Size(242, 31);
             this.SKIN_COMBOBOX.TabIndex = 70;
@@ -259,7 +312,7 @@ namespace osu_launcher.Forms
             // 
             this.SKIN_LABE.AutoSize = true;
             this.SKIN_LABE.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
-            this.SKIN_LABE.Location = new System.Drawing.Point(9, 668);
+            this.SKIN_LABE.Location = new System.Drawing.Point(9, 669);
             this.SKIN_LABE.Name = "SKIN_LABE";
             this.SKIN_LABE.Size = new System.Drawing.Size(57, 33);
             this.SKIN_LABE.TabIndex = 68;
@@ -268,7 +321,7 @@ namespace osu_launcher.Forms
             // label4
             // 
             this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(8, 701);
+            this.label4.Location = new System.Drawing.Point(8, 702);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(250, 1);
             this.label4.TabIndex = 67;
@@ -287,10 +340,10 @@ namespace osu_launcher.Forms
             // 
             // OFFSET_TEXTBOX
             // 
-            this.OFFSET_TEXTBOX.Location = new System.Drawing.Point(100, 640);
             this.OFFSET_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 10F);
+            this.OFFSET_TEXTBOX.Location = new System.Drawing.Point(100, 640);
             this.OFFSET_TEXTBOX.Name = "OFFSET_TEXTBOX";
-            this.OFFSET_TEXTBOX.Size = new System.Drawing.Size(158, 22);
+            this.OFFSET_TEXTBOX.Size = new System.Drawing.Size(158, 27);
             this.OFFSET_TEXTBOX.TabIndex = 64;
             // 
             // OFFSET_LABEL
@@ -563,7 +616,7 @@ namespace osu_launcher.Forms
             // RESET_BUTTON
             // 
             this.RESET_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
-            this.RESET_BUTTON.Location = new System.Drawing.Point(155, 789);
+            this.RESET_BUTTON.Location = new System.Drawing.Point(155, 878);
             this.RESET_BUTTON.Name = "RESET_BUTTON";
             this.RESET_BUTTON.Size = new System.Drawing.Size(102, 34);
             this.RESET_BUTTON.TabIndex = 29;
@@ -574,7 +627,7 @@ namespace osu_launcher.Forms
             // CREATE_BUTTON
             // 
             this.CREATE_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
-            this.CREATE_BUTTON.Location = new System.Drawing.Point(12, 789);
+            this.CREATE_BUTTON.Location = new System.Drawing.Point(12, 878);
             this.CREATE_BUTTON.Name = "CREATE_BUTTON";
             this.CREATE_BUTTON.Size = new System.Drawing.Size(105, 34);
             this.CREATE_BUTTON.TabIndex = 28;
@@ -651,6 +704,10 @@ namespace osu_launcher.Forms
             // EditTab
             // 
             this.EditTab.AutoScroll = true;
+            this.EditTab.Controls.Add(this.CHANGESERVEREDIT_CHECKBOX);
+            this.EditTab.Controls.Add(this.SERVEREDIT_COMBOBOX);
+            this.EditTab.Controls.Add(this.SERVEREDIT_LABEL);
+            this.EditTab.Controls.Add(this.label10);
             this.EditTab.Controls.Add(this.PROFILEEDIT_LABEL);
             this.EditTab.Controls.Add(this.PROFILEEDIT_COMBOBOX);
             this.EditTab.Controls.Add(this.CHANGESKINEDIT_CHECKBOX);
@@ -701,6 +758,47 @@ namespace osu_launcher.Forms
             this.EditTab.TabIndex = 2;
             this.EditTab.Text = "Edit Profile";
             // 
+            // CHANGESERVEREDIT_CHECKBOX
+            // 
+            this.CHANGESERVEREDIT_CHECKBOX.AutoSize = true;
+            this.CHANGESERVEREDIT_CHECKBOX.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
+            this.CHANGESERVEREDIT_CHECKBOX.Location = new System.Drawing.Point(15, 889);
+            this.CHANGESERVEREDIT_CHECKBOX.Name = "CHANGESERVEREDIT_CHECKBOX";
+            this.CHANGESERVEREDIT_CHECKBOX.Size = new System.Drawing.Size(139, 28);
+            this.CHANGESERVEREDIT_CHECKBOX.TabIndex = 119;
+            this.CHANGESERVEREDIT_CHECKBOX.Text = "Change Server";
+            this.CHANGESERVEREDIT_CHECKBOX.UseVisualStyleBackColor = true;
+            this.CHANGESERVEREDIT_CHECKBOX.CheckedChanged += new System.EventHandler(this.CHANGESERVEREDIT_CHECKBOX_CheckedChanged);
+            // 
+            // SERVEREDIT_COMBOBOX
+            // 
+            this.SERVEREDIT_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SERVEREDIT_COMBOBOX.Enabled = false;
+            this.SERVEREDIT_COMBOBOX.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
+            this.SERVEREDIT_COMBOBOX.FormattingEnabled = true;
+            this.SERVEREDIT_COMBOBOX.Location = new System.Drawing.Point(15, 857);
+            this.SERVEREDIT_COMBOBOX.Name = "SERVEREDIT_COMBOBOX";
+            this.SERVEREDIT_COMBOBOX.Size = new System.Drawing.Size(242, 31);
+            this.SERVEREDIT_COMBOBOX.TabIndex = 118;
+            // 
+            // SERVEREDIT_LABEL
+            // 
+            this.SERVEREDIT_LABEL.AutoSize = true;
+            this.SERVEREDIT_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
+            this.SERVEREDIT_LABEL.Location = new System.Drawing.Point(9, 818);
+            this.SERVEREDIT_LABEL.Name = "SERVEREDIT_LABEL";
+            this.SERVEREDIT_LABEL.Size = new System.Drawing.Size(79, 33);
+            this.SERVEREDIT_LABEL.TabIndex = 117;
+            this.SERVEREDIT_LABEL.Text = "Server";
+            // 
+            // label10
+            // 
+            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label10.Location = new System.Drawing.Point(8, 851);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(250, 1);
+            this.label10.TabIndex = 116;
+            // 
             // PROFILEEDIT_LABEL
             // 
             this.PROFILEEDIT_LABEL.AutoSize = true;
@@ -718,7 +816,7 @@ namespace osu_launcher.Forms
             this.PROFILEEDIT_COMBOBOX.FormattingEnabled = true;
             this.PROFILEEDIT_COMBOBOX.Location = new System.Drawing.Point(100, 15);
             this.PROFILEEDIT_COMBOBOX.Name = "PROFILEEDIT_COMBOBOX";
-            this.PROFILEEDIT_COMBOBOX.Size = new System.Drawing.Size(158, 26);
+            this.PROFILEEDIT_COMBOBOX.Size = new System.Drawing.Size(158, 27);
             this.PROFILEEDIT_COMBOBOX.TabIndex = 114;
             this.PROFILEEDIT_COMBOBOX.SelectedIndexChanged += new System.EventHandler(this.PROFILEEDIT_COMBOBOX_SelectedIndexChanged);
             // 
@@ -777,10 +875,10 @@ namespace osu_launcher.Forms
             // 
             // OFFSETEDIT_TEXTBOX
             // 
-            this.OFFSETEDIT_TEXTBOX.Location = new System.Drawing.Point(100, 687);
             this.OFFSETEDIT_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 10F);
+            this.OFFSETEDIT_TEXTBOX.Location = new System.Drawing.Point(100, 687);
             this.OFFSETEDIT_TEXTBOX.Name = "OFFSETEDIT_TEXTBOX";
-            this.OFFSETEDIT_TEXTBOX.Size = new System.Drawing.Size(158, 22);
+            this.OFFSETEDIT_TEXTBOX.Size = new System.Drawing.Size(158, 27);
             this.OFFSETEDIT_TEXTBOX.TabIndex = 108;
             // 
             // OFFSETEDIT_LABEL
@@ -1054,7 +1152,7 @@ namespace osu_launcher.Forms
             // EDITRESET_BUTTON
             // 
             this.EDITRESET_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
-            this.EDITRESET_BUTTON.Location = new System.Drawing.Point(155, 836);
+            this.EDITRESET_BUTTON.Location = new System.Drawing.Point(155, 927);
             this.EDITRESET_BUTTON.Name = "EDITRESET_BUTTON";
             this.EDITRESET_BUTTON.Size = new System.Drawing.Size(102, 34);
             this.EDITRESET_BUTTON.TabIndex = 80;
@@ -1065,7 +1163,7 @@ namespace osu_launcher.Forms
             // EDIT_BUTTON
             // 
             this.EDIT_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
-            this.EDIT_BUTTON.Location = new System.Drawing.Point(12, 836);
+            this.EDIT_BUTTON.Location = new System.Drawing.Point(12, 927);
             this.EDIT_BUTTON.Name = "EDIT_BUTTON";
             this.EDIT_BUTTON.Size = new System.Drawing.Size(105, 34);
             this.EDIT_BUTTON.TabIndex = 79;
@@ -1275,5 +1373,13 @@ namespace osu_launcher.Forms
         private TextBox USERNAMEEDIT_TEXTBOX;
         private Label USERNAMEEDIT_LABEL;
         private Label EDITPROFILE_LABEL;
+        private CheckBox CHANGESERVER_CHECKBOX;
+        private ComboBox SERVER_COMBOBOX;
+        private Label SERVER_LABEL;
+        private Label label14;
+        private CheckBox CHANGESERVEREDIT_CHECKBOX;
+        private ComboBox SERVEREDIT_COMBOBOX;
+        private Label SERVEREDIT_LABEL;
+        private Label label10;
     }
 }

@@ -36,6 +36,10 @@ namespace osu_launcher.Forms
             this.TopTab = new System.Windows.Forms.TabPage();
             this.SoftwareTab = new System.Windows.Forms.TabPage();
             this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.PASSWORDAUTOCOPY_CHECKBOX = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.CHANGEAUDIO_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.OSUFOLDER_FOLDEROPEN_BUTTON = new System.Windows.Forms.Button();
             this.SKIN_COMBOBOX = new System.Windows.Forms.ComboBox();
@@ -79,14 +83,10 @@ namespace osu_launcher.Forms
             this.SONGS_FOLDER_PATH = new System.Windows.Forms.Label();
             this.OSUFOLDER_PATH = new System.Windows.Forms.Label();
             this.OSUFOLDER_LABEL = new System.Windows.Forms.Label();
-            this.SERVERS_COMBOBOX = new System.Windows.Forms.ComboBox();
             this.SERVER_LABEL = new System.Windows.Forms.Label();
             this.PROFILE_LABEL = new System.Windows.Forms.Label();
             this.PROFILE_BUTTON = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.PASSWORDAUTOCOPY_CHECKBOX = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.SERVER_BUTTON = new System.Windows.Forms.Button();
             this.MainTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AUDIO_BAR)).BeginInit();
@@ -194,6 +194,42 @@ namespace osu_launcher.Forms
             this.SettingsTab.Size = new System.Drawing.Size(808, 353);
             this.SettingsTab.TabIndex = 1;
             this.SettingsTab.Text = "Settings";
+            // 
+            // label3
+            // 
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label3.Location = new System.Drawing.Point(29, 935);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(750, 1);
+            this.label3.TabIndex = 81;
+            // 
+            // PASSWORDAUTOCOPY_CHECKBOX
+            // 
+            this.PASSWORDAUTOCOPY_CHECKBOX.AutoSize = true;
+            this.PASSWORDAUTOCOPY_CHECKBOX.Location = new System.Drawing.Point(34, 882);
+            this.PASSWORDAUTOCOPY_CHECKBOX.Name = "PASSWORDAUTOCOPY_CHECKBOX";
+            this.PASSWORDAUTOCOPY_CHECKBOX.Size = new System.Drawing.Size(139, 37);
+            this.PASSWORDAUTOCOPY_CHECKBOX.TabIndex = 80;
+            this.PASSWORDAUTOCOPY_CHECKBOX.Text = "Auto Copy";
+            this.PASSWORDAUTOCOPY_CHECKBOX.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(23, 830);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(119, 35);
+            this.label12.TabIndex = 77;
+            this.label12.Text = "Password";
+            // 
+            // label13
+            // 
+            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label13.Location = new System.Drawing.Point(29, 868);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(750, 1);
+            this.label13.TabIndex = 76;
             // 
             // CHANGEAUDIO_CHECKBOX
             // 
@@ -609,15 +645,6 @@ namespace osu_launcher.Forms
             this.OSUFOLDER_LABEL.TabIndex = 0;
             this.OSUFOLDER_LABEL.Text = "osu Folder";
             // 
-            // SERVERS_COMBOBOX
-            // 
-            this.SERVERS_COMBOBOX.Font = new System.Drawing.Font(TextFont, 15.75F);
-            this.SERVERS_COMBOBOX.FormattingEnabled = true;
-            this.SERVERS_COMBOBOX.Location = new System.Drawing.Point(41, 442);
-            this.SERVERS_COMBOBOX.Name = "SERVERS_COMBOBOX";
-            this.SERVERS_COMBOBOX.Size = new System.Drawing.Size(173, 38);
-            this.SERVERS_COMBOBOX.TabIndex = 3;
-            // 
             // SERVER_LABEL
             // 
             this.SERVER_LABEL.AutoSize = true;
@@ -651,51 +678,26 @@ namespace osu_launcher.Forms
             this.PROFILE_BUTTON.UseVisualStyleBackColor = true;
             this.PROFILE_BUTTON.Click += new System.EventHandler(this.PROFILE_BUTTON_Click);
             // 
-            // label12
+            // SERVER_BUTTON
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(23, 830);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(119, 35);
-            this.label12.TabIndex = 77;
-            this.label12.Text = "Password";
-            // 
-            // label13
-            // 
-            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label13.Location = new System.Drawing.Point(29, 868);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(750, 1);
-            this.label13.TabIndex = 76;
-            // 
-            // PASSWORDAUTOCOPY_CHECKBOX
-            // 
-            this.PASSWORDAUTOCOPY_CHECKBOX.AutoSize = true;
-            this.PASSWORDAUTOCOPY_CHECKBOX.Location = new System.Drawing.Point(34, 882);
-            this.PASSWORDAUTOCOPY_CHECKBOX.Name = "PASSWORDAUTOCOPY_CHECKBOX";
-            this.PASSWORDAUTOCOPY_CHECKBOX.Size = new System.Drawing.Size(139, 37);
-            this.PASSWORDAUTOCOPY_CHECKBOX.TabIndex = 80;
-            this.PASSWORDAUTOCOPY_CHECKBOX.Text = "Auto Copy";
-            this.PASSWORDAUTOCOPY_CHECKBOX.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(29, 935);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(750, 1);
-            this.label3.TabIndex = 81;
+            this.SERVER_BUTTON.Font = new System.Drawing.Font(TextFont, 15.75F);
+            this.SERVER_BUTTON.Location = new System.Drawing.Point(43, 442);
+            this.SERVER_BUTTON.Name = "SERVER_BUTTON";
+            this.SERVER_BUTTON.Size = new System.Drawing.Size(173, 38);
+            this.SERVER_BUTTON.TabIndex = 9;
+            this.SERVER_BUTTON.Text = "No Server";
+            this.SERVER_BUTTON.UseVisualStyleBackColor = true;
+            this.SERVER_BUTTON.Click += new System.EventHandler(this.SERVER_BUTTON_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(840, 499);
+            this.Controls.Add(this.SERVER_BUTTON);
             this.Controls.Add(this.PROFILE_BUTTON);
             this.Controls.Add(this.PROFILE_LABEL);
             this.Controls.Add(this.SERVER_LABEL);
-            this.Controls.Add(this.SERVERS_COMBOBOX);
             this.Controls.Add(this.MainTab);
             this.Controls.Add(this.LAUNCH_BUTTON);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -722,7 +724,6 @@ namespace osu_launcher.Forms
         private System.Windows.Forms.Button LAUNCH_BUTTON;
         private System.Windows.Forms.TabControl MainTab;
         private System.Windows.Forms.TabPage SettingsTab;
-        private System.Windows.Forms.ComboBox SERVERS_COMBOBOX;
         private System.Windows.Forms.Label SERVER_LABEL;
         private System.Windows.Forms.Label PROFILE_LABEL;
         private Label OSUFOLDER_LABEL;
@@ -774,6 +775,7 @@ namespace osu_launcher.Forms
         private Label label12;
         private Label label13;
         private Label label3;
+        private Button SERVER_BUTTON;
     }
 }
 

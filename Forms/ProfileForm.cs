@@ -17,7 +17,7 @@ namespace osu_launcher.Forms
         private readonly ToolTip _toolTip = new ToolTip();
 
         // This is the constructor for the ProfileForm
-        public ProfileForm(IEnumerable<Profile> profiles, string osuFolder, Main mainForm)
+        public ProfileForm(IEnumerable<Profile> profiles, IEnumerable<Server> servers, string osuFolder, Main mainForm)
         {
             _mainForm = mainForm;
             InitializeComponent();
@@ -68,6 +68,25 @@ namespace osu_launcher.Forms
                 SKIN_COMBOBOX.Enabled = false;
                 SKINEDIT_COMBOBOX.Enabled = false;
             }
+
+            if (servers.Any())
+            {
+                foreach (var server in servers)
+                {
+                    SERVER_COMBOBOX.Items.Add(server.Name);
+                    SERVEREDIT_COMBOBOX.Items.Add(server.Name);
+                }
+                if (SERVER_COMBOBOX.Items.Count > 0) SERVER_COMBOBOX.SelectedIndex = 0;
+                if (SERVEREDIT_COMBOBOX.Items.Count > 0) SERVEREDIT_COMBOBOX.SelectedIndex = 0;
+            }
+            else
+            {
+                MessageBox.Show("The servers list is empty. The server selection feature is disabled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CHANGESERVER_CHECKBOX.Enabled = false;
+                CHANGEAUDIOEDIT_CHECKBOX.Enabled = false;
+                SERVER_COMBOBOX.Enabled = false;
+                SERVEREDIT_COMBOBOX.Enabled = false;
+            }
         }
 
         // Change the status of the edit form
@@ -85,9 +104,15 @@ namespace osu_launcher.Forms
             OFFSETEDIT_TEXTBOX.Enabled = value;
             EDIT_BUTTON.Enabled = value;
             EDITRESET_BUTTON.Enabled = value;
-            if (SKINEDIT_COMBOBOX.Items.Count <= 0) return;
-            SKINEDIT_COMBOBOX.Enabled = value;
-            CHANGESKINEDIT_CHECKBOX.Enabled = value;
+            if (SKINEDIT_COMBOBOX.Items.Count > 0)
+            {
+                CHANGESKINEDIT_CHECKBOX.Enabled = value;
+            }
+
+            if (SERVER_COMBOBOX.Items.Count > 0)
+            {
+                CHANGESERVER_CHECKBOX.Enabled = value;
+            }
         }
 
         // Generate a button for each profile
@@ -327,6 +352,13 @@ namespace osu_launcher.Forms
             }
 
             profile.Skin = SKIN_COMBOBOX.Text;
+
+            if (CHANGESERVER_CHECKBOX.Checked)
+            {
+                profile.ChangeServer = true;
+            }
+
+            profile.Server = SERVER_COMBOBOX.Text;
         }
 
         // Add optional parameters to the profile for editing
@@ -369,6 +401,13 @@ namespace osu_launcher.Forms
             }
 
             profile.Skin = SKINEDIT_COMBOBOX.Text;
+
+            if (CHANGESERVEREDIT_CHECKBOX.Checked)
+            {
+                profile.ChangeServer = true;
+            }
+
+            profile.Server = SERVEREDIT_COMBOBOX.Text;
         }
 
         // Update the profile on the Users tab and edit combobox
@@ -441,6 +480,8 @@ namespace osu_launcher.Forms
             OFFSET_TEXTBOX.Text = string.Empty;
             if (SKIN_COMBOBOX.Items.Count > 0) SKIN_COMBOBOX.SelectedIndex = 0;
             CHANGESKIN_CHECKBOX.Checked = false;
+            CHANGESERVER_CHECKBOX.Checked = false;
+            if (SERVER_COMBOBOX.Items.Count > 0) SERVER_COMBOBOX.SelectedIndex = 0;
         }
 
         private void ResetValueEdit()
@@ -459,8 +500,10 @@ namespace osu_launcher.Forms
             MUSICEDIT_BAR.Value = 100;
             CHANGEAUDIOEDIT_CHECKBOX.Checked = false;
             OFFSETEDIT_TEXTBOX.Text = string.Empty;
-            if (SKINEDIT_COMBOBOX.Items.Count > 0) SKINEDIT_COMBOBOX.SelectedIndex = 0;
             CHANGESKINEDIT_CHECKBOX.Checked = false;
+            if (SKINEDIT_COMBOBOX.Items.Count > 0) SKINEDIT_COMBOBOX.SelectedIndex = 0;
+            CHANGESERVER_CHECKBOX.Checked = false;
+            if (SERVER_COMBOBOX.Items.Count > 0) SERVER_COMBOBOX.SelectedIndex = 0;
         }
 
         // Check if the values are valid
@@ -517,6 +560,11 @@ namespace osu_launcher.Forms
                 }
             }
 
+            if (CHANGESERVER_CHECKBOX.Checked && string.IsNullOrEmpty(SERVER_COMBOBOX.Text))
+            {
+                Helper.AddValueToArray(ref reasons, "❌️ Server is empty");
+            }
+
             return reasons;
         }
 
@@ -571,6 +619,11 @@ namespace osu_launcher.Forms
                 {
                     Helper.AddValueToArray(ref reasons, "❌️ Offset contains non-numeric characters");
                 }
+            }
+
+            if (CHANGESERVEREDIT_CHECKBOX.Checked && string.IsNullOrEmpty(SERVEREDIT_COMBOBOX.Text)) 
+            {
+                Helper.AddValueToArray(ref reasons, "❌️ Server is empty");
             }
 
             return reasons;
@@ -640,6 +693,18 @@ namespace osu_launcher.Forms
             SKINEDIT_COMBOBOX.Enabled = CHANGESKINEDIT_CHECKBOX.Checked;
         }
 
+        // This is the event handler for the CHANGESERVER_CHECKBOX
+        private void CHANGESERVER_CHECKBOX_CheckedChanged(object sender, EventArgs e)
+        {
+            SERVER_COMBOBOX.Enabled = CHANGESERVER_CHECKBOX.Checked;
+        }
+
+        // This is the event handler for the CHANGESERVEREDIT_CHECKBOX
+        private void CHANGESERVEREDIT_CHECKBOX_CheckedChanged(object sender, EventArgs e)
+        {
+            SERVEREDIT_COMBOBOX.Enabled = CHANGESERVEREDIT_CHECKBOX.Checked;
+        }
+
         // This is the event handler for the PROFILEEDIT_COMBOBOX
         private void PROFILEEDIT_COMBOBOX_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -663,6 +728,15 @@ namespace osu_launcher.Forms
             if (SKINEDIT_COMBOBOX.Items.Count > 0)
             {
                 CHANGESKINEDIT_CHECKBOX.Checked = profile.ChangeSkin;
+                var index = SKINEDIT_COMBOBOX.Items.IndexOf(profile.Skin);
+                SKINEDIT_COMBOBOX.SelectedIndex = index != -1 ? index : 0;
+            }
+
+            if (SERVER_COMBOBOX.Items.Count > 0)
+            {
+                CHANGESERVER_CHECKBOX.Checked = profile.ChangeServer;
+                var index = SERVER_COMBOBOX.Items.IndexOf(profile.Server);
+                SERVER_COMBOBOX.SelectedIndex = index != -1 ? index : 0;
             }
         }
     }
