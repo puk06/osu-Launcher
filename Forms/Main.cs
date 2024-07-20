@@ -398,7 +398,6 @@ namespace osu_launcher.Forms
                 parameters.Add("VolumeUniversal", MASTER_BAR.Value.ToString());
                 parameters.Add("VolumeEffect", EFFECT_BAR.Value.ToString());
                 parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
-                parameters.Add("VolumeMusic", AUDIO_BAR.Value.ToString());
             }
         }
 
