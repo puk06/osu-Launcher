@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
+using Newtonsoft.Json.Linq;
 
 namespace osu_launcher
 {
@@ -103,6 +104,17 @@ namespace osu_launcher
         public static bool IsEnglish(string text)
         {
             return text.All(c => c < 128);
+        }
+
+
+        public static void InitializeCombobox(ComboBox comboBox, JToken items)
+        {
+            if (items == null) items = new JArray();
+            foreach (var item in items)
+            {
+                comboBox.Items.Add(item);
+            }
+            if (comboBox.Items.Count > 0) comboBox.SelectedIndex = 0;
         }
     }
 }

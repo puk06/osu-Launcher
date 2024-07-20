@@ -94,19 +94,9 @@ namespace osu_launcher.Forms
 
         private void InitializeComboboxes()
         {
-            InitializeCombobox(SERVERS_COMBOBOX, _data["Servers"]);
-            InitializeCombobox(SONGSFOLDER_COMBOBOX, _data["SongsFolder"]);
+            Helper.InitializeCombobox(SERVERS_COMBOBOX, _data["Servers"]);
+            Helper.InitializeCombobox(SONGSFOLDER_COMBOBOX, _data["SongsFolder"]);
             InitializeProfiles();
-        }
-
-        private static void InitializeCombobox(ComboBox comboBox, JToken items)
-        {
-            if (items == null) items = new JArray();
-            foreach (var item in items)
-            {
-                comboBox.Items.Add(item);
-            }
-            if (comboBox.Items.Count > 0) comboBox.SelectedIndex = 0;
         }
 
         private void InitializeProfiles()
