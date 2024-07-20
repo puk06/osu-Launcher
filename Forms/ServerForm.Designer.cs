@@ -41,6 +41,8 @@ namespace osu_launcher.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.RESET_BUTTON = new System.Windows.Forms.Button();
             this.CREATE_BUTTON = new System.Windows.Forms.Button();
+            this.ADDRESS_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.ADDRESS_LABEL = new System.Windows.Forms.Label();
             this.NEWSERVER_LABEL = new System.Windows.Forms.Label();
             this.EditTab = new System.Windows.Forms.TabPage();
             this.SERVEREDIT_LABEL = new System.Windows.Forms.Label();
@@ -50,12 +52,10 @@ namespace osu_launcher.Forms
             this.label28 = new System.Windows.Forms.Label();
             this.EDITRESET_BUTTON = new System.Windows.Forms.Button();
             this.EDIT_BUTTON = new System.Windows.Forms.Button();
-            this.IPEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
-            this.IPEDIT_LABEL = new System.Windows.Forms.Label();
-            this.EDITPROFILE_LABEL = new System.Windows.Forms.Label();
+            this.ADDRESSEDIT_TEXTBOX = new System.Windows.Forms.TextBox();
+            this.ADDRESSEDIT_LABEL = new System.Windows.Forms.Label();
+            this.EDITSERVER_LABEL = new System.Windows.Forms.Label();
             this.USERFORM_LABEL = new System.Windows.Forms.Label();
-            this.IP_LABEL = new System.Windows.Forms.Label();
-            this.IP_TEXTBOX = new System.Windows.Forms.TextBox();
             this.MainTab.SuspendLayout();
             this.ServersTab.SuspendLayout();
             this.CreateTab.SuspendLayout();
@@ -67,7 +67,7 @@ namespace osu_launcher.Forms
             this.MainTab.Controls.Add(this.ServersTab);
             this.MainTab.Controls.Add(this.CreateTab);
             this.MainTab.Controls.Add(this.EditTab);
-            this.MainTab.Font = new System.Drawing.Font(_mainForm.GuiFont, 9F);
+            this.MainTab.Font = new System.Drawing.Font("Quicksand Light", 9F);
             this.MainTab.Location = new System.Drawing.Point(12, 54);
             this.MainTab.Name = "MainTab";
             this.MainTab.SelectedIndex = 0;
@@ -79,7 +79,7 @@ namespace osu_launcher.Forms
             this.ServersTab.AutoScroll = true;
             this.ServersTab.Controls.Add(this.SELECTUSER_LABEL);
             this.ServersTab.Controls.Add(this.label3);
-            this.ServersTab.Font = new System.Drawing.Font(_mainForm.GuiFont, 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ServersTab.Font = new System.Drawing.Font("Quicksand Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ServersTab.Location = new System.Drawing.Point(4, 27);
             this.ServersTab.Name = "ServersTab";
             this.ServersTab.Padding = new System.Windows.Forms.Padding(3);
@@ -90,7 +90,7 @@ namespace osu_launcher.Forms
             // SELECTUSER_LABEL
             // 
             this.SELECTUSER_LABEL.AutoSize = true;
-            this.SELECTUSER_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
+            this.SELECTUSER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
             this.SELECTUSER_LABEL.Location = new System.Drawing.Point(7, 0);
             this.SELECTUSER_LABEL.Name = "SELECTUSER_LABEL";
             this.SELECTUSER_LABEL.Size = new System.Drawing.Size(144, 33);
@@ -113,10 +113,10 @@ namespace osu_launcher.Forms
             this.CreateTab.Controls.Add(this.label1);
             this.CreateTab.Controls.Add(this.RESET_BUTTON);
             this.CreateTab.Controls.Add(this.CREATE_BUTTON);
-            this.CreateTab.Controls.Add(this.IP_TEXTBOX);
-            this.CreateTab.Controls.Add(this.IP_LABEL);
+            this.CreateTab.Controls.Add(this.ADDRESS_TEXTBOX);
+            this.CreateTab.Controls.Add(this.ADDRESS_LABEL);
             this.CreateTab.Controls.Add(this.NEWSERVER_LABEL);
-            this.CreateTab.Font = new System.Drawing.Font(_mainForm.GuiFont, 9F);
+            this.CreateTab.Font = new System.Drawing.Font("Quicksand Light", 9F);
             this.CreateTab.Location = new System.Drawing.Point(4, 27);
             this.CreateTab.Name = "CreateTab";
             this.CreateTab.Padding = new System.Windows.Forms.Padding(3);
@@ -126,7 +126,7 @@ namespace osu_launcher.Forms
             // 
             // NAME_TEXTBOX
             // 
-            this.NAME_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 9F);
+            this.NAME_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 9F);
             this.NAME_TEXTBOX.Location = new System.Drawing.Point(104, 45);
             this.NAME_TEXTBOX.Name = "NAME_TEXTBOX";
             this.NAME_TEXTBOX.Size = new System.Drawing.Size(160, 25);
@@ -135,7 +135,7 @@ namespace osu_launcher.Forms
             // NAME_LABEL
             // 
             this.NAME_LABEL.AutoSize = true;
-            this.NAME_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
+            this.NAME_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
             this.NAME_LABEL.Location = new System.Drawing.Point(11, 43);
             this.NAME_LABEL.Name = "NAME_LABEL";
             this.NAME_LABEL.Size = new System.Drawing.Size(56, 24);
@@ -152,7 +152,7 @@ namespace osu_launcher.Forms
             // 
             // RESET_BUTTON
             // 
-            this.RESET_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
+            this.RESET_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
             this.RESET_BUTTON.Location = new System.Drawing.Point(162, 124);
             this.RESET_BUTTON.Name = "RESET_BUTTON";
             this.RESET_BUTTON.Size = new System.Drawing.Size(102, 34);
@@ -163,7 +163,7 @@ namespace osu_launcher.Forms
             // 
             // CREATE_BUTTON
             // 
-            this.CREATE_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
+            this.CREATE_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
             this.CREATE_BUTTON.Location = new System.Drawing.Point(19, 124);
             this.CREATE_BUTTON.Name = "CREATE_BUTTON";
             this.CREATE_BUTTON.Size = new System.Drawing.Size(105, 34);
@@ -172,10 +172,28 @@ namespace osu_launcher.Forms
             this.CREATE_BUTTON.UseVisualStyleBackColor = true;
             this.CREATE_BUTTON.Click += new System.EventHandler(this.CREATE_BUTTON_Click);
             // 
+            // ADDRESS_TEXTBOX
+            // 
+            this.ADDRESS_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 9F);
+            this.ADDRESS_TEXTBOX.Location = new System.Drawing.Point(104, 82);
+            this.ADDRESS_TEXTBOX.Name = "ADDRESS_TEXTBOX";
+            this.ADDRESS_TEXTBOX.Size = new System.Drawing.Size(160, 25);
+            this.ADDRESS_TEXTBOX.TabIndex = 23;
+            // 
+            // ADDRESS_LABEL
+            // 
+            this.ADDRESS_LABEL.AutoSize = true;
+            this.ADDRESS_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.ADDRESS_LABEL.Location = new System.Drawing.Point(11, 80);
+            this.ADDRESS_LABEL.Name = "ADDRESS_LABEL";
+            this.ADDRESS_LABEL.Size = new System.Drawing.Size(69, 24);
+            this.ADDRESS_LABEL.TabIndex = 22;
+            this.ADDRESS_LABEL.Text = "Address";
+            // 
             // NEWSERVER_LABEL
             // 
             this.NEWSERVER_LABEL.AutoSize = true;
-            this.NEWSERVER_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
+            this.NEWSERVER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
             this.NEWSERVER_LABEL.Location = new System.Drawing.Point(7, 0);
             this.NEWSERVER_LABEL.Name = "NEWSERVER_LABEL";
             this.NEWSERVER_LABEL.Size = new System.Drawing.Size(129, 33);
@@ -192,9 +210,9 @@ namespace osu_launcher.Forms
             this.EditTab.Controls.Add(this.label28);
             this.EditTab.Controls.Add(this.EDITRESET_BUTTON);
             this.EditTab.Controls.Add(this.EDIT_BUTTON);
-            this.EditTab.Controls.Add(this.IPEDIT_TEXTBOX);
-            this.EditTab.Controls.Add(this.IPEDIT_LABEL);
-            this.EditTab.Controls.Add(this.EDITPROFILE_LABEL);
+            this.EditTab.Controls.Add(this.ADDRESSEDIT_TEXTBOX);
+            this.EditTab.Controls.Add(this.ADDRESSEDIT_LABEL);
+            this.EditTab.Controls.Add(this.EDITSERVER_LABEL);
             this.EditTab.Location = new System.Drawing.Point(4, 27);
             this.EditTab.Name = "EditTab";
             this.EditTab.Size = new System.Drawing.Size(283, 353);
@@ -204,7 +222,7 @@ namespace osu_launcher.Forms
             // SERVEREDIT_LABEL
             // 
             this.SERVEREDIT_LABEL.AutoSize = true;
-            this.SERVEREDIT_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 13F);
+            this.SERVEREDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 13F);
             this.SERVEREDIT_LABEL.Location = new System.Drawing.Point(16, 12);
             this.SERVEREDIT_LABEL.Name = "SERVEREDIT_LABEL";
             this.SERVEREDIT_LABEL.Size = new System.Drawing.Size(66, 26);
@@ -214,18 +232,18 @@ namespace osu_launcher.Forms
             // SERVEREDIT_COMBOBOX
             // 
             this.SERVEREDIT_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.SERVEREDIT_COMBOBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 10F);
+            this.SERVEREDIT_COMBOBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 10F);
             this.SERVEREDIT_COMBOBOX.FormattingEnabled = true;
             this.SERVEREDIT_COMBOBOX.Location = new System.Drawing.Point(100, 15);
             this.SERVEREDIT_COMBOBOX.Name = "SERVEREDIT_COMBOBOX";
             this.SERVEREDIT_COMBOBOX.Size = new System.Drawing.Size(158, 27);
             this.SERVEREDIT_COMBOBOX.TabIndex = 114;
-            this.SERVEREDIT_COMBOBOX.SelectedIndexChanged += new System.EventHandler(this.PROFILEEDIT_COMBOBOX_SelectedIndexChanged);
+            this.SERVEREDIT_COMBOBOX.SelectedIndexChanged += new System.EventHandler(this.SERVEREDIT_COMBOBOX_SelectedIndexChanged);
             // 
             // NAMEEDIT_TEXTBOX
             // 
             this.NAMEEDIT_TEXTBOX.Enabled = false;
-            this.NAMEEDIT_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 9F);
+            this.NAMEEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 9F);
             this.NAMEEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 92);
             this.NAMEEDIT_TEXTBOX.Name = "NAMEEDIT_TEXTBOX";
             this.NAMEEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
@@ -234,7 +252,7 @@ namespace osu_launcher.Forms
             // NAMEEDIT_LABEL
             // 
             this.NAMEEDIT_LABEL.AutoSize = true;
-            this.NAMEEDIT_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
+            this.NAMEEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
             this.NAMEEDIT_LABEL.Location = new System.Drawing.Point(11, 90);
             this.NAMEEDIT_LABEL.Name = "NAMEEDIT_LABEL";
             this.NAMEEDIT_LABEL.Size = new System.Drawing.Size(56, 24);
@@ -251,7 +269,7 @@ namespace osu_launcher.Forms
             // 
             // EDITRESET_BUTTON
             // 
-            this.EDITRESET_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
+            this.EDITRESET_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
             this.EDITRESET_BUTTON.Location = new System.Drawing.Point(158, 176);
             this.EDITRESET_BUTTON.Name = "EDITRESET_BUTTON";
             this.EDITRESET_BUTTON.Size = new System.Drawing.Size(102, 34);
@@ -262,7 +280,7 @@ namespace osu_launcher.Forms
             // 
             // EDIT_BUTTON
             // 
-            this.EDIT_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
+            this.EDIT_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
             this.EDIT_BUTTON.Location = new System.Drawing.Point(15, 176);
             this.EDIT_BUTTON.Name = "EDIT_BUTTON";
             this.EDIT_BUTTON.Size = new System.Drawing.Size(105, 34);
@@ -271,61 +289,43 @@ namespace osu_launcher.Forms
             this.EDIT_BUTTON.UseVisualStyleBackColor = true;
             this.EDIT_BUTTON.Click += new System.EventHandler(this.EDIT_BUTTON_Click);
             // 
-            // IPEDIT_TEXTBOX
+            // ADDRESSEDIT_TEXTBOX
             // 
-            this.IPEDIT_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 9F);
-            this.IPEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 129);
-            this.IPEDIT_TEXTBOX.Name = "IPEDIT_TEXTBOX";
-            this.IPEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
-            this.IPEDIT_TEXTBOX.TabIndex = 74;
+            this.ADDRESSEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 9F);
+            this.ADDRESSEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 129);
+            this.ADDRESSEDIT_TEXTBOX.Name = "ADDRESSEDIT_TEXTBOX";
+            this.ADDRESSEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
+            this.ADDRESSEDIT_TEXTBOX.TabIndex = 74;
             // 
-            // IPEDIT_LABEL
+            // ADDRESSEDIT_LABEL
             // 
-            this.IPEDIT_LABEL.AutoSize = true;
-            this.IPEDIT_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
-            this.IPEDIT_LABEL.Location = new System.Drawing.Point(11, 127);
-            this.IPEDIT_LABEL.Name = "IPEDIT_LABEL";
-            this.IPEDIT_LABEL.Size = new System.Drawing.Size(24, 24);
-            this.IPEDIT_LABEL.TabIndex = 73;
-            this.IPEDIT_LABEL.Text = "IP";
+            this.ADDRESSEDIT_LABEL.AutoSize = true;
+            this.ADDRESSEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.ADDRESSEDIT_LABEL.Location = new System.Drawing.Point(11, 127);
+            this.ADDRESSEDIT_LABEL.Name = "ADDRESSEDIT_LABEL";
+            this.ADDRESSEDIT_LABEL.Size = new System.Drawing.Size(69, 24);
+            this.ADDRESSEDIT_LABEL.TabIndex = 73;
+            this.ADDRESSEDIT_LABEL.Text = "Address";
             // 
-            // EDITPROFILE_LABEL
+            // EDITSERVER_LABEL
             // 
-            this.EDITPROFILE_LABEL.AutoSize = true;
-            this.EDITPROFILE_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
-            this.EDITPROFILE_LABEL.Location = new System.Drawing.Point(7, 47);
-            this.EDITPROFILE_LABEL.Name = "EDITPROFILE_LABEL";
-            this.EDITPROFILE_LABEL.Size = new System.Drawing.Size(121, 33);
-            this.EDITPROFILE_LABEL.TabIndex = 72;
-            this.EDITPROFILE_LABEL.Text = "Edit Profile";
+            this.EDITSERVER_LABEL.AutoSize = true;
+            this.EDITSERVER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.EDITSERVER_LABEL.Location = new System.Drawing.Point(7, 47);
+            this.EDITSERVER_LABEL.Name = "EDITSERVER_LABEL";
+            this.EDITSERVER_LABEL.Size = new System.Drawing.Size(122, 33);
+            this.EDITSERVER_LABEL.TabIndex = 72;
+            this.EDITSERVER_LABEL.Text = "Edit Server";
             // 
             // USERFORM_LABEL
             // 
             this.USERFORM_LABEL.AutoSize = true;
-            this.USERFORM_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.USERFORM_LABEL.Font = new System.Drawing.Font("Quicksand Light", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.USERFORM_LABEL.Location = new System.Drawing.Point(10, 9);
             this.USERFORM_LABEL.Name = "USERFORM_LABEL";
             this.USERFORM_LABEL.Size = new System.Drawing.Size(242, 31);
             this.USERFORM_LABEL.TabIndex = 1;
             this.USERFORM_LABEL.Text = "Select or Create Server";
-            // 
-            // IP_LABEL
-            // 
-            this.IP_LABEL.AutoSize = true;
-            this.IP_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
-            this.IP_LABEL.Location = new System.Drawing.Point(11, 80);
-            this.IP_LABEL.Name = "IP_LABEL";
-            this.IP_LABEL.Size = new System.Drawing.Size(24, 24);
-            this.IP_LABEL.TabIndex = 22;
-            this.IP_LABEL.Text = "IP";
-            // 
-            // IP_TEXTBOX
-            // 
-            this.IP_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 9F);
-            this.IP_TEXTBOX.Location = new System.Drawing.Point(104, 82);
-            this.IP_TEXTBOX.Name = "IP_TEXTBOX";
-            this.IP_TEXTBOX.Size = new System.Drawing.Size(160, 25);
-            this.IP_TEXTBOX.TabIndex = 23;
             // 
             // ServerForm
             // 
@@ -374,10 +374,10 @@ namespace osu_launcher.Forms
         private Label label28;
         private Button EDITRESET_BUTTON;
         private Button EDIT_BUTTON;
-        private TextBox IPEDIT_TEXTBOX;
-        private Label IPEDIT_LABEL;
-        private Label EDITPROFILE_LABEL;
-        private TextBox IP_TEXTBOX;
-        private Label IP_LABEL;
+        private TextBox ADDRESSEDIT_TEXTBOX;
+        private Label ADDRESSEDIT_LABEL;
+        private Label EDITSERVER_LABEL;
+        private TextBox ADDRESS_TEXTBOX;
+        private Label ADDRESS_LABEL;
     }
 }

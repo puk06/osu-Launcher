@@ -143,7 +143,7 @@ namespace osu_launcher.Forms
                 var serv = new Server
                 {
                     Name = server["Name"].ToString(),
-                    Ip = server["Ip"].ToString()
+                    Address = server["Address"].ToString()
                 };
                 Helper.AddValueToArray(ref Servers, serv);
             }
@@ -277,7 +277,7 @@ namespace osu_launcher.Forms
                 {
                     FileName = Path.Combine(osuFolder, "osu!.exe"),
                     WorkingDirectory = osuFolder,
-                    Arguments = CurrentServer.Ip == "Bancho" ? string.Empty : "-devserver " + CurrentServer.Ip
+                    Arguments = CurrentServer.Address == "Bancho" ? string.Empty : "-devserver " + CurrentServer.Address
                 };
                 Process.Start(startInfo);
 
@@ -303,7 +303,7 @@ namespace osu_launcher.Forms
                 (Data["Servers"] as JArray).Add(new JObject
                 {
                     { "Name", server.Name },
-                    { "Ip", server.Ip }
+                    { "Address", server.Address }
                 });
             }
 
@@ -367,7 +367,7 @@ namespace osu_launcher.Forms
         {
             var parameters = new Dictionary<string, string>
             {
-                { "CredentialEndpoint", CurrentServer.Ip == "Bancho" ? string.Empty : CurrentServer.Ip },
+                { "CredentialEndpoint", CurrentServer.Address == "Bancho" ? string.Empty : CurrentServer.Address },
                 { "BeatmapDirectory", SONGSFOLDER_COMBOBOX.Text },
                 { "SavePassword", "1" },
                 { "SaveUsername", "1" }

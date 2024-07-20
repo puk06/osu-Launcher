@@ -45,7 +45,7 @@ namespace osu_launcher.Forms
         // Change the status of the edit form
         private void ChangeEditFormStatus(bool value)
         {
-            IPEDIT_TEXTBOX.Enabled = value;
+            ADDRESSEDIT_TEXTBOX.Enabled = value;
             EDIT_BUTTON.Enabled = value;
             EDITRESET_BUTTON.Enabled = value;
         }
@@ -108,7 +108,7 @@ namespace osu_launcher.Forms
 
             if (IsServerNameDuplicate())
             {
-                Helper.ShowErrorMessage("The profile name already exists");
+                Helper.ShowErrorMessage("The server name already exists");
                 NAME_TEXTBOX.Text = string.Empty;
                 return;
             }
@@ -135,7 +135,7 @@ namespace osu_launcher.Forms
             var server = EditServer();
             _mainForm.Servers = _mainForm.Servers.Where(u => u.Name != server.Name);
             _mainForm.Servers = _mainForm.Servers.Append(server);
-            MessageBox.Show("Profile edited successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Server edited successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _mainForm.CurrentServer = server;
             _mainForm.SaveConfigData();
             UpdateServer();
@@ -157,14 +157,14 @@ namespace osu_launcher.Forms
         private bool IsAnyFieldEmpty()
         {
             return string.IsNullOrEmpty(NAME_TEXTBOX.Text) ||
-                   string.IsNullOrEmpty(IP_TEXTBOX.Text);
+                   string.IsNullOrEmpty(ADDRESS_TEXTBOX.Text);
         }
 
         // Check if any required field is empty for editing
         private bool IsAnyFieldEmptyEdit()
         {
             return string.IsNullOrEmpty(NAMEEDIT_TEXTBOX.Text) ||
-                   string.IsNullOrEmpty(IPEDIT_TEXTBOX.Text);
+                   string.IsNullOrEmpty(ADDRESSEDIT_TEXTBOX.Text);
         }
 
         // Check if the server name already exists
@@ -179,7 +179,7 @@ namespace osu_launcher.Forms
             var server = new Server
             {
                 Name = NAME_TEXTBOX.Text,
-                Ip = IP_TEXTBOX.Text
+                Address = ADDRESS_TEXTBOX.Text
             };
 
             return server;
@@ -191,7 +191,7 @@ namespace osu_launcher.Forms
             var server = new Server
             {
                 Name = NAMEEDIT_TEXTBOX.Text,
-                Ip = IPEDIT_TEXTBOX.Text
+                Address = ADDRESSEDIT_TEXTBOX.Text
             };
 
             return server;
@@ -252,22 +252,22 @@ namespace osu_launcher.Forms
         private void ResetValue()
         {
             NAME_TEXTBOX.Text = string.Empty;
-            IP_TEXTBOX.Text = string.Empty;
+            ADDRESS_TEXTBOX.Text = string.Empty;
         }
 
         private void ResetValueEdit()
         {
             NAMEEDIT_TEXTBOX.Text = string.Empty;
-            IPEDIT_TEXTBOX.Text = string.Empty;
+            ADDRESSEDIT_TEXTBOX.Text = string.Empty;
         }
 
-        // This is the event handler for the PROFILEEDIT_COMBOBOX
-        private void PROFILEEDIT_COMBOBOX_SelectedIndexChanged(object sender, EventArgs e)
+        // This is the event handler for the SERVEREDIT_COMBOBOX
+        private void SERVEREDIT_COMBOBOX_SelectedIndexChanged(object sender, EventArgs e)
         {
             var server = _mainForm.Servers.FirstOrDefault(p => p.Name == SERVEREDIT_COMBOBOX.Text);
             if (server == null) return;
             NAMEEDIT_TEXTBOX.Text = server.Name;
-            IPEDIT_TEXTBOX.Text = server.Ip;
+            ADDRESSEDIT_TEXTBOX.Text = server.Address;
         }
     }
 }

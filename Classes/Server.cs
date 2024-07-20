@@ -3,6 +3,6 @@
     public class Server
     {
         public string Name { get; set; }
-        public string Ip { get; set; }
+        public string Address { get; set; }
     }
 }
