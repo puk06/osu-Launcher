@@ -750,7 +750,7 @@ namespace osu_launcher.Forms
             string skinsPath = Path.Combine(OSUFOLDER_TEXTBOX.Text, "Skins");
             if (Directory.Exists(skinsPath))
             {
-                //すでに選択されてた場合
+                // Save the selected skin
                 string selectedSkin = SKIN_COMBOBOX.Text;
 
                 SKIN_COMBOBOX.Items.Clear();
