@@ -68,6 +68,13 @@ namespace osu_launcher.Forms
             button.ContextMenuStrip = new ContextMenuStrip();
             button.ContextMenuStrip.Items.Add("Delete").Click += (_object, _event) =>
             {
+                // Check if the server is the Bancho server
+                if (server.Name == "Bancho")
+                {
+                    MessageBox.Show("You cannot delete the Bancho server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 // Ask the user if they are sure they want to delete the server
                 var result = MessageBox.Show("Are you sure you want to delete this server?", "Delete Server", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.No) return;

@@ -152,23 +152,19 @@ namespace osu_launcher.Forms
         private void SetInitialProfile()
         {
             var enumerable = Profiles as Profile[] ?? Profiles.ToArray();
-            if (enumerable.Length > 0)
-            {
-                CurrentProfile = enumerable.First();
-                PROFILE_BUTTON.Text = CurrentProfile.Name;
-                RefreshProfile();
-            }
+            if (enumerable.Length <= 0) return;
+            CurrentProfile = enumerable.First();
+            PROFILE_BUTTON.Text = CurrentProfile.Name;
+            RefreshProfile();
         }
 
         private void SetInitialServer()
         {
             var enumerable = Servers as Server[] ?? Servers.ToArray();
-            if (enumerable.Length > 0)
-            {
-                CurrentServer = enumerable.First();
-                SERVER_BUTTON.Text = CurrentServer.Name;
-                RefreshServer();
-            }
+            if (enumerable.Length <= 0) return;
+            CurrentServer = enumerable.First();
+            SERVER_BUTTON.Text = CurrentServer.Name;
+            RefreshServer();
         }
 
         private void ValidateOsuFolder()
@@ -268,7 +264,7 @@ namespace osu_launcher.Forms
                     }
                     catch
                     {
-                        MessageBox.Show("The password could not be copied.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Helper.ShowErrorMessage("The password could not be copied.");
                     }
                 }
 
@@ -286,8 +282,7 @@ namespace osu_launcher.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("osu! could not be launched. The reasons are as follows.\n" + ex, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Helper.ShowErrorMessage("osu! could not be launched. The reasons are as follows.\n" + ex);
             }
         }
 

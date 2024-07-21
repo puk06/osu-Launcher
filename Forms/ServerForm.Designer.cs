@@ -67,7 +67,7 @@ namespace osu_launcher.Forms
             this.MainTab.Controls.Add(this.ServersTab);
             this.MainTab.Controls.Add(this.CreateTab);
             this.MainTab.Controls.Add(this.EditTab);
-            this.MainTab.Font = new System.Drawing.Font("Quicksand Light", 9F);
+            this.MainTab.Font = new System.Drawing.Font(_mainForm.GuiFont, 9F);
             this.MainTab.Location = new System.Drawing.Point(12, 54);
             this.MainTab.Name = "MainTab";
             this.MainTab.SelectedIndex = 0;
@@ -79,7 +79,7 @@ namespace osu_launcher.Forms
             this.ServersTab.AutoScroll = true;
             this.ServersTab.Controls.Add(this.SELECTUSER_LABEL);
             this.ServersTab.Controls.Add(this.label3);
-            this.ServersTab.Font = new System.Drawing.Font("Quicksand Light", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ServersTab.Font = new System.Drawing.Font(_mainForm.GuiFont, 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ServersTab.Location = new System.Drawing.Point(4, 27);
             this.ServersTab.Name = "ServersTab";
             this.ServersTab.Padding = new System.Windows.Forms.Padding(3);
@@ -90,7 +90,7 @@ namespace osu_launcher.Forms
             // SELECTUSER_LABEL
             // 
             this.SELECTUSER_LABEL.AutoSize = true;
-            this.SELECTUSER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.SELECTUSER_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
             this.SELECTUSER_LABEL.Location = new System.Drawing.Point(7, 0);
             this.SELECTUSER_LABEL.Name = "SELECTUSER_LABEL";
             this.SELECTUSER_LABEL.Size = new System.Drawing.Size(144, 33);
@@ -116,7 +116,7 @@ namespace osu_launcher.Forms
             this.CreateTab.Controls.Add(this.ADDRESS_TEXTBOX);
             this.CreateTab.Controls.Add(this.ADDRESS_LABEL);
             this.CreateTab.Controls.Add(this.NEWSERVER_LABEL);
-            this.CreateTab.Font = new System.Drawing.Font("Quicksand Light", 9F);
+            this.CreateTab.Font = new System.Drawing.Font(_mainForm.GuiFont, 9F);
             this.CreateTab.Location = new System.Drawing.Point(4, 27);
             this.CreateTab.Name = "CreateTab";
             this.CreateTab.Padding = new System.Windows.Forms.Padding(3);
@@ -126,7 +126,7 @@ namespace osu_launcher.Forms
             // 
             // NAME_TEXTBOX
             // 
-            this.NAME_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 9F);
+            this.NAME_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 9F);
             this.NAME_TEXTBOX.Location = new System.Drawing.Point(104, 45);
             this.NAME_TEXTBOX.Name = "NAME_TEXTBOX";
             this.NAME_TEXTBOX.Size = new System.Drawing.Size(160, 25);
@@ -135,7 +135,7 @@ namespace osu_launcher.Forms
             // NAME_LABEL
             // 
             this.NAME_LABEL.AutoSize = true;
-            this.NAME_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.NAME_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
             this.NAME_LABEL.Location = new System.Drawing.Point(11, 43);
             this.NAME_LABEL.Name = "NAME_LABEL";
             this.NAME_LABEL.Size = new System.Drawing.Size(56, 24);
@@ -152,7 +152,7 @@ namespace osu_launcher.Forms
             // 
             // RESET_BUTTON
             // 
-            this.RESET_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
+            this.RESET_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
             this.RESET_BUTTON.Location = new System.Drawing.Point(162, 124);
             this.RESET_BUTTON.Name = "RESET_BUTTON";
             this.RESET_BUTTON.Size = new System.Drawing.Size(102, 34);
@@ -163,7 +163,7 @@ namespace osu_launcher.Forms
             // 
             // CREATE_BUTTON
             // 
-            this.CREATE_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
+            this.CREATE_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
             this.CREATE_BUTTON.Location = new System.Drawing.Point(19, 124);
             this.CREATE_BUTTON.Name = "CREATE_BUTTON";
             this.CREATE_BUTTON.Size = new System.Drawing.Size(105, 34);
@@ -174,7 +174,7 @@ namespace osu_launcher.Forms
             // 
             // ADDRESS_TEXTBOX
             // 
-            this.ADDRESS_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 9F);
+            this.ADDRESS_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 9F);
             this.ADDRESS_TEXTBOX.Location = new System.Drawing.Point(104, 82);
             this.ADDRESS_TEXTBOX.Name = "ADDRESS_TEXTBOX";
             this.ADDRESS_TEXTBOX.Size = new System.Drawing.Size(160, 25);
@@ -183,7 +183,7 @@ namespace osu_launcher.Forms
             // ADDRESS_LABEL
             // 
             this.ADDRESS_LABEL.AutoSize = true;
-            this.ADDRESS_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.ADDRESS_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
             this.ADDRESS_LABEL.Location = new System.Drawing.Point(11, 80);
             this.ADDRESS_LABEL.Name = "ADDRESS_LABEL";
             this.ADDRESS_LABEL.Size = new System.Drawing.Size(69, 24);
@@ -193,7 +193,7 @@ namespace osu_launcher.Forms
             // NEWSERVER_LABEL
             // 
             this.NEWSERVER_LABEL.AutoSize = true;
-            this.NEWSERVER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.NEWSERVER_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
             this.NEWSERVER_LABEL.Location = new System.Drawing.Point(7, 0);
             this.NEWSERVER_LABEL.Name = "NEWSERVER_LABEL";
             this.NEWSERVER_LABEL.Size = new System.Drawing.Size(129, 33);
@@ -222,7 +222,7 @@ namespace osu_launcher.Forms
             // SERVEREDIT_LABEL
             // 
             this.SERVEREDIT_LABEL.AutoSize = true;
-            this.SERVEREDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 13F);
+            this.SERVEREDIT_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 13F);
             this.SERVEREDIT_LABEL.Location = new System.Drawing.Point(16, 12);
             this.SERVEREDIT_LABEL.Name = "SERVEREDIT_LABEL";
             this.SERVEREDIT_LABEL.Size = new System.Drawing.Size(66, 26);
@@ -232,7 +232,7 @@ namespace osu_launcher.Forms
             // SERVEREDIT_COMBOBOX
             // 
             this.SERVEREDIT_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.SERVEREDIT_COMBOBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 10F);
+            this.SERVEREDIT_COMBOBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 10F);
             this.SERVEREDIT_COMBOBOX.FormattingEnabled = true;
             this.SERVEREDIT_COMBOBOX.Location = new System.Drawing.Point(100, 15);
             this.SERVEREDIT_COMBOBOX.Name = "SERVEREDIT_COMBOBOX";
@@ -243,7 +243,7 @@ namespace osu_launcher.Forms
             // NAMEEDIT_TEXTBOX
             // 
             this.NAMEEDIT_TEXTBOX.Enabled = false;
-            this.NAMEEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 9F);
+            this.NAMEEDIT_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 9F);
             this.NAMEEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 92);
             this.NAMEEDIT_TEXTBOX.Name = "NAMEEDIT_TEXTBOX";
             this.NAMEEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
@@ -252,7 +252,7 @@ namespace osu_launcher.Forms
             // NAMEEDIT_LABEL
             // 
             this.NAMEEDIT_LABEL.AutoSize = true;
-            this.NAMEEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.NAMEEDIT_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
             this.NAMEEDIT_LABEL.Location = new System.Drawing.Point(11, 90);
             this.NAMEEDIT_LABEL.Name = "NAMEEDIT_LABEL";
             this.NAMEEDIT_LABEL.Size = new System.Drawing.Size(56, 24);
@@ -269,7 +269,7 @@ namespace osu_launcher.Forms
             // 
             // EDITRESET_BUTTON
             // 
-            this.EDITRESET_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
+            this.EDITRESET_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
             this.EDITRESET_BUTTON.Location = new System.Drawing.Point(158, 176);
             this.EDITRESET_BUTTON.Name = "EDITRESET_BUTTON";
             this.EDITRESET_BUTTON.Size = new System.Drawing.Size(102, 34);
@@ -280,7 +280,7 @@ namespace osu_launcher.Forms
             // 
             // EDIT_BUTTON
             // 
-            this.EDIT_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
+            this.EDIT_BUTTON.Font = new System.Drawing.Font(_mainForm.GuiFont, 11F);
             this.EDIT_BUTTON.Location = new System.Drawing.Point(15, 176);
             this.EDIT_BUTTON.Name = "EDIT_BUTTON";
             this.EDIT_BUTTON.Size = new System.Drawing.Size(105, 34);
@@ -291,7 +291,7 @@ namespace osu_launcher.Forms
             // 
             // ADDRESSEDIT_TEXTBOX
             // 
-            this.ADDRESSEDIT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 9F);
+            this.ADDRESSEDIT_TEXTBOX.Font = new System.Drawing.Font(_mainForm.TextFont, 9F);
             this.ADDRESSEDIT_TEXTBOX.Location = new System.Drawing.Point(104, 129);
             this.ADDRESSEDIT_TEXTBOX.Name = "ADDRESSEDIT_TEXTBOX";
             this.ADDRESSEDIT_TEXTBOX.Size = new System.Drawing.Size(160, 25);
@@ -300,7 +300,7 @@ namespace osu_launcher.Forms
             // ADDRESSEDIT_LABEL
             // 
             this.ADDRESSEDIT_LABEL.AutoSize = true;
-            this.ADDRESSEDIT_LABEL.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.ADDRESSEDIT_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 12F);
             this.ADDRESSEDIT_LABEL.Location = new System.Drawing.Point(11, 127);
             this.ADDRESSEDIT_LABEL.Name = "ADDRESSEDIT_LABEL";
             this.ADDRESSEDIT_LABEL.Size = new System.Drawing.Size(69, 24);
@@ -310,7 +310,7 @@ namespace osu_launcher.Forms
             // EDITSERVER_LABEL
             // 
             this.EDITSERVER_LABEL.AutoSize = true;
-            this.EDITSERVER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 16F);
+            this.EDITSERVER_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 16F);
             this.EDITSERVER_LABEL.Location = new System.Drawing.Point(7, 47);
             this.EDITSERVER_LABEL.Name = "EDITSERVER_LABEL";
             this.EDITSERVER_LABEL.Size = new System.Drawing.Size(122, 33);
@@ -320,7 +320,7 @@ namespace osu_launcher.Forms
             // USERFORM_LABEL
             // 
             this.USERFORM_LABEL.AutoSize = true;
-            this.USERFORM_LABEL.Font = new System.Drawing.Font("Quicksand Light", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.USERFORM_LABEL.Font = new System.Drawing.Font(_mainForm.GuiFont, 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.USERFORM_LABEL.Location = new System.Drawing.Point(10, 9);
             this.USERFORM_LABEL.Name = "USERFORM_LABEL";
             this.USERFORM_LABEL.Size = new System.Drawing.Size(242, 31);
