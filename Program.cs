@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using osu_launcher.Forms;
 
@@ -14,6 +15,14 @@ namespace osu_launcher
         {
             try
             {
+                // Check if the program is already running
+                var currentProcess = Process.GetCurrentProcess();
+                if (Process.GetProcessesByName(currentProcess.ProcessName).Length > 1)
+                {
+                    Helper.ShowErrorMessage("osu! Launcher is already running.");
+                    return;
+                }
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Main());
