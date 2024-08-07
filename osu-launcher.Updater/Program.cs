@@ -77,7 +77,7 @@ namespace osu_launcher.Updater
             {
                 if (releaseType == "Release")
                 {
-                    if (tag.Name.Split("-")[1] != "Release") continue;
+                    if (tag.Name.Split('-')[1] != "Release") continue;
                     latestVersion = tag.Name;
                     break;
                 }

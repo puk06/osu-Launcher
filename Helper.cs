@@ -44,13 +44,13 @@ namespace osu_launcher
         {
             if (!File.Exists("./src/Fonts/Quicksand-Light.ttf") || !File.Exists("./src/Fonts/NotoSansJP-Light.ttf"))
             {
-                ShowErrorMessage("The font file was not found.");
+                ShowErrorMessage("The font file was not found. Download this software again.");
                 Environment.Exit(1);
             }
 
             if (!File.Exists("./src/data.json"))
             {
-                ShowErrorMessage("The data file was not found.");
+                ShowErrorMessage("The data file was not found. Download this software again.");
                 Environment.Exit(1);
             }
         }
