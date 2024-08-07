@@ -11,11 +11,14 @@ using CefSharp.WinForms;
 using Newtonsoft.Json.Linq;
 using osu_launcher.Classes;
 using Profile = osu_launcher.Classes.Profile;
+using static osu_launcher.Classes.Helper;
 
 namespace osu_launcher.Forms
 {
     public partial class Main : Form
     {
+        public const string CurrentVersion = "v1.0.0-Release";
+
         // Data Values
         public JObject Data;
 
@@ -60,6 +63,7 @@ namespace osu_launcher.Forms
                 Helper.ValidateRequiredFiles();
                 AddFontFile();
                 InitializeComponent();
+                GithubUpdateChecker();
                 InitializeDefaults();
                 InitializeWebBrowser();
                 LoadConfigFile();
@@ -82,6 +86,8 @@ namespace osu_launcher.Forms
             MASTER_BAR.Value = 100;
             EFFECT_BAR.Value = 100;
             AUDIO_BAR.Value = 100;
+
+            CURRENT_VERSION_TEXT.Text = CurrentVersion;
         }
 
         private void InitializeWebBrowser()
@@ -850,6 +856,56 @@ namespace osu_launcher.Forms
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 OSUFOLDER_TEXTBOX.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        public async void GithubUpdateChecker()
+        {
+            try
+            {
+                var latestRelease = await GetVersion(CurrentVersion);
+                LATEST_VERSION_TEXT.Text = latestRelease;
+                if (latestRelease == CurrentVersion)
+                {
+                    UPDATE_BUTTON.Enabled = false;
+                    LATEST_VERSION_TEXT.ForeColor = Color.Black;
+                    return;
+                }
+                UPDATE_BUTTON.Enabled = true;
+                LATEST_VERSION_TEXT.ForeColor = Color.Green;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("アップデートチェック中にエラーが発生しました" + exception.Message, "エラー", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void UPDATE_BUTTON_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!File.Exists("./Updater/osu-launcher.Updater.exe"))
+                {
+                    MessageBox.Show("アップデーターが見つかりませんでした。手動でダウンロードしてください。", "エラー", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+
+                string updaterPath = Path.GetFullPath("./Updater/osu-launcher.Updater.exe");
+                ProcessStartInfo args = new ProcessStartInfo()
+                {
+                    FileName = $"\"{updaterPath}\"",
+                    Arguments = CurrentVersion,
+                    UseShellExecute = true
+                };
+
+                Process.Start(args);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("アップデーターを起動できませんでした" + exception.Message, "エラー", MessageBoxButtons.OK,
+                                       MessageBoxIcon.Error);
             }
         }
     }

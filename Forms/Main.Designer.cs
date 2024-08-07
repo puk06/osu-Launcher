@@ -30,12 +30,20 @@ namespace osu_launcher.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.LAUNCH_BUTTON = new System.Windows.Forms.Button();
             this.MainTab = new System.Windows.Forms.TabControl();
             this.TopTab = new System.Windows.Forms.TabPage();
             this.SoftwareTab = new System.Windows.Forms.TabPage();
             this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.LATEST_VERSION_TEXT = new System.Windows.Forms.Label();
+            this.CURRENT_VERSION_TEXT = new System.Windows.Forms.Label();
+            this.LATEST_VERSION_LABEL = new System.Windows.Forms.Label();
+            this.UPDATE_BUTTON = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.CURRENT_VERSION_LABEL = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.PASSWORDAUTOCOPY_CHECKBOX = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -87,6 +95,7 @@ namespace osu_launcher.Forms
             this.PROFILE_LABEL = new System.Windows.Forms.Label();
             this.PROFILE_BUTTON = new System.Windows.Forms.Button();
             this.SERVER_BUTTON = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AUDIO_BAR)).BeginInit();
@@ -96,7 +105,7 @@ namespace osu_launcher.Forms
             // 
             // LAUNCH_BUTTON
             // 
-            this.LAUNCH_BUTTON.Font = new System.Drawing.Font(GuiFont, 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LAUNCH_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LAUNCH_BUTTON.Location = new System.Drawing.Point(281, 418);
             this.LAUNCH_BUTTON.Name = "LAUNCH_BUTTON";
             this.LAUNCH_BUTTON.Size = new System.Drawing.Size(269, 69);
@@ -110,7 +119,7 @@ namespace osu_launcher.Forms
             this.MainTab.Controls.Add(this.TopTab);
             this.MainTab.Controls.Add(this.SoftwareTab);
             this.MainTab.Controls.Add(this.SettingsTab);
-            this.MainTab.Font = new System.Drawing.Font(GuiFont, 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainTab.Font = new System.Drawing.Font("Quicksand Light", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainTab.Location = new System.Drawing.Point(12, 12);
             this.MainTab.Name = "MainTab";
             this.MainTab.SelectedIndex = 0;
@@ -119,7 +128,7 @@ namespace osu_launcher.Forms
             // 
             // TopTab
             // 
-            this.TopTab.Font = new System.Drawing.Font(GuiFont, 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TopTab.Font = new System.Drawing.Font("Quicksand Light", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TopTab.Location = new System.Drawing.Point(4, 40);
             this.TopTab.Name = "TopTab";
             this.TopTab.Padding = new System.Windows.Forms.Padding(3);
@@ -141,6 +150,13 @@ namespace osu_launcher.Forms
             // SettingsTab
             // 
             this.SettingsTab.AutoScroll = true;
+            this.SettingsTab.Controls.Add(this.LATEST_VERSION_TEXT);
+            this.SettingsTab.Controls.Add(this.CURRENT_VERSION_TEXT);
+            this.SettingsTab.Controls.Add(this.LATEST_VERSION_LABEL);
+            this.SettingsTab.Controls.Add(this.UPDATE_BUTTON);
+            this.SettingsTab.Controls.Add(this.label14);
+            this.SettingsTab.Controls.Add(this.label15);
+            this.SettingsTab.Controls.Add(this.CURRENT_VERSION_LABEL);
             this.SettingsTab.Controls.Add(this.label3);
             this.SettingsTab.Controls.Add(this.PASSWORDAUTOCOPY_CHECKBOX);
             this.SettingsTab.Controls.Add(this.label12);
@@ -195,10 +211,76 @@ namespace osu_launcher.Forms
             this.SettingsTab.TabIndex = 1;
             this.SettingsTab.Text = "Settings";
             // 
+            // LATEST_VERSION_TEXT
+            // 
+            this.LATEST_VERSION_TEXT.AutoSize = true;
+            this.LATEST_VERSION_TEXT.Location = new System.Drawing.Point(179, 1014);
+            this.LATEST_VERSION_TEXT.Name = "LATEST_VERSION_TEXT";
+            this.LATEST_VERSION_TEXT.Size = new System.Drawing.Size(53, 33);
+            this.LATEST_VERSION_TEXT.TabIndex = 88;
+            this.LATEST_VERSION_TEXT.Text = "Null";
+            // 
+            // CURRENT_VERSION_TEXT
+            // 
+            this.CURRENT_VERSION_TEXT.AutoSize = true;
+            this.CURRENT_VERSION_TEXT.Location = new System.Drawing.Point(194, 981);
+            this.CURRENT_VERSION_TEXT.Name = "CURRENT_VERSION_TEXT";
+            this.CURRENT_VERSION_TEXT.Size = new System.Drawing.Size(53, 33);
+            this.CURRENT_VERSION_TEXT.TabIndex = 87;
+            this.CURRENT_VERSION_TEXT.Text = "Null";
+            // 
+            // LATEST_VERSION_LABEL
+            // 
+            this.LATEST_VERSION_LABEL.AutoSize = true;
+            this.LATEST_VERSION_LABEL.Location = new System.Drawing.Point(23, 1014);
+            this.LATEST_VERSION_LABEL.Name = "LATEST_VERSION_LABEL";
+            this.LATEST_VERSION_LABEL.Size = new System.Drawing.Size(159, 33);
+            this.LATEST_VERSION_LABEL.TabIndex = 86;
+            this.LATEST_VERSION_LABEL.Text = "Latest Version:";
+            // 
+            // UPDATE_BUTTON
+            // 
+            this.UPDATE_BUTTON.Enabled = false;
+            this.UPDATE_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 12F);
+            this.UPDATE_BUTTON.Location = new System.Drawing.Point(623, 997);
+            this.UPDATE_BUTTON.Name = "UPDATE_BUTTON";
+            this.UPDATE_BUTTON.Size = new System.Drawing.Size(138, 38);
+            this.UPDATE_BUTTON.TabIndex = 85;
+            this.UPDATE_BUTTON.Text = "Update Now!";
+            this.UPDATE_BUTTON.UseVisualStyleBackColor = true;
+            this.UPDATE_BUTTON.Click += new System.EventHandler(this.UPDATE_BUTTON_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(23, 931);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(95, 35);
+            this.label14.TabIndex = 84;
+            this.label14.Text = "Update";
+            // 
+            // label15
+            // 
+            this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label15.Location = new System.Drawing.Point(29, 969);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(750, 1);
+            this.label15.TabIndex = 83;
+            // 
+            // CURRENT_VERSION_LABEL
+            // 
+            this.CURRENT_VERSION_LABEL.AutoSize = true;
+            this.CURRENT_VERSION_LABEL.Location = new System.Drawing.Point(23, 981);
+            this.CURRENT_VERSION_LABEL.Name = "CURRENT_VERSION_LABEL";
+            this.CURRENT_VERSION_LABEL.Size = new System.Drawing.Size(174, 33);
+            this.CURRENT_VERSION_LABEL.TabIndex = 82;
+            this.CURRENT_VERSION_LABEL.Text = "Current Version:";
+            // 
             // label3
             // 
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(29, 935);
+            this.label3.Location = new System.Drawing.Point(29, 1059);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(750, 1);
             this.label3.TabIndex = 81;
@@ -216,7 +298,7 @@ namespace osu_launcher.Forms
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(23, 830);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(119, 35);
@@ -244,7 +326,7 @@ namespace osu_launcher.Forms
             // 
             // OSUFOLDER_FOLDEROPEN_BUTTON
             // 
-            this.OSUFOLDER_FOLDEROPEN_BUTTON.Font = new System.Drawing.Font(GuiFont, 11F);
+            this.OSUFOLDER_FOLDEROPEN_BUTTON.Font = new System.Drawing.Font("Quicksand Light", 11F);
             this.OSUFOLDER_FOLDEROPEN_BUTTON.Location = new System.Drawing.Point(696, 57);
             this.OSUFOLDER_FOLDEROPEN_BUTTON.Name = "OSUFOLDER_FOLDEROPEN_BUTTON";
             this.OSUFOLDER_FOLDEROPEN_BUTTON.Size = new System.Drawing.Size(75, 32);
@@ -257,7 +339,7 @@ namespace osu_launcher.Forms
             // 
             this.SKIN_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SKIN_COMBOBOX.Enabled = false;
-            this.SKIN_COMBOBOX.Font = new System.Drawing.Font(GuiFont, 14F);
+            this.SKIN_COMBOBOX.Font = new System.Drawing.Font("Quicksand Light", 14F);
             this.SKIN_COMBOBOX.FormattingEnabled = true;
             this.SKIN_COMBOBOX.Location = new System.Drawing.Point(34, 781);
             this.SKIN_COMBOBOX.Name = "SKIN_COMBOBOX";
@@ -278,7 +360,7 @@ namespace osu_launcher.Forms
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(23, 725);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(60, 35);
@@ -304,7 +386,7 @@ namespace osu_launcher.Forms
             // 
             // OFFSET_TEXTBOX
             // 
-            this.OFFSET_TEXTBOX.Font = new System.Drawing.Font(TextFont, 14F);
+            this.OFFSET_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 14F);
             this.OFFSET_TEXTBOX.Location = new System.Drawing.Point(135, 680);
             this.OFFSET_TEXTBOX.Name = "OFFSET_TEXTBOX";
             this.OFFSET_TEXTBOX.Size = new System.Drawing.Size(115, 35);
@@ -313,7 +395,7 @@ namespace osu_launcher.Forms
             // OFFSET_LABEL
             // 
             this.OFFSET_LABEL.AutoSize = true;
-            this.OFFSET_LABEL.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OFFSET_LABEL.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OFFSET_LABEL.Location = new System.Drawing.Point(23, 629);
             this.OFFSET_LABEL.Name = "OFFSET_LABEL";
             this.OFFSET_LABEL.Size = new System.Drawing.Size(81, 35);
@@ -331,7 +413,7 @@ namespace osu_launcher.Forms
             // AUDIOVALUE_LABEL
             // 
             this.AUDIOVALUE_LABEL.AutoSize = true;
-            this.AUDIOVALUE_LABEL.Font = new System.Drawing.Font(GuiFont, 13F);
+            this.AUDIOVALUE_LABEL.Font = new System.Drawing.Font("Quicksand Light", 13F);
             this.AUDIOVALUE_LABEL.Location = new System.Drawing.Point(457, 557);
             this.AUDIOVALUE_LABEL.Name = "AUDIOVALUE_LABEL";
             this.AUDIOVALUE_LABEL.Size = new System.Drawing.Size(55, 26);
@@ -341,7 +423,7 @@ namespace osu_launcher.Forms
             // EFFECTVALUE_LABEL
             // 
             this.EFFECTVALUE_LABEL.AutoSize = true;
-            this.EFFECTVALUE_LABEL.Font = new System.Drawing.Font(GuiFont, 13F);
+            this.EFFECTVALUE_LABEL.Font = new System.Drawing.Font("Quicksand Light", 13F);
             this.EFFECTVALUE_LABEL.Location = new System.Drawing.Point(456, 528);
             this.EFFECTVALUE_LABEL.Name = "EFFECTVALUE_LABEL";
             this.EFFECTVALUE_LABEL.Size = new System.Drawing.Size(55, 26);
@@ -351,7 +433,7 @@ namespace osu_launcher.Forms
             // MASTERVALUE_LABEL
             // 
             this.MASTERVALUE_LABEL.AutoSize = true;
-            this.MASTERVALUE_LABEL.Font = new System.Drawing.Font(GuiFont, 13F);
+            this.MASTERVALUE_LABEL.Font = new System.Drawing.Font("Quicksand Light", 13F);
             this.MASTERVALUE_LABEL.Location = new System.Drawing.Point(456, 498);
             this.MASTERVALUE_LABEL.Name = "MASTERVALUE_LABEL";
             this.MASTERVALUE_LABEL.Size = new System.Drawing.Size(55, 26);
@@ -427,7 +509,7 @@ namespace osu_launcher.Forms
             // AUDIO_LABEL
             // 
             this.AUDIO_LABEL.AutoSize = true;
-            this.AUDIO_LABEL.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AUDIO_LABEL.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AUDIO_LABEL.Location = new System.Drawing.Point(23, 438);
             this.AUDIO_LABEL.Name = "AUDIO_LABEL";
             this.AUDIO_LABEL.Size = new System.Drawing.Size(78, 35);
@@ -462,7 +544,7 @@ namespace osu_launcher.Forms
             // METERSTYLE_COMBOBOX
             // 
             this.METERSTYLE_COMBOBOX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.METERSTYLE_COMBOBOX.Font = new System.Drawing.Font(GuiFont, 14F);
+            this.METERSTYLE_COMBOBOX.Font = new System.Drawing.Font("Quicksand Light", 14F);
             this.METERSTYLE_COMBOBOX.FormattingEnabled = true;
             this.METERSTYLE_COMBOBOX.Items.AddRange(new object[] {
             "Default",
@@ -485,7 +567,7 @@ namespace osu_launcher.Forms
             // 
             // METERSCALE_TEXTBOX
             // 
-            this.METERSCALE_TEXTBOX.Font = new System.Drawing.Font(TextFont, 14F);
+            this.METERSCALE_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 14F);
             this.METERSCALE_TEXTBOX.Location = new System.Drawing.Point(109, 389);
             this.METERSCALE_TEXTBOX.Name = "METERSCALE_TEXTBOX";
             this.METERSCALE_TEXTBOX.Size = new System.Drawing.Size(115, 35);
@@ -494,7 +576,7 @@ namespace osu_launcher.Forms
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(23, 338);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(144, 35);
@@ -511,7 +593,7 @@ namespace osu_launcher.Forms
             // 
             // SONGSFOLDER_DELETE
             // 
-            this.SONGSFOLDER_DELETE.Font = new System.Drawing.Font(GuiFont, 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SONGSFOLDER_DELETE.Font = new System.Drawing.Font("Quicksand Light", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SONGSFOLDER_DELETE.Location = new System.Drawing.Point(696, 154);
             this.SONGSFOLDER_DELETE.Name = "SONGSFOLDER_DELETE";
             this.SONGSFOLDER_DELETE.Size = new System.Drawing.Size(85, 33);
@@ -541,7 +623,7 @@ namespace osu_launcher.Forms
             // 
             // WIDTH_TEXTBOX
             // 
-            this.WIDTH_TEXTBOX.Font = new System.Drawing.Font(TextFont, 14F);
+            this.WIDTH_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 14F);
             this.WIDTH_TEXTBOX.Location = new System.Drawing.Point(107, 257);
             this.WIDTH_TEXTBOX.Name = "WIDTH_TEXTBOX";
             this.WIDTH_TEXTBOX.Size = new System.Drawing.Size(115, 35);
@@ -566,7 +648,7 @@ namespace osu_launcher.Forms
             // 
             // HEIGHT_TEXTBOX
             // 
-            this.HEIGHT_TEXTBOX.Font = new System.Drawing.Font(TextFont, 14F);
+            this.HEIGHT_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 14F);
             this.HEIGHT_TEXTBOX.Location = new System.Drawing.Point(335, 257);
             this.HEIGHT_TEXTBOX.Name = "HEIGHT_TEXTBOX";
             this.HEIGHT_TEXTBOX.Size = new System.Drawing.Size(115, 35);
@@ -574,7 +656,7 @@ namespace osu_launcher.Forms
             // 
             // OSUFOLDER_TEXTBOX
             // 
-            this.OSUFOLDER_TEXTBOX.Font = new System.Drawing.Font(TextFont, 15.75F);
+            this.OSUFOLDER_TEXTBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 15.75F);
             this.OSUFOLDER_TEXTBOX.Location = new System.Drawing.Point(93, 52);
             this.OSUFOLDER_TEXTBOX.Name = "OSUFOLDER_TEXTBOX";
             this.OSUFOLDER_TEXTBOX.Size = new System.Drawing.Size(597, 38);
@@ -582,7 +664,7 @@ namespace osu_launcher.Forms
             // 
             // SONGSFOLDER_COMBOBOX
             // 
-            this.SONGSFOLDER_COMBOBOX.Font = new System.Drawing.Font(TextFont, 15.75F);
+            this.SONGSFOLDER_COMBOBOX.Font = new System.Drawing.Font("Noto Sans JP Light", 15.75F);
             this.SONGSFOLDER_COMBOBOX.FormattingEnabled = true;
             this.SONGSFOLDER_COMBOBOX.Location = new System.Drawing.Point(93, 151);
             this.SONGSFOLDER_COMBOBOX.Name = "SONGSFOLDER_COMBOBOX";
@@ -592,7 +674,7 @@ namespace osu_launcher.Forms
             // RESOLUTION_LABEL
             // 
             this.RESOLUTION_LABEL.AutoSize = true;
-            this.RESOLUTION_LABEL.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RESOLUTION_LABEL.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RESOLUTION_LABEL.Location = new System.Drawing.Point(23, 209);
             this.RESOLUTION_LABEL.Name = "RESOLUTION_LABEL";
             this.RESOLUTION_LABEL.Size = new System.Drawing.Size(129, 35);
@@ -610,7 +692,7 @@ namespace osu_launcher.Forms
             // SONGSFOLDER_LABEL
             // 
             this.SONGSFOLDER_LABEL.AutoSize = true;
-            this.SONGSFOLDER_LABEL.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SONGSFOLDER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SONGSFOLDER_LABEL.Location = new System.Drawing.Point(23, 104);
             this.SONGSFOLDER_LABEL.Name = "SONGSFOLDER_LABEL";
             this.SONGSFOLDER_LABEL.Size = new System.Drawing.Size(157, 35);
@@ -638,7 +720,7 @@ namespace osu_launcher.Forms
             // OSUFOLDER_LABEL
             // 
             this.OSUFOLDER_LABEL.AutoSize = true;
-            this.OSUFOLDER_LABEL.Font = new System.Drawing.Font(GuiFont, 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OSUFOLDER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OSUFOLDER_LABEL.Location = new System.Drawing.Point(23, 3);
             this.OSUFOLDER_LABEL.Name = "OSUFOLDER_LABEL";
             this.OSUFOLDER_LABEL.Size = new System.Drawing.Size(129, 35);
@@ -649,7 +731,7 @@ namespace osu_launcher.Forms
             // 
             this.SERVER_LABEL.AutoSize = true;
             this.SERVER_LABEL.BackColor = System.Drawing.Color.Transparent;
-            this.SERVER_LABEL.Font = new System.Drawing.Font(GuiFont, 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SERVER_LABEL.Font = new System.Drawing.Font("Quicksand Light", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SERVER_LABEL.Location = new System.Drawing.Point(86, 408);
             this.SERVER_LABEL.Name = "SERVER_LABEL";
             this.SERVER_LABEL.Size = new System.Drawing.Size(83, 34);
@@ -660,7 +742,7 @@ namespace osu_launcher.Forms
             // 
             this.PROFILE_LABEL.AutoSize = true;
             this.PROFILE_LABEL.BackColor = System.Drawing.Color.Transparent;
-            this.PROFILE_LABEL.Font = new System.Drawing.Font(GuiFont, 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PROFILE_LABEL.Font = new System.Drawing.Font("Quicksand Light", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PROFILE_LABEL.Location = new System.Drawing.Point(671, 405);
             this.PROFILE_LABEL.Name = "PROFILE_LABEL";
             this.PROFILE_LABEL.Size = new System.Drawing.Size(80, 34);
@@ -669,7 +751,7 @@ namespace osu_launcher.Forms
             // 
             // PROFILE_BUTTON
             // 
-            this.PROFILE_BUTTON.Font = new System.Drawing.Font(TextFont, 15.75F);
+            this.PROFILE_BUTTON.Font = new System.Drawing.Font("Noto Sans JP Light", 15.75F);
             this.PROFILE_BUTTON.Location = new System.Drawing.Point(622, 442);
             this.PROFILE_BUTTON.Name = "PROFILE_BUTTON";
             this.PROFILE_BUTTON.Size = new System.Drawing.Size(173, 38);
@@ -680,7 +762,7 @@ namespace osu_launcher.Forms
             // 
             // SERVER_BUTTON
             // 
-            this.SERVER_BUTTON.Font = new System.Drawing.Font(TextFont, 15.75F);
+            this.SERVER_BUTTON.Font = new System.Drawing.Font("Noto Sans JP Light", 15.75F);
             this.SERVER_BUTTON.Location = new System.Drawing.Point(43, 442);
             this.SERVER_BUTTON.Name = "SERVER_BUTTON";
             this.SERVER_BUTTON.Size = new System.Drawing.Size(173, 38);
@@ -688,6 +770,11 @@ namespace osu_launcher.Forms
             this.SERVER_BUTTON.Text = "No Server";
             this.SERVER_BUTTON.UseVisualStyleBackColor = true;
             this.SERVER_BUTTON.Click += new System.EventHandler(this.SERVER_BUTTON_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // Main
             // 
@@ -776,6 +863,14 @@ namespace osu_launcher.Forms
         private Label label13;
         private Label label3;
         private Button SERVER_BUTTON;
+        private Label label14;
+        private Label label15;
+        private Label CURRENT_VERSION_LABEL;
+        private Button UPDATE_BUTTON;
+        private Label LATEST_VERSION_LABEL;
+        private Label LATEST_VERSION_TEXT;
+        private Label CURRENT_VERSION_TEXT;
+        private ContextMenuStrip contextMenuStrip1;
     }
 }
 
