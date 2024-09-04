@@ -574,7 +574,7 @@ namespace osu_launcher.Forms
                     // Disable the form
                     Enabled = false;
 
-                    addSoftwareForm.FormClosed += (_object, _event) =>
+                    addSoftwareForm.FormClosed += (@object, @event) =>
                     {
                         SoftwareTab.Controls.Clear();
                         LoadSoftwaresButton();
@@ -629,19 +629,19 @@ namespace osu_launcher.Forms
                 ContextMenuStrip = new ContextMenuStrip()
             };
 
-            softwareNameLabel.ContextMenuStrip.Items.Add("Edit").Click += (_object, _event) =>
+            softwareNameLabel.ContextMenuStrip.Items.Add("Edit").Click += (@object, @event) =>
             {
                 if (Application.OpenForms.OfType<AddSoftware>().Any()) return;
                 var editSoftwareForm = new EditSoftware(this, software);
                 editSoftwareForm.Show();
-                editSoftwareForm.FormClosed += (__object, __event) =>
+                editSoftwareForm.FormClosed += (sender, closedEventArgs) =>
                 {
                     SoftwareTab.Controls.Clear();
                     LoadSoftwaresButton();
                 };
             };
 
-            softwareNameLabel.ContextMenuStrip.Items.Add("Delete").Click += (_object, _event) =>
+            softwareNameLabel.ContextMenuStrip.Items.Add("Delete").Click += (@object, @event) =>
             {
                 var result = MessageBox.Show("Are you sure you want to delete the selected software?", "Delete Software", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result != DialogResult.Yes) return;
@@ -702,7 +702,7 @@ namespace osu_launcher.Forms
             Enabled = false;
 
             // if the form is closed, update the profile
-            profileForm.FormClosed += (_object, _event) =>
+            profileForm.FormClosed += (@object, @event) =>
             {
                 RefreshProfile();
 
@@ -722,7 +722,7 @@ namespace osu_launcher.Forms
             Enabled = false;
 
             // if the form is closed, update the profile
-            serverForm.FormClosed += (_object, _event) =>
+            serverForm.FormClosed += (@object, @event) =>
             {
                 RefreshServer();
 
