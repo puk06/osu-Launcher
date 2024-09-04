@@ -45,6 +45,7 @@ const DATA_FOLDER = "../data";
         const filePath = path.join(BUILD_FOLDER, file);
         console.log(`Copying ${file} to ${filePath}`);
         fs.copyFileSync(file, filePath);
+        console.log(`Deleting ${file}`);
         fs.unlinkSync(file);
     }
     
@@ -57,11 +58,13 @@ const DATA_FOLDER = "../data";
             const destPath = path.join(BUILD_FOLDER, "src", "libs", file);
             console.log(`Copying ${filePath} to ${destPath}`);
             await copyFolder(filePath, destPath);
+            console.log(`Deleting ${filePath}`);
             fs.rmSync(filePath, { recursive: true, force: true });
         } else if (file !== "src" && file !== "Updater") {
             const destPath = path.join(BUILD_FOLDER, "src", "libs", file);
             console.log(`Copying ${filePath} to ${destPath}`);
             fs.copyFileSync(filePath, destPath);
+            console.log(`Deleting ${filePath}`);
             fs.unlinkSync(filePath);
         }
     }
