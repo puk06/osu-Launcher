@@ -17,7 +17,7 @@ namespace osu_launcher.Forms
 {
     public partial class Main : Form
     {
-        public const string CurrentVersion = "v1.0.0-Release";
+        public const string CurrentVersion = "v1.0.1-Release";
 
         // Data Values
         public JObject Data;
@@ -400,7 +400,7 @@ namespace osu_launcher.Forms
                 parameters.Add("Username", CurrentProfile.Username);
             }
         }
-        
+
         // Add the optional parameters
         private void AddOptionalParameters(IDictionary<string, string> parameters)
         {
@@ -873,6 +873,7 @@ namespace osu_launcher.Forms
                 }
                 UPDATE_BUTTON.Enabled = true;
                 LATEST_VERSION_TEXT.ForeColor = Color.Green;
+                MessageBox.Show($"アップデートが利用可能です！Settingsタブからアップデートできます！", "アップデート", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception exception)
             {
@@ -885,18 +886,21 @@ namespace osu_launcher.Forms
         {
             try
             {
-                if (!File.Exists("./Updater/osu-launcher.Updater.exe"))
+                if (!File.Exists("./Updater/Software Updater.exe"))
                 {
                     MessageBox.Show("アップデーターが見つかりませんでした。手動でダウンロードしてください。", "エラー", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
                 }
 
-                string updaterPath = Path.GetFullPath("./Updater/osu-launcher.Updater.exe");
+                string updaterPath = Path.GetFullPath("./Updater/Software Updater.exe");
+                string latestVersion = LATEST_VERSION_TEXT.Text;
+                const string author = "puk06";
+                const string repository = "Rosu-Launcher";
                 ProcessStartInfo args = new ProcessStartInfo()
                 {
                     FileName = $"\"{updaterPath}\"",
-                    Arguments = CurrentVersion,
+                    Arguments = $"\"{latestVersion}\" \"{author}\" \"{repository}\"",
                     UseShellExecute = true
                 };
 
