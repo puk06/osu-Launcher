@@ -896,7 +896,7 @@ namespace osu_launcher.Forms
                 string updaterPath = Path.GetFullPath("./Updater/Software Updater.exe");
                 string latestVersion = LATEST_VERSION_TEXT.Text;
                 const string author = "puk06";
-                const string repository = "Rosu-Launcher";
+                const string repository = "osu-Launcher";
                 ProcessStartInfo args = new ProcessStartInfo()
                 {
                     FileName = $"\"{updaterPath}\"",
