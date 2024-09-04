@@ -53,7 +53,10 @@ const DATA_FOLDER = "../data";
     for (const file of fileList) {
         const filePath = path.join(".", file);
         const stat = fs.statSync(filePath);
-        if (file == "build.js") continue;
+        if (file == "build.js") {
+            fs.unlinkSync(filePath);
+            continue;
+        }
         if (file !== "src" && file !== "Updater" && stat.isDirectory()) {
             const destPath = path.join(BUILD_FOLDER, "src", "libs", file);
             console.log(`Copying ${filePath} to ${destPath}`);
