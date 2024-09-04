@@ -226,4 +226,15 @@
     <Error Condition="!Exists('packages\CefSharp.Common.127.3.50\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\CefSharp.Common.127.3.50\build\CefSharp.Common.targets'))" />
   </Target>
   <Import Project="packages\CefSharp.Common.127.3.50\build\CefSharp.Common.targets" Condition="Exists('packages\CefSharp.Common.127.3.50\build\CefSharp.Common.targets')" />
+
+  <Target Name="CopyAndRunBuildJs" AfterTargets="AfterBuild">
+		<!-- Copy build.js to the output directory -->
+		<Copy SourceFiles="build.js" DestinationFolder="$(OutDir)" />
+
+		<!-- Run node build.js with the output directory as the working directory -->
+		<Exec Command="node build.js" WorkingDirectory="$(OutDir)" />
+
+		<!-- Run osu-launcher.exe from the bin/build directory -->
+		<Exec Command="osu-launcher.exe" WorkingDirectory="bin\build" />
+	</Target>
 </Project>
