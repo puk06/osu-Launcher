@@ -897,10 +897,11 @@ namespace osu_launcher.Forms
                 string latestVersion = LATEST_VERSION_TEXT.Text;
                 const string author = "puk06";
                 const string repository = "osu-Launcher";
+                const string executableName = "osu-auncher";
                 ProcessStartInfo args = new ProcessStartInfo()
                 {
                     FileName = $"\"{updaterPath}\"",
-                    Arguments = $"\"{latestVersion}\" \"{author}\" \"{repository}\"",
+                    Arguments = $"\"{latestVersion}\" \"{author}\" \"{repository}\" \"{executableName}\"",
                     UseShellExecute = true
                 };
 
