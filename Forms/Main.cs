@@ -43,6 +43,12 @@ namespace osu_launcher.Forms
         // Current Profile
         public Profile CurrentProfile;
 
+        // Last Selected Server
+        public string LastSelectedServer;
+
+        // Last Selected Profile
+        public string LastSelectedProfile;
+
         // Form Font
         private readonly PrivateFontCollection _fontCollection = new PrivateFontCollection();
 
@@ -139,6 +145,10 @@ namespace osu_launcher.Forms
                 };
                 Helper.AddValueToArray(ref Profiles, user);
             }
+
+            //Last Selected Profile
+            if (Data["LastSelectedProfile"] == null) Data["LastSelectedProfile"] = string.Empty;
+            LastSelectedProfile = Data["LastSelectedProfile"].ToString();
         }
 
         private void InitializeServers()
@@ -153,24 +163,60 @@ namespace osu_launcher.Forms
                 };
                 Helper.AddValueToArray(ref Servers, serv);
             }
+
+            //Last Selected Server
+            if (Data["LastSelectedServer"] == null) Data["LastSelectedServer"] = string.Empty;
+            LastSelectedServer = Data["LastSelectedServer"].ToString();
         }
 
         private void SetInitialProfile()
         {
             var enumerable = Profiles as Profile[] ?? Profiles.ToArray();
-            if (enumerable.Length <= 0) return;
-            CurrentProfile = enumerable.First();
-            PROFILE_BUTTON.Text = CurrentProfile.Name;
-            RefreshProfile();
+
+            if (!string.IsNullOrEmpty(LastSelectedProfile))
+            {
+                CurrentProfile = Profiles.FirstOrDefault(profile => profile.Name == LastSelectedProfile);
+                if (CurrentProfile == null)
+                {
+                    if (enumerable.Length <= 0) return;
+                    CurrentProfile = enumerable.First();
+                    LastSelectedProfile = CurrentProfile.Name;
+                }
+                PROFILE_BUTTON.Text = CurrentProfile.Name;
+                RefreshProfile();
+            }
+            else
+            {
+                if (enumerable.Length <= 0) return;
+                CurrentProfile = enumerable.First();
+                PROFILE_BUTTON.Text = CurrentProfile.Name;
+                RefreshProfile();
+            }
         }
 
         private void SetInitialServer()
         {
             var enumerable = Servers as Server[] ?? Servers.ToArray();
-            if (enumerable.Length <= 0) return;
-            CurrentServer = enumerable.First();
-            SERVER_BUTTON.Text = CurrentServer.Name;
-            RefreshServer();
+
+            if (!string.IsNullOrEmpty(LastSelectedServer))
+            {
+                CurrentServer = Servers.FirstOrDefault(server => server.Name == LastSelectedServer);
+                if (CurrentServer == null)
+                {
+                    if (enumerable.Length <= 0) return;
+                    CurrentServer = enumerable.First();
+                    LastSelectedServer = CurrentServer.Name;
+                }
+                SERVER_BUTTON.Text = CurrentServer.Name;
+                RefreshServer();
+            }
+            else
+            {
+                if (enumerable.Length <= 0) return;
+                CurrentServer = enumerable.First();
+                SERVER_BUTTON.Text = CurrentServer.Name;
+                RefreshServer();
+            }
         }
 
         private void ValidateOsuFolder()
@@ -264,13 +310,14 @@ namespace osu_launcher.Forms
                 {
                     try
                     {
-                        string decryptedPassword =
-                            PasswordProtector.DecryptPassword(Convert.FromBase64String(CurrentProfile.Password));
+                        string password = CurrentProfile.Password;
+                        byte[] convertedPassword = Convert.FromBase64String(password);
+                        string decryptedPassword = PasswordProtector.DecryptPassword(convertedPassword);
                         Clipboard.SetText(decryptedPassword);
                     }
-                    catch
+                    catch (Exception error)
                     {
-                        Helper.ShowErrorMessage("The password could not be copied.");
+                        Helper.ShowErrorMessage("The password could not be copied. The reasons are as follows.\n" + error);
                     }
                 }
 
@@ -316,6 +363,12 @@ namespace osu_launcher.Forms
 
             // Save the password
             Data["PasswordAutoCopy"] = PASSWORDAUTOCOPY_CHECKBOX.Checked;
+
+            // Save the last selected profile
+            Data["LastSelectedProfile"] = LastSelectedProfile;
+
+            // Save the last selected server
+            Data["LastSelectedServer"] = LastSelectedServer;
 
             Data["Profiles"] = new JArray();
             foreach (var profile in Profiles)
@@ -748,6 +801,8 @@ namespace osu_launcher.Forms
             Helper.SetControlText(OFFSET_TEXTBOX, CurrentProfile?.Offset?.ToString());
             Helper.SetControlChecked(CHANGESKIN_CHECKBOX, CurrentProfile?.ChangeSkin);
 
+            LastSelectedProfile = CurrentProfile == null ? string.Empty : CurrentProfile.Name;
+
             if (CurrentProfile?.ChangeSkin == true)
             {
                 SetSkinComboBox();
@@ -763,6 +818,8 @@ namespace osu_launcher.Forms
         private void RefreshServer()
         {
             Helper.SetControlText(SERVER_BUTTON, CurrentServer?.Name, "No Server");
+
+            LastSelectedServer = CurrentServer == null ? string.Empty : CurrentServer.Name;
         }
 
         private void UpdateVolumeLabels()
@@ -912,6 +969,11 @@ namespace osu_launcher.Forms
                 MessageBox.Show("アップデーターを起動できませんでした" + exception.Message, "エラー", MessageBoxButtons.OK,
                                        MessageBoxIcon.Error);
             }
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveConfigData();
         }
     }
 }
