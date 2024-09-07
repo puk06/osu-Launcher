@@ -973,7 +973,15 @@ namespace osu_launcher.Forms
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveConfigData();
+            try
+            {
+                SaveConfigData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The configuration could not be saved. The reasons are as follows.\n" + ex, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
