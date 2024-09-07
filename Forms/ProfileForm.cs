@@ -125,13 +125,13 @@ namespace osu_launcher.Forms
                 Size = new Size(250, 42),
                 Font = new Font(_mainForm.GuiFont, 15.75F)
             };
-            button.Click += (_object, _event) =>
+            button.Click += (@object, @event) =>
             {
                 _mainForm.CurrentProfile = profile;
                 Close();
             };
             button.ContextMenuStrip = new ContextMenuStrip();
-            button.ContextMenuStrip.Items.Add("Delete").Click += (_object, _event) =>
+            button.ContextMenuStrip.Items.Add("Delete").Click += (@object, @event) =>
             {
                 // Ask the user if they are sure they want to delete the profile
                 var result = MessageBox.Show("Are you sure you want to delete this profile?", "Delete Profile", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -593,7 +593,7 @@ namespace osu_launcher.Forms
                 }
 
                 if (width < 0)
-                { 
+                {
                     Helper.AddValueToArray(ref reasons, "❌️ Width must be greater than 0");
                 }
             }
@@ -621,7 +621,7 @@ namespace osu_launcher.Forms
                 }
             }
 
-            if (CHANGESERVEREDIT_CHECKBOX.Checked && string.IsNullOrEmpty(SERVEREDIT_COMBOBOX.Text)) 
+            if (CHANGESERVEREDIT_CHECKBOX.Checked && string.IsNullOrEmpty(SERVEREDIT_COMBOBOX.Text))
             {
                 Helper.AddValueToArray(ref reasons, "❌️ Server is empty");
             }

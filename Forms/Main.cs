@@ -930,11 +930,11 @@ namespace osu_launcher.Forms
                 }
                 UPDATE_BUTTON.Enabled = true;
                 LATEST_VERSION_TEXT.ForeColor = Color.Green;
-                MessageBox.Show($"アップデートが利用可能です！Settingsタブからアップデートできます！", "アップデート", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"An update is available! You can update from the Settings tab!", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception exception)
             {
-                MessageBox.Show("アップデートチェック中にエラーが発生しました" + exception.Message, "エラー", MessageBoxButtons.OK,
+                MessageBox.Show("An error occurred while checking for updates" + exception.Message, "Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
@@ -945,7 +945,7 @@ namespace osu_launcher.Forms
             {
                 if (!File.Exists("./Updater/Software Updater.exe"))
                 {
-                    MessageBox.Show("アップデーターが見つかりませんでした。手動でダウンロードしてください。", "エラー", MessageBoxButtons.OK,
+                    MessageBox.Show("The updater was not found. Please download it manually.", "Error", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
                 }
@@ -966,8 +966,8 @@ namespace osu_launcher.Forms
             }
             catch (Exception exception)
             {
-                MessageBox.Show("アップデーターを起動できませんでした" + exception.Message, "エラー", MessageBoxButtons.OK,
-                                       MessageBoxIcon.Error);
+                MessageBox.Show("The updater could not be launched" + exception.Message, "Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
