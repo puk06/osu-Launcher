@@ -283,11 +283,16 @@ namespace osu_launcher.Forms
         // Create a new profile based on form input
         private Profile CreateProfile()
         {
+            // Encrypt the password
+            string password = PASSWORD_TEXTBOX.Text;
+            byte[] encryptedPassword = PasswordProtector.EncryptPassword(password);
+            string convertedPassword = Convert.ToBase64String(encryptedPassword);
+
             var profile = new Profile
             {
                 Name = NAME_TEXTBOX.Text,
                 Username = USERNAME_TEXTBOX.Text,
-                Password = Convert.ToBase64String(PasswordProtector.EncryptPassword(PASSWORD_TEXTBOX.Text))
+                Password = convertedPassword
             };
 
             // Add optional parameters
@@ -299,11 +304,16 @@ namespace osu_launcher.Forms
         // Edit a profile based on form input
         private Profile EditProfile()
         {
+            // Encrypt the password
+            string password = PASSWORDEDIT_TEXTBOX.Text;
+            byte[] encryptedPassword = PasswordProtector.EncryptPassword(password);
+            string convertedPassword = Convert.ToBase64String(encryptedPassword);
+
             var profile = new Profile
             {
                 Name = NAMEEDIT_TEXTBOX.Text,
                 Username = USERNAMEEDIT_TEXTBOX.Text,
-                Password = Convert.ToBase64String(PasswordProtector.EncryptPassword(PASSWORDEDIT_TEXTBOX.Text))
+                Password = convertedPassword
             };
 
             // Add optional parameters
@@ -712,9 +722,14 @@ namespace osu_launcher.Forms
             if (profile == null) return;
             NAMEEDIT_TEXTBOX.Text = profile.Name;
             USERNAMEEDIT_TEXTBOX.Text = profile.Username;
-            var password = PasswordProtector.DecryptPassword(Convert.FromBase64String(profile.Password));
-            PASSWORDEDIT_TEXTBOX.Text = password;
-            CONFIRMEDIT_TEXTBOX.Text = password;
+
+            // Decrypt the password
+            string password = profile.Password;
+            byte[] convertedPassword = Convert.FromBase64String(password);
+            string decryptedPassword = PasswordProtector.DecryptPassword(convertedPassword);
+
+            PASSWORDEDIT_TEXTBOX.Text = decryptedPassword;
+            CONFIRMEDIT_TEXTBOX.Text = decryptedPassword;
             SCOREMETEREDIT_TEXTBOX.Text = profile.ScoreMeter.ToString();
             METERSTYLEEDIT_COMBOBOX.SelectedIndex = profile.MeterStyle ?? 0;
             WIDTHEDIT_TEXTBOX.Text = profile.Width.ToString();
