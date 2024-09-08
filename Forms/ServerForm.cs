@@ -12,9 +12,6 @@ namespace osu_launcher.Forms
         // This is the main form
         private readonly Main _mainForm;
 
-        // This is the tooltip for audio settings
-        private readonly ToolTip _toolTip = new ToolTip();
-
         // This is the constructor for the ServerForm
         public ServerForm(IEnumerable<Server> servers, Main mainForm)
         {

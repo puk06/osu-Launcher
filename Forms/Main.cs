@@ -618,7 +618,7 @@ namespace osu_launcher.Forms
                     Font = new Font(_fontCollection.Families[1], 13F, FontStyle.Regular, GraphicsUnit.Point, 0)
                 };
 
-                addSoftwareButton.Click += (sender, e) =>
+                addSoftwareButton.Click += (@object, @event) =>
                 {
                     if (Application.OpenForms.OfType<AddSoftware>().Any()) return;
                     var addSoftwareForm = new AddSoftware(this);
@@ -627,7 +627,7 @@ namespace osu_launcher.Forms
                     // Disable the form
                     Enabled = false;
 
-                    addSoftwareForm.FormClosed += (@object, @event) =>
+                    addSoftwareForm.FormClosed += (object2, event2) =>
                     {
                         SoftwareTab.Controls.Clear();
                         LoadSoftwaresButton();
@@ -661,7 +661,7 @@ namespace osu_launcher.Forms
                 UseVisualStyleBackColor = true
             };
 
-            checkBox.CheckedChanged += (sender, e) =>
+            checkBox.CheckedChanged += (@object, @event) =>
             {
                 foreach (var soft in Softwares)
                 {
@@ -687,7 +687,7 @@ namespace osu_launcher.Forms
                 if (Application.OpenForms.OfType<AddSoftware>().Any()) return;
                 var editSoftwareForm = new EditSoftware(this, software);
                 editSoftwareForm.Show();
-                editSoftwareForm.FormClosed += (sender, closedEventArgs) =>
+                editSoftwareForm.FormClosed += (object2, event2) =>
                 {
                     SoftwareTab.Controls.Clear();
                     LoadSoftwaresButton();
@@ -738,7 +738,11 @@ namespace osu_launcher.Forms
         // Delete the song folder
         private void SONGSFOLDER_DELETE_Click(object sender, EventArgs e)
         {
-            if (SONGSFOLDER_COMBOBOX.Text == "Songs") return;
+            if (SONGSFOLDER_COMBOBOX.Text == "Songs")
+            {
+                MessageBox.Show("The default song folder cannot be deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            };
             var result = MessageBox.Show("Are you sure you want to delete the selected song folder?", "Delete Song Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes) DeleteSongFolder();
         }
@@ -930,7 +934,7 @@ namespace osu_launcher.Forms
                 }
                 UPDATE_BUTTON.Enabled = true;
                 LATEST_VERSION_TEXT.ForeColor = Color.Green;
-                MessageBox.Show($"An update is available! You can update from the Settings tab!", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("An update is available! You can update from the Settings tab!", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception exception)
             {
