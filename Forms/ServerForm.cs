@@ -57,13 +57,13 @@ namespace osu_launcher.Forms
                 Size = new Size(250, 42),
                 Font = new Font(_mainForm.GuiFont, 15.75F)
             };
-            button.Click += (_object, _event) =>
+            button.Click += (@object, @event) =>
             {
                 _mainForm.CurrentServer = server;
                 Close();
             };
             button.ContextMenuStrip = new ContextMenuStrip();
-            button.ContextMenuStrip.Items.Add("Delete").Click += (_object, _event) =>
+            button.ContextMenuStrip.Items.Add("Delete").Click += (@object, @event) =>
             {
                 // Check if the server is the Bancho server
                 if (server.Name == "Bancho")
