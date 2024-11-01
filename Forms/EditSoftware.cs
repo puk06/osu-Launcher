@@ -34,7 +34,7 @@ namespace osu_launcher.Forms
             {
                 MessageBox.Show("The software could not be saved. The reasons are as follows.\n" + string.Join("\n", reasons), "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                return;
             }
 
             // Overwrite the software
