@@ -962,7 +962,7 @@ namespace osu_launcher.Forms
                 ProcessStartInfo args = new ProcessStartInfo()
                 {
                     FileName = $"\"{updaterPath}\"",
-                    Arguments = $"\"{latestVersion}\" \"{author}\" \"{repository}\" \"{executableName}\"",
+                    Arguments = $"\"{latestVersion}\" \"{author}\" \"{repository}\" \"{executableName}\" \"data.json\"",
                     UseShellExecute = true
                 };
 
