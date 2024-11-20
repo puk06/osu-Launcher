@@ -791,6 +791,7 @@ namespace osu_launcher.Forms
         // Refresh the profile
         private void RefreshProfile()
         {
+            if (CurrentProfile == null) return;
             Helper.SetControlText(PROFILE_BUTTON, CurrentProfile?.Name, "No Profile");
             Helper.SetControlText(HEIGHT_TEXTBOX, CurrentProfile?.Height?.ToString());
             Helper.SetControlText(WIDTH_TEXTBOX, CurrentProfile?.Width?.ToString());
@@ -864,6 +865,13 @@ namespace osu_launcher.Forms
             if (!CHANGESKIN_CHECKBOX.Checked)
             {
                 SKIN_COMBOBOX.Enabled = false;
+                return;
+            }
+
+            if (OSUFOLDER_TEXTBOX.Text == string.Empty)
+            {
+                SKIN_COMBOBOX.Enabled = false;
+                CHANGESKIN_CHECKBOX.Checked = false;
                 return;
             }
 
