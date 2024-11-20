@@ -791,7 +791,6 @@ namespace osu_launcher.Forms
         // Refresh the profile
         private void RefreshProfile()
         {
-            if (CurrentProfile == null) return;
             Helper.SetControlText(PROFILE_BUTTON, CurrentProfile?.Name, "No Profile");
             Helper.SetControlText(HEIGHT_TEXTBOX, CurrentProfile?.Height?.ToString());
             Helper.SetControlText(WIDTH_TEXTBOX, CurrentProfile?.Width?.ToString());
