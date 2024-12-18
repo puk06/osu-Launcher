@@ -31,13 +31,13 @@ namespace osu_launcher
             comboBox.SelectedIndex = selectedIndex;
         }
 
-        public static void InitializeCefSharp()
+        public static bool InitializeCefSharp()
         {
             var settings = new CefSettings
             {
                 RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
             };
-            Cef.Initialize(settings);
+            return Cef.Initialize(settings);
         }
 
         public static void ValidateRequiredFiles()

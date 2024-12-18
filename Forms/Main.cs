@@ -65,13 +65,21 @@ namespace osu_launcher.Forms
         {
             try
             {
-                Helper.InitializeCefSharp();
+                var result = Helper.InitializeCefSharp();
+                if (result)
+                {
+                    InitializeWebBrowser();
+                }
+                else
+                {
+                    Helper.ShowErrorMessage("CefSharp could not be initialized.");
+                }
+
                 Helper.ValidateRequiredFiles();
                 AddFontFile();
                 InitializeComponent();
                 GithubUpdateChecker();
                 InitializeDefaults();
-                InitializeWebBrowser();
                 LoadConfigFile();
                 InitializeComboboxes();
                 SetInitialServer();
