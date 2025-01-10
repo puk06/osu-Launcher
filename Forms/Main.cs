@@ -52,6 +52,9 @@ namespace osu_launcher.Forms
         // Form Font
         private readonly PrivateFontCollection _fontCollection = new PrivateFontCollection();
 
+        // Initialized Bool
+        private readonly bool _initialized;
+
         // Meter Style Dictionary
         private readonly Dictionary<int, string> _meterStyleDict = new Dictionary<int, string>
         {
@@ -87,6 +90,7 @@ namespace osu_launcher.Forms
                 ValidateOsuFolder();
                 SetPasswordAutoCopy();
                 LoadSoftwares();
+                _initialized = true;
             }
             catch (Exception ex)
             {
@@ -750,7 +754,7 @@ namespace osu_launcher.Forms
             {
                 MessageBox.Show("The default song folder cannot be deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            };
+            }
             var result = MessageBox.Show("Are you sure you want to delete the selected song folder?", "Delete Song Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes) DeleteSongFolder();
         }
@@ -869,6 +873,7 @@ namespace osu_launcher.Forms
         // Enable the text box
         private void CHANGESKIN_CHECKBOX_CheckedChanged(object sender, EventArgs e)
         {
+            if (!_initialized) return;
             if (!CHANGESKIN_CHECKBOX.Checked)
             {
                 SKIN_COMBOBOX.Enabled = false;
