@@ -17,7 +17,7 @@ namespace osu_launcher.Forms
 {
     public partial class Main : Form
     {
-        public const string CurrentVersion = "v1.0.4-Release";
+        public const string CurrentVersion = "v1.0.5-Release";
 
         // Data Values
         public JObject Data;
