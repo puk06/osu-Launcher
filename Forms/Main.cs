@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using osu_launcher.Classes;
 using Profile = osu_launcher.Classes.Profile;
 using static osu_launcher.Classes.Helper;
+using System.Runtime.InteropServices;
 
 namespace osu_launcher.Forms
 {
@@ -328,6 +329,7 @@ namespace osu_launcher.Forms
                     }
                     catch (Exception error)
                     {
+                        if (error is ExternalException) return;
                         Helper.ShowErrorMessage("The password could not be copied. The reasons are as follows.\n" + error);
                     }
                 }
