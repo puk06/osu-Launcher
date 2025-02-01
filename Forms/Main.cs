@@ -68,19 +68,10 @@ namespace osu_launcher.Forms
         {
             try
             {
-                var result = Helper.InitializeCefSharp();
-                if (result)
-                {
-                    InitializeWebBrowser();
-                }
-                else
-                {
-                    Helper.ShowErrorMessage("CefSharp could not be initialized.");
-                }
-
                 Helper.ValidateRequiredFiles();
                 AddFontFile();
                 InitializeComponent();
+                InitializeWebBrowser();
                 GithubUpdateChecker();
                 InitializeDefaults();
                 LoadConfigFile();
@@ -110,9 +101,17 @@ namespace osu_launcher.Forms
 
         private void InitializeWebBrowser()
         {
-            var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
-            TopTab.Controls.Add(webBrowser);
-            webBrowser.Dock = DockStyle.Fill;
+            var result = Helper.InitializeCefSharp();
+            if (result)
+            {
+                var webBrowser = new ChromiumWebBrowser("https://osu.ppy.sh/home/news");
+                TopTab.Controls.Add(webBrowser);
+                webBrowser.Dock = DockStyle.Fill;
+            }
+            else
+            {
+                Helper.ShowErrorMessage("CefSharp could not be initialized.");
+            }
         }
 
         private void LoadConfigFile()
