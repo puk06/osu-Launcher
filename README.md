@@ -34,3 +34,6 @@
 
 ### 5. User-Friendly UI
 - Designed with a clean and intuitive interface for a better user experience.
+
+### Credit
+Icon: [Icons8](https://icons8.com/icon/6AqXMrgaiWZB/osu)
